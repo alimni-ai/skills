@@ -29,6 +29,8 @@ This is a side-business owned independently of TENERE LLC. It is hosted on the e
 **North-star metric**: weekly skill installs from the GitHub repo (cloning, plugin install, or release download).
 
 **V1 launch targets (12 weeks)**:
+
+*Reach metrics:*
 - 5 skills published, each tested on Claude Code + Codex
 - 50+ GitHub stars
 - 200+ skill installs (cumulative)
@@ -36,7 +38,13 @@ This is a side-business owned independently of TENERE LLC. It is hosted on the e
 - LinkedIn AR/FR: 12 build-note posts published, 1 viral post (>500 reactions)
 - 10 inbound "request a skill" submissions
 
-**V1 is a failure if**, at week 12: <20 stars, <50 installs, no inbound community signal. In that case: pivot to either (a) audience-build phase (ship content not skills) or (b) abandon, no sunk-cost continuation.
+*Activation metrics (deeper signal — required, not just nice-to-have):*
+- **30+ users have executed at least one skill end-to-end** (real completion, not just install)
+- **10+ users have shared a real output or substantive feedback** (PR, issue, testimonial, demo screenshot, retweet-with-quote)
+
+Reach without activation = vanity. We track activation via skill-end telemetry (opt-in `wakala-telemetry: true` flag in `source.md` frontmatter, anonymous completion ping) + manual count of public engagement signals.
+
+**V1 is a failure if**, at week 12: <20 stars, <50 installs, <10 activations, no inbound community signal. In that case: pivot to either (a) audience-build phase (ship content not skills) or (b) abandon, no sunk-cost continuation.
 
 ## 4. Architecture
 
@@ -125,9 +133,9 @@ V1 ships **Claude Code + Codex Agent Skills only**. Cursor and Windsurf are expl
 
 ## 8. Legal & ethical frame
 
-**Source material**: existing tutorials by other creators are inspiration only, never adapted. Skills are written from first principles in Arabic. Where a skill is meaningfully indebted to a specific creator, we credit them by name + link in the frontmatter.
+**Source material — strict rule**: third-party tutorials serve **only as references and inspiration, with credited links** — never as a source for translation or adaptation. We do **not** translate, paraphrase, or adapt third-party transcripts into Arabic skill content **without explicit written permission** from the creator. This is a hard rule, not a guideline. Skills are written from first principles in Arabic. Where a skill is meaningfully indebted to a specific creator's framing or insight, we credit them by name + link in the frontmatter (`inspired-by:` field) and link to their original work.
 
-**Embedding video**: the landing or skill examples may embed an originator's video (YouTube embed iframe) with a "watch the original" link. We never re-upload, never strip credit, never overlay our brand on their content.
+**Embedding video**: the landing or skill examples may embed an originator's video (YouTube embed iframe) with a "watch the original" link. We never re-upload, never strip credit, never overlay our brand on their content. Embeds are subject to the original platform's terms (YouTube ToS allows embedding by default unless the creator disabled it).
 
 **Voice & narration**: AR narration in YouTube Shorts uses the founder's own voice or clearly-labeled TTS. **No voice cloning of any creator, ever.** EU AI Act Article 50 (effective August 2026) requires labeling of AI-generated audio for EU audiences — we comply by default.
 
@@ -136,7 +144,13 @@ V1 ships **Claude Code + Codex Agent Skills only**. Cursor and Windsurf are expl
 ## 9. Brand & identity
 
 - **Name**: Wakala — Arabic for "agent" (وكيل). Short, memorable, dev-feel via `.dev` TLD.
-- **Domain**: `wakala.dev` (purchase to be confirmed at infra-setup; if taken, fallback `muhandis.dev`).
+- **Domain**: `wakala.dev` (primary candidate — DNS-free as of 2026-05-07).
+- **Brand-lock checklist (mandatory before any public commit to the name)**:
+  1. **Domain purchase** — confirm `wakala.dev` available at registrar (Cloudflare or Porkbun preferred), purchase immediately
+  2. **Trademark search** — clear "Wakala" against USPTO (US), EUIPO (EU), and WIPO Madrid in Nice classes 9 (software) + 41 (educational services). Document results.
+  3. **Reputational/conflict scan** — Google "Wakala AI" / "Wakala dev" / X handle search / GitHub org search to surface existing brands we'd clash with (note: "wakala" is a generic Arabic noun and may have legitimate prior commercial uses in non-tech sectors; if so, file in tech classes only, accept coexistence)
+  4. **Social handles** — secure `@wakala_dev` (or chosen variant) on X, LinkedIn page, Telegram channel handle, GitHub org, simultaneously
+- **Fallbacks if any blocker**: `muhandis.dev` (verified DNS-free 2026-05-07), then back to brainstorming round.
 - **Email**: `hello@wakala.dev` (not personal, not TENERE).
 - **Tone**: dev-community warm, builder-to-builder. Vouvoiement is OK in FR posts, MSA simple in AR. Less corporate than TENERE, more authentic.
 - **Visual**: minimal, dark-mode default, monospace + serif AR pairing. Logo TBD at design phase.
@@ -156,7 +170,9 @@ To keep the wedge sharp, the following are deferred to V2+ (post-week-12 evaluat
 - ❌ Egyptian / Levant / Gulf dialect adaptations
 - ❌ Marketplace for third-party skills
 
-If V1 hits or exceeds success metrics, V2 prioritization is decided based on which inbound signal is loudest (paid demand → tiers; cohort demand → workshop; portability demand → Cursor support).
+**Monetization principle — non-negotiable**: V1 is **100% free**. No paid tier, no premium content, no payment integration, no Stripe/Paddle/LemonSqueezy hookup, no "early-bird" pricing teaser. **No monetization mechanism is built before V1 success metrics (§3) are met** — including activation thresholds (30+ end-to-end completions, 10+ real feedback signals). Premium products are designed only after we have **proven** real usage, not assumed it. This avoids the classic indie-product trap of charging into a vacuum and burning credibility on a paywall before there is anything worth paying for.
+
+If V1 hits or exceeds success metrics, V2 prioritization is decided based on which inbound signal is loudest (paid demand → tiers; cohort demand → workshop; portability demand → Cursor support). Until then, we resist all monetization temptation, including from external advice that says "just charge for it."
 
 ## 11. Risks & mitigations
 
