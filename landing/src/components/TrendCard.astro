@@ -33,7 +33,15 @@ const telegram = 'https://t.me/alimni_ar';
         <span class="trend-card__category-en latin">{category.en}</span>
       </p>
     </div>
-    <StatusBadge status={tool.status} size={variant === 'compact' ? 'sm' : 'md'} />
+    <div class="trend-card__status-block">
+      <StatusBadge status={tool.status} size={variant === 'compact' ? 'sm' : 'md'} />
+      {tool.eta_label && (
+        <span class="trend-card__eta" aria-label={`موعد متوقّع : ${tool.eta_label}`}>
+          <span class="trend-card__eta-arrow" aria-hidden="true">←</span>
+          <span class="trend-card__eta-text">{tool.eta_label}</span>
+        </span>
+      )}
+    </div>
   </header>
 
   {variant === 'compact' && (
@@ -159,6 +167,35 @@ const telegram = 'https://t.me/alimni_ar';
   }
 
   .trend-card--full .trend-card__title { font-size: 1.5rem; }
+
+  /* Status block — pill badge + optional eta_label hint underneath
+     (per Ines critique #7 2026-05-07 : signal "roadmap maîtrisée" vs
+     "catalog vide" when many tools share the same status). */
+  .trend-card__status-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .trend-card--full .trend-card__status-block { align-items: flex-start; }
+
+  .trend-card__eta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    color: var(--fg-muted);
+    direction: rtl;
+  }
+
+  .trend-card__eta-arrow {
+    color: var(--accent-dim);
+    font-family: var(--font-mono);
+    line-height: 1;
+  }
+
+  .trend-card__eta-text { font-family: var(--font-ar); }
 
   /* Category label : taxonomy hint per Ines critique 2026-05-07
      (agents/orchestration/automation/protocol must not be mixed visually). */

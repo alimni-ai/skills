@@ -37,6 +37,10 @@ export interface Tool {
   source_url: string;
   source_label: string;
   ar_review: 'pending' | 'approved';
+  /** Optional ETA hint shown next to the status badge (per Ines critique #7 :
+   * signal "roadmap maîtrisée" instead of "catalog vide"). AR string for
+   * RTL-natural rendering. Examples: "الأسبوع 2", "أوّل سبتمبر", "Q3 2026". */
+  eta_label?: string;
 }
 
 export const categoryMeta: Record<ToolCategory, { ar: string; en: string }> = {
@@ -55,6 +59,7 @@ export const tools: Tool[] = [
     status: 'wip',
     level: 1,
     category: 'agent',
+    eta_label: 'الأسبوع ٢',
     why_ar:
       'Claude Code هو محرّر الذكاء الاصطناعي الوكيل من Anthropic. يعمل مباشرة في الطرفيّة، يفهم مستودعك البرمجي بالكامل، ويُنفِّذ مهامّ معقّدة بأمر واحد.',
     audience_ar:
@@ -73,6 +78,7 @@ export const tools: Tool[] = [
     status: 'wip',
     level: 1,
     category: 'agent',
+    eta_label: 'الأسبوع ٢',
     why_ar:
       'Codex هو محرّك OpenAI لتنفيذ المهامّ البرمجيّة عبر وكلاء ذكيّين. يكتب الأكواد، يُنفِّذها، ويُصلح أخطاءه بنفسه.',
     audience_ar:
@@ -91,6 +97,7 @@ export const tools: Tool[] = [
     status: 'wip',
     level: 1,
     category: 'orchestration',
+    eta_label: 'الأسبوع ٤–٦',
     why_ar:
       'OpenClaw طبقة تنسيق بين عدّة نماذج ذكاء اصطناعي. يربط Claude مع Codex وغيرها لتشغيل سير عمل متعدّد النماذج. أداة جوهريّة في عصر "متعدّد المزوّدين".',
     audience_ar:
@@ -109,6 +116,7 @@ export const tools: Tool[] = [
     status: 'wip',
     level: 1,
     category: 'automation',
+    eta_label: 'الأسبوع ٨',
     why_ar:
       'n8n منصّة مفتوحة المصدر لأتمتة سير العمل بين مئات التطبيقات. تدعم MCP والنماذج اللغويّة بشكل أصليّ منذ 2026، وأصبحت معيارًا في أتمتة الذكاء الاصطناعي.',
     audience_ar:
@@ -127,6 +135,7 @@ export const tools: Tool[] = [
     status: 'wip',
     level: 1,
     category: 'protocol',
+    eta_label: 'الأسبوع ٨',
     why_ar:
       'MCP بروتوكول 2025–2026 يُوحِّد طريقة ربط نماذج الذكاء الاصطناعي بأدواتك (ملفّات، APIs، قواعد بيانات). أصبح معيارًا تحت إشراف Linux Foundation منذ ديسمبر 2025.',
     audience_ar:
