@@ -1,0 +1,36 @@
+[Unit]
+Description=Alimni AI telemetry server (anonymous opt-in skill completion pings)
+Documentation=https://github.com/alimni-ai/skills/blob/main/telemetry/README.md
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=creed
+Group=creed
+WorkingDirectory=/var/www/alimni-telemetry
+ExecStart=/usr/bin/node /var/www/alimni-telemetry/server.js
+Restart=on-failure
+RestartSec=5s
+EnvironmentFile=/home/creed/secrets/alimni-telemetry.env
+
+# Hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=yes
+ReadWritePaths=/var/log/alimni-telemetry
+RestrictNamespaces=yes
+RestrictRealtime=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+
+# Resource limits (bound the per-process consumption)
+LimitNOFILE=4096
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target
