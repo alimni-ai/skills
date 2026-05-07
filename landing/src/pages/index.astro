@@ -5,6 +5,8 @@ import matter from 'gray-matter';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillCard from '../components/SkillCard.astro';
 import RequestSkill from '../components/RequestSkill.astro';
+import TrendCard from '../components/TrendCard.astro';
+import { tools } from '../data/tools';
 
 // ── Read skills from ../../skills/<slug>/source.md ────────────────────────
 // Single source of truth: source.md frontmatter drives both the build pipeline
@@ -299,6 +301,35 @@ const counts = {
             maturity={skill.maturity}
             variant="ext"
           />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tools tracker ──────────────────────────────────────────────── -->
+  <!--
+    Per memory feedback_alimni_no_brute_redirect.md : Alimni = Arabic AI
+    trend-to-execution system. Every tool publicly mentioned must have a
+    Level 1 Trend Page with status. This section surfaces the 5 V1 tools
+    from src/data/tools.ts. Click → /tools/<slug> for full Trend Page.
+  -->
+  <section id="tools" class="tools-tracker">
+    <div class="container">
+      <div class="prose">
+        <h2>الأدوات الرائجة · <span class="latin">AI Tools Tracker</span></h2>
+        <p class="muted">
+          علّمني يحوّل أحدث الأدوات والتوجّهات إلى مسارات عربيّة قابلة للتنفيذ. كلّ أداة لها صفحة تعريف، حالة واضحة، وتتطوّر تدريجيًّا إلى دليل عمليّ ثمّ مختبر.
+        </p>
+        <p class="muted latin hide-on-mobile tools-tracker__sub-en"><small>
+          Alimni transforms trending AI tools and tutorials into Arabic
+          execution paths. Each tool has a Trend Page with clear status,
+          progressively upgraded to a Guide then an Executable Lab.
+        </small></p>
+      </div>
+
+      <div class="tools-tracker__grid">
+        {tools.map(tool => (
+          <TrendCard tool={tool} variant="compact" />
         ))}
       </div>
     </div>
@@ -762,6 +793,33 @@ const counts = {
     }
 
     .extensions-blurb { font-size: 0.95rem; }
+
+    /* ── Tools tracker ───────────────────────────────────────────────── */
+    .tools-tracker__sub-en {
+      margin-block-start: var(--s-xs);
+      direction: ltr;
+      text-align: center;
+    }
+
+    .tools-tracker__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-md);
+      margin-block-start: var(--s-xl);
+    }
+
+    @media (min-width: 700px) {
+      .tools-tracker__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 1000px) {
+      .tools-tracker__grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Cards are direct grid children now (no wrapping <a> — that pattern
+       caused nested-anchor invalid HTML when CTAs/source live inside the
+       card). Title-link inside the card handles navigation to the full
+       Trend Page; CTAs in the footer are separate explicit links. */
 
     /* ── Audience ── */
     .audience-list {

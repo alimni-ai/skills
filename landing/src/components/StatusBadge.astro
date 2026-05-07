@@ -1,0 +1,83 @@
+---
+import type { ToolStatus } from '../data/tools';
+import { statusMeta } from '../data/tools';
+
+interface Props {
+  status: ToolStatus;
+  size?: 'sm' | 'md';
+}
+
+const { status, size = 'md' } = Astro.props;
+const meta = statusMeta[status];
+---
+<span class={`status-badge status-badge--${status} status-badge--${size}`} role="status">
+  <span class="status-badge__dot" aria-hidden="true"></span>
+  <span class="status-badge__ar">{meta.ar}</span>
+  <span class="status-badge__en latin">{meta.en}</span>
+</span>
+
+<style>
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.7rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--bg-elevated);
+    font-size: 0.78rem;
+    color: var(--fg);
+    line-height: 1;
+  }
+
+  .status-badge--sm { font-size: 0.7rem; padding: 0.2rem 0.55rem; gap: 0.35rem; }
+
+  .status-badge__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+
+  /* ready — جاهز الآن — full accent + filled dot */
+  .status-badge--ready {
+    border-color: var(--accent);
+    color: var(--accent-bright);
+  }
+  .status-badge--ready .status-badge__dot {
+    background: var(--accent);
+    box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.18);
+  }
+
+  /* wip — قيد الإعداد — accent-dim + hollow dot */
+  .status-badge--wip {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+  }
+  .status-badge--wip .status-badge__dot {
+    background: transparent;
+    border: 2px solid var(--accent-dim);
+  }
+
+  /* requested — مطلوب من المجتمع — neutral + dotted ring */
+  .status-badge--requested {
+    border-color: var(--line-strong);
+    color: var(--fg-muted);
+  }
+  .status-badge--requested .status-badge__dot {
+    background: transparent;
+    border: 2px dotted var(--fg-muted);
+  }
+
+  .status-badge__ar { font-family: var(--font-ar); font-weight: 500; }
+
+  .status-badge__en {
+    color: var(--fg-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 540px) {
+    .status-badge__en { display: none; }
+  }
+</style>
