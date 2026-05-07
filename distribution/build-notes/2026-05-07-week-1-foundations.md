@@ -12,21 +12,32 @@
 
 ## Headline (one line, AR primary)
 
-TODO — اكتب عنوانًا قويًا بالعربية. أمثلة (اختر، عدّل، أو اكتب من جديد) :
+Hervé's 3 options — choose one at publish time:
 
-> *«علّمني AI — منظومة تنفيذ للذكاء الاصطناعي الوكيل، باللغة العربية.»*
->
-> *«ما أبني هذا الأسبوع: طبقة عربيّة للأدوات التي تغيّر كيف نبرمج.»*
->
-> *«الترجمة وحدها ليست ميزة. أُطلق Alimni AI لأنّ مئات الملايين من الناطقين بالعربية يستحقّون أكثر.»*
+#### Option 1
 
-Latin secondary (for LinkedIn EN/FR):
+نبني علّمني AI لأنّ أحدث أدوات الذكاء الاصطناعي لا يجب أن تبقى حكرًا على من يتحدث الإنجليزية.
 
-TODO — concise English/French headline. Examples :
+#### Option 2
 
-> *"Alimni AI — an Arabic execution layer for agentic AI tools. Not a course platform."*
->
-> *"What I'm building this week : bridging the Arabic-speaking world to the AI agent revolution — by execution, not translation."*
+علّمني AI: من متابعة التريندات إلى بناء وكلاء وأدوات حقيقية باللغة العربية.
+
+#### Option 3
+
+لسنا منصة دروس تقليدية.
+نحن نحوّل أحدث أدوات الذكاء الاصطناعي إلى مسارات عربية قابلة للتنفيذ.
+
+---
+
+### Secondary English
+
+Building Alimni AI: an Arabic AI trend-to-execution platform.
+
+---
+
+### Secondary French
+
+Construction d’Alimni AI : transformer les nouvelles tendances IA en parcours pratiques en arabe.
 
 ---
 
@@ -58,14 +69,13 @@ Suggested bullets (W0 → 2026-05-07 nuit). Edit, keep, or replace freely :
 
 ---
 
-## Why this matters for Arabic learners (TODO Hervé — narrative)
+## Why this matters for Arabic learners
 
-TODO — 2-3 sentences in Arabic that connect the technical work to the
-mission. Avoid jargon.
+معظم الأدوات والدروس الجديدة في عالم الذكاء الاصطناعي تُنشر أولاً بالإنجليزية.
 
-Scaffold to edit :
+بالنسبة للكثير من الناطقين بالعربية، المشكلة ليست نقص الرغبة في التعلّم، بل غياب الوصول العملي.
 
-> *مئات الملايين من الناطقين بالعربية خارج ثورة الوكلاء الذكيين لأنّ معظم التعليم العملي ما يزال موجَّهًا للإنجليزية. لا أبني منصّة دروس — أبني طبقة تنفيذ. الفرق : لا تشاهد ثمّ تنسى، بل تثبّت، تشغّل، تنشر.*
+هدف علّمني AI ليس ترجمة المحتوى فقط، بل تحويل أفضل الأدوات والوثائق والدروس إلى مسارات عربية عملية تساعد الناس على التثبيت، التجربة، وبناء أدوات حقيقية بأنفسهم.
 
 ---
 
@@ -82,22 +92,250 @@ Scaffold to edit :
 ## Distribution variants (manual adaptation of the headline + 3 bullets above)
 
 ### LinkedIn AR (primary)
-TODO — write here in MSA (Modern Standard Arabic), 800-1200 chars.
+
+هذا الأسبوع أطلقنا النسخة الأولى من علّمني AI.
+
+الفكرة بسيطة:
+
+الكثير من أحدث أدوات الذكاء الاصطناعي تُشرح فقط بالإنجليزية أو الفرنسية.
+لكن ملايين الناطقين بالعربية يريدون استخدامها، تثبيتها، وبناء مشاريع حقيقية بها.
+
+لهذا بدأنا بناء علّمني AI.
+
+ليس كمنصة فيديوهات تقليدية.
+وليس كمجرد ترجمة.
+
+بل كنظام عربي يحوّل:
+
+* أدوات الذكاء الاصطناعي الجديدة،
+* الدروس التقنية،
+* الفيديوهات،
+* والـ workflows،
+
+إلى مسارات عملية قابلة للتنفيذ.
+
+خلال هذا الأسبوع:
+
+* أطلقنا الموقع الأولي
+* نشرنا أول Skill عملية
+* أضفنا دعم OpenClaw + Claude Code + Codex + MCP + n8n
+* بنينا نظام Levels:
+
+  * Trend Page
+  * Arabic Guide
+  * Executable Lab
+* وصلنا إلى:
+
+  * Accessibility 100/100
+  * SEO 100/100
+  * Best Practices 100/100
+
+الفكرة الأساسية:
+إذا كان هناك Tool جديد أو Tutorial مهم، يجب أن يتمكن المستخدم العربي من فهمه واستخدامه دون الحاجة لإتقان الإنجليزية.
+
+الهدف الآن:
+بناء أول مجتمع عربي عملي حول AI agents و workflows و tools الحديثة.
+
+المشروع ما زال في بدايته، لكننا بدأنا التنفيذ.
+
+🌐 [https://alimni-ai.com](https://alimni-ai.com)
+💻 [https://github.com/alimni-ai/skills](https://github.com/alimni-ai/skills)
+
+#الذكاء_الاصطناعي #وكلاء_الذكاء_الاصطناعي #برمجة #ClaudeCode #OpenClaw #Codex
 
 ### LinkedIn EN (secondary)
-TODO — translate intent, not literal text. ~500 chars.
+
+This week we shipped the first public version of Alimni AI.
+
+The idea is simple:
+Most new AI tools, workflows, and tutorials are published in English first.
+
+But millions of Arabic speakers want to use these tools without needing to become fluent in English.
+
+Alimni AI is our attempt to bridge that gap.
+
+Not as a passive course platform.
+Not as a translation website.
+
+But as an Arabic AI trend-to-execution system:
+
+* discover new AI tools,
+* explain them in Arabic,
+* guide installation and setup,
+* and help users build real artifacts.
+
+This week:
+
+* website launched,
+* first executable skill shipped,
+* OpenClaw + Claude Code + Codex ecosystem integrated,
+* GitHub org live,
+* accessibility and SEO reached 100/100.
+
+Next step:
+real Arabic user feedback and executable labs.
+
+🌐 [https://alimni-ai.com](https://alimni-ai.com)
+💻 [https://github.com/alimni-ai/skills](https://github.com/alimni-ai/skills)
 
 ### LinkedIn FR (secondary)
-TODO — translate intent, not literal text. ~500 chars.
 
-### X thread (5-7 tweets)
-TODO — break the build note into 5-7 tweets. AR or EN per audience.
+Cette semaine nous avons lancé la première version publique d’Alimni AI.
+
+Le problème que nous essayons de résoudre est simple :
+la majorité des nouveaux outils IA, workflows et tutoriels techniques arrivent d’abord en anglais.
+
+Pour beaucoup de personnes arabophones, le frein principal n’est pas la motivation.
+C’est l’accès pratique.
+
+Alimni AI veut transformer :
+
+* les documentations,
+* les tutoriels,
+* les workflows,
+* et les tendances IA,
+
+en parcours pratiques en arabe.
+
+Pas seulement pour regarder.
+Mais pour installer, configurer et construire de vrais projets.
+
+Cette semaine :
+
+* lancement du site,
+* première skill exécutable,
+* intégration OpenClaw / Claude Code / Codex,
+* GitHub org public,
+* score accessibilité et SEO à 100/100.
+
+La suite :
+ouvrir la boucle feedback avec des utilisateurs arabophones et transformer les outils les plus demandés en labs exécutables.
+
+🌐 [https://alimni-ai.com](https://alimni-ai.com)
+💻 [https://github.com/alimni-ai/skills](https://github.com/alimni-ai/skills)
+
+### X thread AR (7 tweets)
+
+#### Tweet 1
+
+معظم أدوات الذكاء الاصطناعي الجديدة تُشرح بالإنجليزية أولاً.
+
+لكن ملايين الناطقين بالعربية يريدون استخدامها وبناء مشاريع حقيقية بها.
+
+لهذا بدأنا بناء علّمني AI 🧵
+
+#### Tweet 2
+
+علّمني AI ليس منصة فيديوهات تقليدية.
+
+الفكرة:
+تحويل أدوات وتوثيق وتوتوريالات الذكاء الاصطناعي إلى مسارات عربية عملية.
+
+#### Tweet 3
+
+اليوم أطلقنا:
+
+* الموقع
+* أول Skill عملية
+* GitHub org
+* نظام أدوات AI trend → execution
+
+#### Tweet 4
+
+ندعم حالياً:
+Claude Code
+Codex
+OpenClaw
+n8n
+MCP
+
+ومزيد من الأدوات قريباً.
+
+#### Tweet 5
+
+كل أداة تمر عبر 3 مستويات:
+
+1. Trend Page
+2. Arabic Guide
+3. Executable Lab
+
+#### Tweet 6
+
+الهدف ليس الترجمة فقط.
+
+الهدف أن يتمكن المستخدم العربي من:
+
+* التثبيت
+* التجربة
+* البناء
+* نشر أول artifact حقيقي
+
+#### Tweet 7
+
+🌐 [https://alimni-ai.com](https://alimni-ai.com)
+💻 [https://github.com/alimni-ai/skills](https://github.com/alimni-ai/skills)
+
+إذا كنت مهتماً ببناء AI agents بالعربية، تابع المشروع.
+
+### X thread ENG (7 tweets)
+
+#### Tweet 1
+
+Most AI tools and tutorials launch in English first.
+
+We’re building Alimni AI to make modern AI workflows accessible in Arabic. 🧵
+
+#### Tweet 2
+
+Not a passive course platform.
+Not a translation website.
+
+The goal is practical execution.
+
+#### Tweet 3
+
+This week we launched:
+
+* the first landing,
+* the first executable skill,
+* the GitHub org,
+* and the first AI tools tracker.
+
+#### Tweet 4
+
+Current ecosystem:
+Claude Code
+Codex
+OpenClaw
+n8n
+MCP
+
+#### Tweet 5
+
+Every tool follows a maturity path:
+Trend Page → Arabic Guide → Executable Lab.
+
+#### Tweet 6
+
+The real goal:
+help Arabic speakers install, understand, and build with modern AI tools.
+
+#### Tweet 7
+
+🌐 [https://alimni-ai.com](https://alimni-ai.com)
+💻 [https://github.com/alimni-ai/skills](https://github.com/alimni-ai/skills)
 
 ### Telegram pin
-TODO — 1-2 sentences in Arabic + link to GitHub repo.
+
+علّمني AI أصبح متاحاً الآن 🚀
+
+منصة عربية لتحويل أحدث أدوات وتوتوريالات الذكاء الاصطناعي إلى مسارات عملية قابلة للتنفيذ.
+
+🌐 [https://alimni-ai.com](https://alimni-ai.com)
+💻 [https://github.com/alimni-ai/skills](https://github.com/alimni-ai/skills)
 
 ### YouTube Shorts script (60s)
-TODO — opening hook → main message → CTA in Arabic.
+TODO — defer to W2 if no video asset ready W1.
 
 ---
 
@@ -115,12 +353,17 @@ TODO — opening hook → main message → CTA in Arabic.
 
 ## Loop closure intent
 
-What feedback am I hoping this week's post surfaces?
+### Week 1 Hypothesis
 
-TODO — declare an explicit hypothesis. Examples to refine :
+هل يوجد اهتمام حقيقي من الناطقين بالعربية بتعلّم أدوات AI الحديثة عبر مسارات عملية قابلة للتنفيذ، بدلاً من مجرد مشاهدة الفيديوهات؟
 
-- *« Quels outils manquent dans le AI Tools Tracker AR ? Telegram et email comme channels de demande communautaire. »*
-- *« Y a-t-il des arabophones bilingues (developers MENA) qui voudraient piloter le skill #1 setup-agentic-ar avant fin W2 ? »*
-- *« Est-ce que la définition "trend-to-execution system" résonne plus que "academy" / "course platform" pour la première génération d'apprenants ? »*
+Signals tracked this week:
+
+* installs,
+* clicks on tools,
+* requests for Arabic guides,
+* GitHub stars,
+* Telegram joins,
+* direct feedback from Arabic users.
 
 Log incoming feedback in `distribution/feedback-loop-log.md` (matrix C13 — feedback-as-product audit trail).
