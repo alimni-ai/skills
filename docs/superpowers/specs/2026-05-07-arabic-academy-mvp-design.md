@@ -198,7 +198,13 @@ This sits at the upper edge of the budget. The **skip-week protocol** (any week 
 ## 9. Brand & identity
 
 - **Name**: Wakala — Arabic for "agent" (وكيل). Short, memorable, dev-feel via `.dev` TLD.
-- **Domain**: `wakala.dev` (primary candidate — DNS-free as of 2026-05-07).
+- **Domain strategy — hybrid (locked)**:
+  - **W1 immediate**: acquire `wakala.dev` as **insurance** ($14, parked on Cloudflare with no DNS records). Non-negotiable — prevents squatting once the brand becomes public.
+  - **W1–W6 hosting**: V1 landing hosted on `wakala.tenereonline.com` (sub-domain of existing TENERE infrastructure). Reasoning: zero new infra cost, reuses Caddy + CF + backup pipeline, instant DNS, aligned with founder's existing pattern (RIMAYA, Kiosque, BCF cadrage). The brand name is preserved visibly in the URL.
+  - **Sub-domain explicitly chosen**: `wakala.tenereonline.com`, NOT `academy.tenereonline.com` — preserves brand identity in the URL.
+  - **W6 migration trigger (Gate intermediate)**: if telemetry shows ≥10 unique skill completions by end of W6 (real activation signal), migrate to `wakala.dev` in W7–W8. If activation weak, stay on sub-domain (saves migration effort if wedge fails).
+  - **Migration mechanics**: Caddy 301 redirect `wakala.tenereonline.com` → `wakala.dev` (link equity preserved). The GitHub repo URL `github.com/<wakala-org>/skills` is **immutable from day 1** — install commands in skills, videos, posts never break.
+  - **Documented tension with §1**: V1 hosting on a TENERE sub-domain temporarily contradicts the "B-only independent side-brand" stance. This is an explicit, time-bounded compromise — the W6 migration trigger ensures it does not become permanent.
 - **Brand-lock checklist (mandatory before any public commit to the name)**:
   1. **Domain purchase** — confirm `wakala.dev` available at registrar (Cloudflare or Porkbun preferred), purchase immediately
   2. **Trademark search** — clear "Wakala" against USPTO (US), EUIPO (EU), and WIPO Madrid in Nice classes 9 (software) + 41 (educational services). Document results.

@@ -26,6 +26,18 @@
 - 🟡 **Secondary** (every skill release, repurposed from YT Shorts asset): TikTok · Instagram Reels · YouTube long-form · Threads
 - 🟠 **Opportunistic** (bounded events: W4 launch + W8 flagship + W12 V1 close): Product Hunt · Hacker News · Reddit · existing AR/MENA dev community drops
 
+**Hosting strategy (locked from spec §9 — hybrid):**
+- W1: acquire `wakala.dev` as insurance ($14, parked, no DNS). Non-negotiable.
+- W1–W6: V1 hosted on `wakala.tenereonline.com` (sub-domain of TENERE infra, zero-cost reuse of Caddy + CF + backup pipeline)
+- W6 Gate intermediate: migration trigger evaluation. If activation positive (≥10 unique completions) → migrate to `wakala.dev` at W7–W8. If weak → stay on subdomain.
+- GitHub repo URL `github.com/<wakala-org>/skills` is immutable from day 1 — install commands never break, regardless of landing domain.
+
+**Execution mode (locked from EXECUTION_MODE.md):**
+- 🤖 Subagent for: Task 2 (repo+CI), Task 6 (telemetry), code-only parts of Task 4 + 11
+- 🧑 Inline (Hervé) for: Task 1 (brand), Tasks 3/5/7/9/11 (skill content), Task 8 (publish + push), Task 10 (outreach), Task 12 (retro)
+- 🚦 HITL gates (Hervé+Claude council): W4, W6 (migration), W8, W12, plus AR native review before each skill publish
+- See `EXECUTION_MODE.md` at repo root for the full task→mode mapping.
+
 ---
 
 ## File Structure (created across the 12 weeks)
@@ -90,15 +102,27 @@
 **Files:**
 - Create: `/home/creed/wakala/distribution/brand-lock-report.md`
 
-This is non-code work but blocks everything downstream. **Done = a single committed report file documenting all 4 outcomes.**
+This is non-code work but blocks everything downstream. **Done = a single committed report file documenting all outcomes + hybrid hosting plumbing live.**
 
-- [ ] **Step 1.1: Domain availability + purchase**
+**Recommended execution order (per founder priority — all steps are independent and can be parallelized, but launch in this order to minimize squatting risk):**
+1. Step 1.1 (domain insurance) → Step 1.4 (handles) — within same hour, before anyone hears the name
+2. Steps 1.2 + 1.3 (trademark + reputational) — can run in parallel
+3. Step 1.5 (subdomain infra) — once name is provisionally cleared
+4. Step 1.6 (commit) — at the end
 
-Run: `whois wakala.dev` (re-confirm DNS-free). If still free, purchase via Cloudflare Registrar (preferred — same provider as DNS, no markup). Backup registrar: Porkbun.
+- [ ] **Step 1.1: Acquire `wakala.dev` as insurance + park**
 
-Expected: domain owned by Hervé under `contact@tenereonline.com` is fine, OR new `hello@wakala.dev` once email forwarding is set up. Decision: use `contact@tenereonline.com` for purchase since `wakala.dev` MX isn't set up yet.
+Run: `whois wakala.dev` (re-confirm DNS-free). If still free, purchase **immediately** via Cloudflare Registrar (preferred — same provider as future DNS, no markup, no upsell). Backup registrar: Porkbun.
 
-Acceptance: receipt screenshot saved to `distribution/brand-lock-report.md`, domain visible in CF dashboard.
+Important: this is **insurance, not the V1 landing host**. Domain stays parked at Cloudflare with **no DNS records** for the duration of V1 (W1–W6). Activation only at W6 if migration trigger fires (per spec §9).
+
+- Registrar: Cloudflare Registrar (preferred)
+- Owner email: `contact@tenereonline.com` for now (TENERE LLC operational email; migrate to `hello@wakala.dev` once email forward is set up post-W6 migration)
+- WHOIS privacy: ON
+- Auto-renew: ON (avoid accidental drop)
+- Cost: ~$14/year
+
+Acceptance: receipt screenshot saved to `distribution/brand-lock-report.md`, domain visible in CF dashboard, **no DNS records configured** (parked status confirmed).
 
 - [ ] **Step 1.2: Trademark search**
 
@@ -137,16 +161,88 @@ Each handle: log URL + screenshot in report.
 
 Acceptance: 5 handles secured, all linked in report, all using `contact@tenereonline.com` for now (migrate to `hello@wakala.dev` once email forward is set up in Task 2).
 
-- [ ] **Step 1.5: Commit brand-lock report**
+- [ ] **Step 1.5: Setup `wakala.tenereonline.com` subdomain on Caddy + CF (V1 hosting)**
+
+Per the hybrid hosting strategy (spec §9), V1 lives on this sub-domain until the W6 migration trigger.
+
+**5.a — Cloudflare DNS** (in the existing `tenereonline.com` zone):
+
+Add A record:
+- Type: A
+- Name: `wakala`
+- IPv4: gestion VPS public IP (existing in CF zone)
+- Proxy status: orange cloud ON (use CF as proxy, consistent with existing TENERE site pattern)
+- TTL: Auto
+
+Add AAAA record (IPv6) if gestion has a public IPv6, same proxied setup.
+
+- [ ] **5.b — Caddy config on gestion VPS**
+
+SSH to gestion. Edit `/etc/caddy/Caddyfile` (or the include file pattern existing TENERE projects use). Add:
+
+```
+wakala.tenereonline.com {
+    root * /var/www/wakala
+    file_server
+    encode gzip
+    log {
+        output file /var/log/caddy/wakala.log
+    }
+    header {
+        # Brand identity — make it visible this is Wakala, not TENERE corporate
+        X-Wakala-Brand "true"
+    }
+}
+```
+
+Create the directory:
+
+```bash
+sudo mkdir -p /var/www/wakala
+sudo chown creed:creed /var/www/wakala
+```
+
+For now (W1, no landing built yet), drop a temporary `index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><title>Wakala — قريبًا</title></head>
+<body style="font-family: serif; padding: 2rem; max-width: 600px; margin: auto;">
+  <h1>وكالة</h1>
+  <p>أكاديمية عربية لأدوات البرمجة الذكية. قريبًا.</p>
+  <p style="margin-top: 2rem;">An Arabic AI engineering academy. Coming soon.</p>
+</body>
+</html>
+```
+
+Reload Caddy: `sudo caddy reload --config /etc/caddy/Caddyfile`.
+
+- [ ] **5.c — Smoke test + cert verification**
+
+```bash
+curl -sSI https://wakala.tenereonline.com | head -5
+# Expected: HTTP/2 200, valid Let's Encrypt cert (issued by Caddy automatically via CF Full strict)
+curl -sS https://wakala.tenereonline.com | grep -o 'وكالة'
+# Expected: matches (AR rendering OK over HTTPS)
+```
+
+If cert fails to issue: check that CF zone is "Full strict" mode, not "Flexible" (otherwise Caddy can't get a valid LE cert behind CF proxy).
+
+Acceptance: `https://wakala.tenereonline.com` returns 200 with the placeholder page, valid TLS cert, AR text renders. Document URL + cert info in `brand-lock-report.md`.
+
+- [ ] **Step 1.6: Commit brand-lock report**
 
 ```bash
 cd /home/creed/wakala
 git add distribution/brand-lock-report.md
-git commit -m "brand: lock Wakala — domain owned, trademark clear, handles secured"
+git commit -m "brand: lock Wakala — domain insurance + subdomain live + trademark clear + handles secured"
+git tag w1-brand-locked
+git push --tags  # if remote already exists; else defer to Task 2
 ```
 
-**Time estimate:** 3–4h (mostly waiting on registrar + manual searches).
-**Blocks:** all downstream tasks. If Wakala fails any of 4 checks → fall back to `muhandis.dev` and re-run Task 1 with new name (add 1 week to plan).
+**Time estimate:** 4–5h total (registrar + 3 manual searches + handles + Caddy/CF setup + smoke).
+**Blocks:** all downstream tasks. If Wakala fails any of the 4 checks (Steps 1.1–1.4) → fall back to `muhandis.dev` and re-run Task 1 with new name (add 1 week to plan).
 
 ---
 
@@ -576,33 +672,23 @@ Run: `npm run dev` (in `landing/`). Open http://localhost:4321. Verify:
 - No console errors
 - Mobile viewport: cards stack, no horizontal scroll
 
-- [ ] **Step 4.6: Build static + deploy to gestion VPS**
+- [ ] **Step 4.6: Build static + deploy to gestion VPS at `wakala.tenereonline.com`**
+
+Per the hybrid hosting strategy (spec §9), W1–W6 deploys go to the sub-domain. Caddy + CF DNS were set up at Task 1 Step 1.5; here we just push the real built site over the placeholder.
 
 ```bash
+cd /home/creed/wakala/landing
 npm run build  # outputs to landing/dist/
-rsync -avz landing/dist/ creed@gestion:/var/www/wakala-dev/
+rsync -avz --delete landing/dist/ creed@gestion:/var/www/wakala/
 ```
 
-Caddy config snippet (add to `/etc/caddy/Caddyfile` on gestion):
+(Note: `/var/www/wakala/` directory already exists from Task 1 Step 1.5b. The `--delete` flag removes the W1 placeholder index.html.)
 
-```
-wakala.dev {
-    root * /var/www/wakala-dev
-    file_server
-    encode gzip
-    log {
-        output file /var/log/caddy/wakala-dev.log
-    }
-}
+Caddy config: **no change needed** — the `wakala.tenereonline.com` block was already configured at Task 1 Step 1.5b. Caddy serves whatever is in `/var/www/wakala/`.
 
-www.wakala.dev {
-    redir https://wakala.dev{uri} permanent
-}
-```
+Reload only if Caddyfile changed: not needed here.
 
-Reload: `sudo caddy reload --config /etc/caddy/Caddyfile`.
-
-DNS on Cloudflare: A record `wakala.dev` → gestion's public IP, AAAA same, proxied (orange cloud OFF for now to let CF issue cert via HTTP-01; or use CF Full strict + Caddy's CF-DNS plugin. Pick whichever is simpler — avoid double-cert mess.)
+**`wakala.dev` remains parked** (no DNS records, no Caddy block). It only activates at W7–W8 IF the W6 migration trigger fires (per Task 6 Step 6.12).
 
 - [ ] **Step 4.7: Smoke test runtime headless (per memory `feedback_no_blind_push_to_public_site.md`)**
 
@@ -892,11 +978,50 @@ git push --tags
 gh release create skills-v0.2.0 --title "Wakala Skills v0.2.0 — prompt-loop-ar" --notes "..."
 ```
 
-- [ ] **Step 6.11: Commit + tag W6**
+- [ ] **Step 6.11: 🚦 GATE INTERMEDIATE — domain migration trigger evaluation**
+
+Per spec §9 hybrid hosting strategy, evaluate at the end of W6 whether to migrate from `wakala.tenereonline.com` to `wakala.dev` in W7–W8. **Decision is binary, recorded in `distribution/migration-decision.md`, no fudging.**
+
+Compute migration trigger criteria:
+- ✅ ≥10 unique skill completions in telemetry (`SELECT COUNT(DISTINCT client_uuid) FROM wakala_skill_completions;`)
+- ✅ ≥30 GitHub stars
+- ✅ ≥30 Telegram subscribers
+- ✅ ≥1 substantive inbound feedback signal (issue, PR, DM, thoughtful reply)
+- ✅ Hervé bandwidth status: not in skip-week debt, ≤2 cumulative skip-weeks used so far
+
+**Trigger fires (migrate to wakala.dev at W7–W8) IF**: 4 of 5 criteria hit.
+**Trigger does NOT fire (stay on wakala.tenereonline.com) IF**: <4 of 5 hit.
+**Override clause**: even if trigger fires, Hervé can defer migration by 4 weeks if a higher-priority Wakala work item is blocking. Document the deferral rationale.
+
+Write the decision file:
+
+```bash
+cat > distribution/migration-decision.md <<'EOF'
+# W6 Migration Trigger Decision — 2026-XX-XX
+
+## Metrics computed
+- Unique completions: <N>
+- GitHub stars: <N>
+- Telegram subs: <N>
+- Feedback signals: <N>
+- Skip-weeks used: <N>
+
+## Outcome
+- Criteria hit: <N> / 5
+- **Decision: MIGRATE / STAY** (one of)
+- Migration target: W7 + W8 (if MIGRATE) — see Task 7 Step 7.0
+- Rationale: <one paragraph>
+EOF
+git add distribution/migration-decision.md
+```
+
+Acceptance: decision file committed before W6 commit. Outcome shapes Task 7.
+
+- [ ] **Step 6.12: Commit + tag W6**
 
 ```bash
 git add -A
-git commit -m "feat: telemetry + telegram launch + skill-2 published"
+git commit -m "feat: telemetry + telegram launch + skill-2 + W6 migration decision"
 git tag w6-telemetry-live
 git push --tags
 ```
@@ -905,7 +1030,7 @@ git push --tags
 
 ---
 
-### Task 7: Skill #3 `ship-real-product-ar` draft (Week 7)
+### Task 7: Skill #3 `ship-real-product-ar` draft (Week 7) + Conditional domain migration
 
 This is the **flagship skill** — 2-hour end-to-end build. Highest production value. Deserves more time than other skills.
 
@@ -913,6 +1038,73 @@ This is the **flagship skill** — 2-hour end-to-end build. Highest production v
 - Create: `/home/creed/wakala/skills/ship-real-product-ar/source.md`
 - Create: `/home/creed/wakala/skills/ship-real-product-ar/test.sh`
 - Create: `/home/creed/wakala/skills/ship-real-product-ar/examples/built-product/` (a real working tiny product as the artifact — e.g., a static habit tracker deployable in 1 command)
+- (Conditional) Modify: Caddy config + CF DNS to migrate to `wakala.dev`
+
+- [ ] **Step 7.0: 🔀 CONDITIONAL — Domain migration to `wakala.dev` (only if W6 trigger fired)**
+
+Read `distribution/migration-decision.md` (committed at Step 6.11). If decision is **STAY**, skip to Step 7.1.
+
+If decision is **MIGRATE**:
+
+**7.0.a — Cloudflare DNS for `wakala.dev`** (the parked domain from Step 1.1):
+- Add A record: `wakala.dev` → gestion VPS public IP, proxied
+- Add A record: `www.wakala.dev` → same, proxied
+- Wait 30s for propagation
+
+**7.0.b — Caddy config on gestion**:
+
+```
+wakala.dev {
+    root * /var/www/wakala
+    file_server
+    encode gzip
+    log {
+        output file /var/log/caddy/wakala-dev.log
+    }
+}
+
+www.wakala.dev {
+    redir https://wakala.dev{uri} permanent
+}
+
+# Keep the old subdomain alive as 301 redirect for link equity
+wakala.tenereonline.com {
+    redir https://wakala.dev{uri} permanent
+}
+```
+
+Reload: `sudo caddy reload --config /etc/caddy/Caddyfile`.
+
+**7.0.c — Smoke test runtime headless** (per memory `feedback_no_blind_push_to_public_site.md` — non-negotiable):
+
+```bash
+bash /home/creed/tenere-site/scripts/smoke-headless.sh https://wakala.dev
+# Expected: 6/6 PASS
+bash /home/creed/tenere-site/scripts/smoke-headless.sh https://wakala.tenereonline.com
+# Expected: 301 redirect to wakala.dev (smoke adapted to handle redirects)
+```
+
+**7.0.d — Update install commands + landing references**:
+
+In `landing/src/pages/index.astro`, update any reference to `wakala.tenereonline.com` to `wakala.dev`. Re-build + deploy.
+
+GitHub repo URL stays unchanged (`github.com/wakala-dev/skills` — was always the canonical install URL).
+
+**7.0.e — Public migration announcement**:
+
+Build note + 3 LinkedIn variants (AR + ENG + FR, manual) + Telegram pin + X thread. Frame: "Wakala is now at wakala.dev — same skills, new home". Link old subdomain redirect for transparency.
+
+**7.0.f — Update spec §9 + plan + project memory**:
+
+```bash
+# In spec §9, update brand identity section to reflect migration completed
+# Update project_wakala_academy.md memory: status migrated 2026-XX-XX
+git add docs/superpowers/specs/2026-05-07-arabic-academy-mvp-design.md
+git commit -m "domain: migrate wakala.tenereonline.com → wakala.dev (W7 trigger)"
+git tag w7-domain-migrated
+```
+
+Time estimate (if migration triggered): 2–3h. Adds to Task 7 budget.
 
 - [ ] **Step 7.1:** Scaffold via `new-skill.sh`
 - [ ] **Step 7.2:** Build the example product first (a real tiny CRUD or static tool that the skill teaches users to build). Document each prompt + response. ~2h of real building.
