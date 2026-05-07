@@ -62,8 +62,15 @@ artifact_kind: "github_repo + deployed_url"
    - ناتج الوكيل (عربي + كود)
    - رابط النشر النهائي
 
+## متطلبات التشغيل
+
+- **Terminal محلي** على macOS / Linux / Windows (WSL) — الخيار الموصى به
+- **بدائل أونلاين** إن لم يتوفر حاسوب: GitHub Codespaces، Gitpod، أو Replit
+- Node.js ≥ 20 لتثبيت الأداتين عبر npm
+- حساب GitHub + حساب Vercel أو Cloudflare Pages للنشر النهائي
+
 ## الموارد
 
 - Lab تفصيلي: [lab.md](./lab.md)
-- Repo بداية: [starter-repo/](./starter-repo/) (يُضاف عند MVE-complete)
-- اختبار آلي: [test.sh](./test.sh) — يتحقّق من وجود الأثر في repo التلميذ
+- Repo بداية: [starter-repo/](./starter-repo/) — قابل للاستنساخ مباشرة
+- اختبار آلي: [test.sh](./test.sh) — يتحقق من وجود الأثر في repo التلميذ
