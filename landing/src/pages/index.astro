@@ -1,0 +1,385 @@
+---
+import { readdirSync, statSync, readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import matter from 'gray-matter';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkillCard from '../components/SkillCard.astro';
+import MaturityBadge from '../components/MaturityBadge.astro';
+import RequestSkill from '../components/RequestSkill.astro';
+
+// ── Read skills from ../../skills/<slug>/source.md ────────────────────────
+// Single source of truth: source.md frontmatter drives both the build pipeline
+// AND the landing display. When a skill graduates from 🌱 → 🌿 → 🌳, the
+// landing reflects it automatically without any landing-side edit.
+
+const SKILLS_DIR = join(process.cwd(), '..', 'skills');
+
+// V1 curriculum order locked from spec §5
+const V1_ORDER = [
+  'setup-agentic-ar',
+  'prompt-loop-ar',
+  'ship-real-product-ar',
+  'repo-to-agent-ar',
+  'n8n-mcp-pipeline-ar'
+];
+
+const V1_PLANNED_DEFAULTS: Record<string, { title_ar: string; description_ar: string; est_runtime_min: number }> = {
+  'setup-agentic-ar':     { title_ar: 'إعداد بيئة الذكاء الاصطناعي الوكيل', description_ar: 'تثبيت Claude Code وCodex، أوّل برومبت، وحلّ مشاكل البيئة (مدخل عربي)',         est_runtime_min: 30 },
+  'prompt-loop-ar':       { title_ar: 'حلقة البرومبت الاحترافيّة',         description_ar: 'الانعكاس المهني: prompt → run → read → debug → re-prompt — مع أمثلة عربية',          est_runtime_min: 45 },
+  'ship-real-product-ar': { title_ar: 'إطلاق منتج حقيقي من الصفر',         description_ar: 'فكرة → repo → بناء بمساعدة الوكيل → نشر منتج (CRUD صغير على Vercel/Caddy)',         est_runtime_min: 120 },
+  'repo-to-agent-ar':     { title_ar: 'وكيل على مستودعك الحقيقي',           description_ar: 'وصل الوكيل بمستودع برمجي قائم: Claude Code، MCP file system، أنماط مراجعة الكود',  est_runtime_min: 60 },
+  'n8n-mcp-pipeline-ar':  { title_ar: 'أتمتة العمل عبر MCP وn8n',           description_ar: 'الأتمتة الذكية: التقاط → ترجمة → نشر — المهارة الفوقيّة (أتمتة الأكاديمية ذاتها)', est_runtime_min: 90 }
+};
+
+interface SkillData {
+  number: number;
+  slug: string;
+  title_ar: string;
+  description_ar: string;
+  est_runtime_min: number;
+  maturity: 'mve-partial' | 'mve-complete' | 'mature' | 'reference' | 'planned';
+}
+
+const skills: SkillData[] = V1_ORDER.map((slug, idx) => {
+  const sourceFile = join(SKILLS_DIR, slug, 'source.md');
+  const defaults = V1_PLANNED_DEFAULTS[slug] || { title_ar: slug, description_ar: '', est_runtime_min: 0 };
+
+  if (!existsSync(sourceFile)) {
+    return { number: idx + 1, slug, ...defaults, maturity: 'planned' as const };
+  }
+
+  const { data } = matter(readFileSync(sourceFile, 'utf8'));
+  // Fallback to defaults if scaffold has TODO markers in title/desc
+  const title_ar = data.title_ar?.startsWith('TODO') ? defaults.title_ar : (data.title_ar || defaults.title_ar);
+  const description_ar = data.description_ar?.startsWith('TODO') ? defaults.description_ar : (data.description_ar || defaults.description_ar);
+
+  return {
+    number: idx + 1,
+    slug,
+    title_ar,
+    description_ar,
+    est_runtime_min: data.est_runtime_min || defaults.est_runtime_min,
+    maturity: data.maturity || 'planned'
+  };
+});
+
+// Counts for the maturity ladder section
+const counts = {
+  mveComplete: skills.filter(s => ['mve-complete', 'mature', 'reference'].includes(s.maturity)).length,
+  mvePartial:  skills.filter(s => s.maturity === 'mve-partial').length,
+  planned:     skills.filter(s => s.maturity === 'planned').length
+};
+---
+<BaseLayout
+  title="علّمني — Alimni AI · Arabic AI Engineering Academy"
+  description="تعلّم الذكاء الاصطناعي بالممارسة، لا بالمشاهدة فقط. Agentic execution in Arabic, across tools."
+>
+  <!-- ── Hero ───────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container prose hero-inner">
+      <h1 class="ar-script hero-mark" aria-label="Alimni AI">علّمني</h1>
+      <p class="hero-tagline-ar">علّمني الذكاء الاصطناعي بالعربية</p>
+      <p class="hero-sub-ar">
+        طبقة تنفيذ بالعربية لأدوات الذكاء الاصطناعي الوكيل،
+        <br />
+        عبر <strong>Claude Code</strong> و<strong>Codex</strong> و<strong>n8n</strong> و<strong>MCP</strong>.
+      </p>
+
+      <hr class="divider-sm" />
+
+      <p class="latin hero-tagline-en">
+        <strong>Alimni&nbsp;AI</strong>
+        <br />
+        Learn AI by building real agents — in Arabic.
+      </p>
+      <p class="latin muted">
+        Agentic execution in Arabic,
+        <br />
+        across tools.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#skills" class="btn btn-primary">المهارات · <span class="latin">Skills</span></a>
+        <a href="https://github.com/alimni-ai/skills" class="btn latin" target="_blank" rel="noopener">GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Why ─────────────────────────────────────────────────────────── -->
+  <section class="why">
+    <div class="container prose">
+      <h2>لماذا علّمني؟</h2>
+      <p>
+        مئتا مليون عربي مقصيّون من ثورة الذكاء الاصطناعي
+        لأنّ المحتوى التقني كلّه بالإنجليزية أو الفرنسية.
+        الترجمة وحدها سلعة. الاختيار الصحيح + التنفيذ + المجتمع — هذا هو المحرّك.
+      </p>
+      <p class="muted latin hide-on-mobile">
+        <small>
+          200M+ Arabic speakers are locked out of the agentic AI revolution
+          because nearly all content is in English or French.
+          Translation is a commodity. Curation + execution + community
+          — that's the engine.
+        </small>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Maturity ladder ────────────────────────────────────────────── -->
+  <section class="ladder">
+    <div class="container prose">
+      <h2>سلّم النضج</h2>
+      <p class="muted">
+        كلّ مهارة تتدرّج عبر ٤ مراحل، كلّ مرحلة لها معيار صارم.
+        لا نخفي ما لم يكتمل.
+      </p>
+
+      <div class="ladder-grid">
+        <div class="ladder-stage">
+          <MaturityBadge stage="mve-partial" />
+          <p class="muted">قابلة للتثبيت والتشغيل. تجمع أوّل التغذية الراجعة.</p>
+        </div>
+        <div class="ladder-stage">
+          <MaturityBadge stage="mve-complete" />
+          <p class="muted">مختبرة على Claude Code وCodex. مسار تنفيذ كامل.</p>
+        </div>
+        <div class="ladder-stage">
+          <MaturityBadge stage="mature" />
+          <p class="muted">إثبات إغلاق حلقة التعلّم — تكرار واحد على أقلّ من تغذية راجعة حقيقية.</p>
+        </div>
+        <div class="ladder-stage">
+          <MaturityBadge stage="reference" />
+          <p class="muted">مرجع كامل: فيديو شرح بالعربية + مساعد GPT/Claude مخصّص + توافق Termux.</p>
+        </div>
+      </div>
+
+      <p class="latin muted ladder-note">
+        <small>V1 target — {counts.mveComplete} skills at 🌿 MVE-complete + {counts.mvePartial} at 🌱 MVE-partial. Currently {counts.planned} planned.</small>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Skills ──────────────────────────────────────────────────────── -->
+  <section id="skills" class="skills">
+    <div class="container">
+      <div class="prose">
+        <h2>المهارات · <span class="latin">V1 Curriculum</span></h2>
+        <p class="muted">
+          منهج تدريجي. كلّ مهارة تفترض أنّ سابقتها مثبّتة. ليس كتالوجًا — مسار.
+        </p>
+      </div>
+
+      <div class="skills-grid">
+        {skills.map(skill => (
+          <SkillCard
+            number={skill.number}
+            slug={skill.slug}
+            title_ar={skill.title_ar}
+            description_ar={skill.description_ar}
+            est_runtime_min={skill.est_runtime_min}
+            maturity={skill.maturity}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Audience ───────────────────────────────────────────────────── -->
+  <section class="audience">
+    <div class="container prose">
+      <h2>لمن نبني؟</h2>
+      <ul class="audience-list">
+        <li>
+          <strong>المطوّرون العرب</strong> الذين يجدون أنفسهم مقصيّين من الذكاء الاصطناعي الوكيل لأنّ المحتوى كلّه بالإنجليزية أو الفرنسية. المغرب، الجزائر، تونس، مصر، الشام، الخليج، والمغتربون.
+        </li>
+        <li>
+          <strong>الممارسون ثنائيّو اللغة</strong> الذين يفضّلون التعلّم بالعربية لأسباب ثقافية وتربوية.
+        </li>
+        <li>
+          <strong>المؤسّسات التعليمية</strong> في المنطقة (المدارس الخاصّة، البوتكامب، المدرّبون المحلّيون) الذين يحتاجون منهجًا عربيًا أصيلًا للذكاء الاصطناعي الوكيل.
+        </li>
+      </ul>
+
+      <div class="mobile-note">
+        <p class="muted latin">
+          <small>📱 Mobile-first / low-spec friendly. Each skill declares whether it works on Android Termux,
+          online IDEs (StackBlitz, Replit, Codespaces), or requires a local terminal.
+          We don't assume Western dev setup.</small>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Request a skill ─────────────────────────────────────────────── -->
+  <RequestSkill />
+
+  <!-- ── Footer ──────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <p class="ar-script footer-mark">علّمني</p>
+          <p class="muted latin"><small>Alimni AI · Arabic AI Engineering Academy</small></p>
+        </div>
+
+        <div class="footer-links latin">
+          <a href="https://github.com/alimni-ai/skills" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://t.me/alimni_ar" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://x.com/alimni_ai" target="_blank" rel="noopener">X</a>
+          <a href="https://linkedin.com/company/alimni-ai" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:hello@alimni-ai.com">hello@alimni-ai.com</a>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <p class="muted latin footer-credits">
+        <small>
+          © 2026 Hervé Davies Paul · Apache-2.0 license on skill content ·
+          The "علّمني" calligraphy and Alimni AI name are reserved trademarks.
+        </small>
+      </p>
+    </div>
+  </footer>
+
+  <style>
+    /* ── Hero ── */
+    .hero {
+      padding-block: var(--s-3xl);
+      text-align: center;
+    }
+    /* No `align-items: center` here: it would shrink children to intrinsic
+       content width and overflow the viewport on long Latin sentences.
+       Children stretch to container width; AR paragraphs inherit text-align:
+       center from `.hero`, while `.latin` keeps its text-align: left. */
+    .hero-inner { display: flex; flex-direction: column; gap: var(--s-md); }
+    .hero-cta { align-self: center; }
+
+    .hero-mark {
+      font-size: clamp(5rem, 14vw, 9rem);
+      color: var(--accent);
+      line-height: 1;
+      margin-block-end: var(--s-sm);
+    }
+
+    .hero-tagline-ar {
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      color: var(--fg);
+      font-weight: 400;
+    }
+
+    .hero-sub-ar {
+      color: var(--fg-muted);
+      max-width: 540px;
+      font-size: 1.05rem;
+    }
+
+    .hero-tagline-en { font-size: 1rem; color: var(--fg); }
+
+    .hero-cta {
+      display: flex;
+      gap: var(--s-md);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-block-start: var(--s-lg);
+    }
+
+    /* ── Why ── */
+    .why p:first-of-type { font-size: 1.1rem; }
+
+    /* ── Ladder ── */
+    .ladder-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-md);
+      margin-block: var(--s-xl);
+    }
+    @media (min-width: 700px) {
+      .ladder-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1000px) {
+      .ladder-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .ladder-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--s-sm);
+      padding: var(--s-md);
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+
+    .ladder-note { direction: ltr; text-align: center; margin-block-start: var(--s-md); }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-md);
+      margin-block-start: var(--s-xl);
+    }
+
+    @media (min-width: 700px) {
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 1000px) {
+      .skills-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ── Audience ── */
+    .audience-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-md);
+    }
+    .audience-list li {
+      padding: var(--s-md);
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      line-height: 1.7;
+    }
+
+    .mobile-note {
+      margin-block-start: var(--s-lg);
+      padding: var(--s-md);
+      background: var(--bg-elevated);
+      border: 1px dashed var(--line-strong);
+      border-radius: 6px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding-block: var(--s-2xl);
+      background: var(--bg-elevated);
+      border-block-start: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-md);
+      align-items: flex-start;
+    }
+    @media (min-width: 700px) {
+      .footer-grid { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+
+    .footer-mark { font-size: 2rem; color: var(--accent); margin-block-end: var(--s-xs); }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-md);
+      direction: ltr;
+    }
+
+    .footer-credits { direction: ltr; text-align: center; margin-block-start: var(--s-md); }
+  </style>
+</BaseLayout>

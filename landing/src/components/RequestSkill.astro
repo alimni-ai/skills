@@ -1,0 +1,72 @@
+---
+// Formspree integration — Hervé replaces this URL with his real Formspree endpoint
+// post-W4 (or it's a TODO — landing falls back to mailto: if not configured).
+const FORMSPREE_ENDPOINT = import.meta.env.PUBLIC_FORMSPREE_URL || '';
+const FALLBACK_EMAIL = 'hello@alimni-ai.com';
+const hasFormspree = FORMSPREE_ENDPOINT.startsWith('https://formspree.io/');
+---
+<section id="request" class="request-skill">
+  <div class="container prose">
+    <h2>اطلب مهارة عربية</h2>
+    <p class="muted">
+      أيّ مهارة في الذكاء الاصطناعي الوكيل تريد تعلّمها بالعربية؟
+      اقترح فكرة، وسنبنيها معًا.
+    </p>
+    <p class="muted latin">
+      <small>Suggest a skill you want to learn in Arabic.
+      We build the catalog from real requests.</small>
+    </p>
+
+    {hasFormspree ? (
+      <form action={FORMSPREE_ENDPOINT} method="POST" class="request-form">
+        <div class="field">
+          <label for="email" class="latin">Your email</label>
+          <input type="email" id="email" name="email" required dir="ltr" placeholder="you@example.com" />
+        </div>
+
+        <div class="field">
+          <label for="topic">الموضوع · <span class="latin">Topic</span></label>
+          <input type="text" id="topic" name="topic" required placeholder="e.g. RAG agent, LangGraph, Claude MCP" />
+        </div>
+
+        <div class="field">
+          <label for="why">لماذا تحتاج هذه المهارة؟ · <span class="latin">Why this skill?</span></label>
+          <textarea id="why" name="why" rows="4" placeholder="Quel problème concret veux-tu résoudre ?"></textarea>
+        </div>
+
+        <input type="hidden" name="_subject" value="[Alimni] Skill request" />
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+        <button type="submit" class="btn btn-primary">إرسال الطلب · <span class="latin">Send request</span></button>
+
+        <p class="consent muted latin">
+          <small>By submitting, you consent to us emailing you about Alimni AI.
+          We don't share your email. GDPR-friendly.</small>
+        </p>
+      </form>
+    ) : (
+      <p class="latin">
+        <a href={`mailto:${FALLBACK_EMAIL}?subject=[Alimni]%20Skill%20request`} class="btn btn-primary">
+          → {FALLBACK_EMAIL}
+        </a>
+      </p>
+    )}
+  </div>
+</section>
+
+<style>
+  .request-skill { padding-block: var(--s-3xl); background: var(--bg-elevated); }
+
+  .request-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-md);
+    margin-block-start: var(--s-lg);
+  }
+
+  .field { display: flex; flex-direction: column; gap: var(--s-xs); }
+
+  .request-form button { align-self: flex-start; margin-block-start: var(--s-sm); }
+
+  .consent { margin-block-start: var(--s-sm); direction: ltr; text-align: left; }
+</style>

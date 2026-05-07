@@ -1,0 +1,51 @@
+---
+interface Props {
+  stage: 'mve-partial' | 'mve-complete' | 'mature' | 'reference' | 'planned';
+  size?: 'sm' | 'md';
+}
+
+const { stage, size = 'md' } = Astro.props;
+
+const meta = {
+  'mve-partial':  { icon: '🌱', label_ar: 'مبدئي', label_en: 'MVE-partial' },
+  'mve-complete': { icon: '🌿', label_ar: 'مكتمل', label_en: 'MVE-complete' },
+  'mature':       { icon: '🌳', label_ar: 'ناضج', label_en: 'Mature' },
+  'reference':    { icon: '🌲', label_ar: 'مرجعي', label_en: 'Reference' },
+  'planned':      { icon: '⏳', label_ar: 'قادم',  label_en: 'Planned' }
+};
+
+const m = meta[stage] ?? meta['planned'];
+---
+<span class={`maturity-badge maturity-${stage} size-${size}`}>
+  <span class="icon" aria-hidden="true">{m.icon}</span>
+  <span class="label-ar">{m.label_ar}</span>
+  <span class="label-en latin">{m.label_en}</span>
+</span>
+
+<style>
+  .maturity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    background: var(--bg-elevated);
+    color: var(--fg-muted);
+  }
+
+  .maturity-badge.size-sm { font-size: 0.72rem; padding: 0.15rem 0.5rem; }
+
+  .maturity-badge .icon { font-size: 1rem; line-height: 1; }
+  .maturity-badge .label-ar { font-family: var(--font-ar); }
+  .maturity-badge .label-en {
+    color: var(--fg-muted);
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  .maturity-mve-complete { color: var(--accent); border-color: var(--accent-dim); }
+  .maturity-mature       { color: var(--accent-bright); border-color: var(--accent); }
+  .maturity-reference    { color: var(--accent-bright); border-color: var(--accent-bright); background: rgba(212, 165, 116, 0.08); }
+</style>
