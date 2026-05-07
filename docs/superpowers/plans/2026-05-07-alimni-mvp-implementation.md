@@ -54,13 +54,15 @@
 │   ├── build.js                               ← W2 (source.md → harness outputs)
 │   └── new-skill.sh                           ← W3 (scaffolds a new skill dir)
 ├── skills/
-│   ├── setup-agentic-ar/                      ← W3
-│   ├── prompt-loop-ar/                        ← W5
-│   ├── ship-real-product-ar/                  ← W7
-│   ├── repo-to-agent-ar/                      ← W9
-│   └── n8n-mcp-pipeline-ar/                   ← W11
-│       └── (each contains: source.md, claude/SKILL.md, codex/skill.json,
-│                            examples/, test.sh)
+│   ├── setup-agentic-ar/                      ← W3 (target maturity: 🌿 MVE-complete)
+│   ├── prompt-loop-ar/                        ← W5 (target maturity: 🌿 MVE-complete)
+│   ├── ship-real-product-ar/                  ← W7 (target maturity: 🌿 MVE-complete — flagship)
+│   ├── repo-to-agent-ar/                      ← W9 (target maturity: 🌱 MVE-partial)
+│   └── n8n-mcp-pipeline-ar/                   ← W11 (target maturity: 🌱 MVE-partial)
+│       └── (each contains per maturity stage — see spec §6:
+│            🌱 MVE-partial: source.md + lab.md + test.sh + MATURITY.md
+│            🌿 MVE-complete: + starter-repo/ + claude/SKILL.md + codex/skill.json
+│            🌳 Mature (V2): + cheatsheet.md + examples/ + credits.md)
 ├── landing/                                   ← W4
 │   ├── astro.config.mjs
 │   ├── src/pages/index.astro
@@ -1184,7 +1186,7 @@ This is the **meta-skill** — automating the academy itself (transcript → tra
 ### Task 12: Skill #5 publish + V1 retrospective + Gate 3 (Week 12)
 
 **Files:**
-- Modify: landing (mark all 5 shipped, update hero to "5 skills live, V1 complete")
+- Modify: landing (mark 3 MVE-complete + 2 MVE-partial, hero "5 skills live, V1 complete — 3 polished, 2 in iteration")
 - Create: `/home/creed/alimni/docs/retro/2026-XX-XX-v1-retrospective.md`
 - Create: `distribution/build-notes/2026-XX-XX-week-12-v1-close.md`
 - Create: `distribution/x-threads/v1-recap-thread.md`
@@ -1222,8 +1224,9 @@ FROM alimni_skill_completions;
 
 - [ ] **Step 12.5: 🚦 GATE 3 — V1 outcome decision**
 
-Compute (binary, per spec §3):
-- ≥5 skills shipped on Claude + Codex
+Compute (binary, per spec §3 revised 2026-05-07):
+- **≥3 skills shipped at 🌿 MVE-complete** + ≥2 skills at 🌱 MVE-partial (Claude + Codex)
+- **≥1 skill iterated on real community feedback** (loop closure proof — required, not nice-to-have)
 - ≥50 stars · ≥200 installs · ≥100 Telegram subs · ≥12 build notes · ≥1 viral post
 - **≥30 unique end-to-end completions** (activation, the binding gate)
 - **≥10 substantive feedback signals**

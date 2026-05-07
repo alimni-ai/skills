@@ -2,6 +2,7 @@
 
 > Mixed mode: subagent for deterministic code, inline for content/brand/voice, HITL gates at milestones.
 > Locked from Plan v1 (2026-05-07) and approved by Hervé.
+> Council Claude+Ines reframing 2026-05-07 nuit: positioning = "agentic execution in Arabic, **across tools**" (anti-lock-in), moat = **dynamic feedback loop** (not static curation+exec+community), V1 target = **3 MVE-complete + 2 MVE-partial** (not 5 uniform skills), audience expanded with **B2B targets** (MENA schools/bootcamps/freelancers) + **mobile-first/low-spec** consideration.
 
 ## Why mixed mode
 
