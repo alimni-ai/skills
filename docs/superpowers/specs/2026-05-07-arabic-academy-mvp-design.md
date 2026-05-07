@@ -1,4 +1,4 @@
-# Wakala — Arabic AI Engineering Academy — MVP Design
+# Alimni AI (علّمني) — Arabic AI Engineering Academy — MVP Design
 
 **Status**: Draft for review
 **Author**: Hervé (with Claude + Ines council)
@@ -10,19 +10,23 @@
 
 ## 1. What we are building
 
-**Wakala** (وكيل = "agent" in Arabic) is an Arabic-language engineering academy for agentic coding tools (Claude Code, OpenAI Codex, n8n AI). Each "lesson" is delivered as an installable, runnable skill that the learner adds to their own agent — not as a video to watch.
+**Alimni AI** (علّمني — Arabic imperative meaning «teach me») is an Arabic-language engineering academy for agentic coding tools (Claude Code, OpenAI Codex, n8n AI). The brand IS the pitch: an invitation, in any Arabic dialect, to «teach me artificial intelligence».
 
-The product is a public GitHub repository of skills, distributed through a static landing page in Arabic (RTL), founder build-in-public on LinkedIn AR/FR + X + Telegram, and demo clips on YouTube Shorts. Every distribution channel funnels back to a single action: install the skill in your agent.
+Each lesson is delivered as an installable, runnable skill that the learner adds to their own agent — not as a video to watch. The product is a public GitHub repository of skills, distributed through a static landing page in Arabic (RTL), founder build-in-public on LinkedIn AR/ENG/FR + X + Telegram + YouTube Shorts (with TikTok / Instagram Reels secondary repurposing). Every distribution channel funnels back to a single action: install the skill in your agent.
 
-This is a side-business owned independently of TENERE LLC. It is hosted on the existing `gestion` VPS (Caddy + Cloudflare) following the same operational pattern as Kiosque and RIMAYA.
+This is a side-business owned independently of TENERE LLC. V1 is hosted transitionally on `alimni.tenereonline.com` (sub-domain of TENERE infrastructure on `gestion` VPS — same operational pattern as Kiosque, RIMAYA, BCF cadrage), with migration to standalone `alimni-ai.com` triggered at W6 if activation thresholds are met (see §9 hybrid hosting strategy).
 
 ## 2. Why this product, why now
 
-**Audience**: developers in Maghreb (Morocco, Algeria, Tunisia) and the global Arabic diaspora. They speak Arabic (MSA) but read code/docs in English/French. They are early-adopters of agentic tools but Arabic onboarding content is either non-existent or low-quality video translations.
+**Audience (primary)** — Arabic-speaking developers and aspiring developers **locked out of the AI revolution** because nearly all agentic-tools content is in English or French. This explicitly includes **monolingual or Arabic-primary speakers** across Maghreb (Morocco, Algeria, Tunisia), Levant (Lebanon, Jordan, Palestine, Syria), Egypt, Gulf (KSA, UAE, Qatar), and the global Arabic diaspora — **regardless of their EN/FR fluency**. The market is large (200M+ Arabic-first tech-curious users) and dramatically under-served.
+
+**Audience (secondary)** — bilingual AR + EN/FR developers in MENA and diaspora who prefer Arabic-first learning content for cultural and pedagogical reasons.
+
+**The pain we solve** — «I can read the Arabic alphabet, but every Claude Code / Codex / Cursor tutorial is in English with broken auto-subtitles. I'm locked out of agentic tools.» Alimni AI removes that wall by shipping the lesson AS A RUNNABLE ARTIFACT in Arabic — no transcript dependence, no translation friction, immediate embodied learning.
 
 **Why skills-first, not video-first**: the 2026 SOTA distribution unit is the runnable artifact (Sahil Lavingia's 9 Claude Code skills from his book is the canonical reference). A skill installed in the learner's own agent creates an immediate, embodied learning moment that a passive video cannot. It also dodges the legal exposure of re-uploading translated tutorials.
 
-**Why Maghreb + diaspora as the wedge**: bilingual FR/AR fluency means lower translation friction, the diaspora has EUR/USD purchasing power for future paid tiers, and Hervé's existing distribution (Niger / Francophone Africa LinkedIn presence) extends naturally into Maghreb tech communities.
+**Why this audience as the wedge**: massively under-served (no Arabic-first agentic-tools academy exists in 2026), wide geographic reach (any Arabic-first user across MENA + diaspora), strong moral + commercial alignment (close the language gap), and Hervé's positioning + existing distribution in Francophone Africa extends naturally into Maghreb tech and broader MENA tech communities.
 
 ## 3. Success criteria — measurable
 
@@ -42,7 +46,7 @@ This is a side-business owned independently of TENERE LLC. It is hosted on the e
 - **30+ users have executed at least one skill end-to-end** (real completion, not just install)
 - **10+ users have shared a real output or substantive feedback** (PR, issue, testimonial, demo screenshot, retweet-with-quote)
 
-Reach without activation = vanity. We track activation via skill-end telemetry (opt-in `wakala-telemetry: true` flag in `source.md` frontmatter, anonymous completion ping) + manual count of public engagement signals.
+Reach without activation = vanity. We track activation via skill-end telemetry (opt-in `alimni-telemetry: true` flag in `source.md` frontmatter, anonymous completion ping) + manual count of public engagement signals.
 
 **V1 is a failure if**, at week 12: <20 stars, <50 installs, <10 activations, no inbound community signal. In that case: pivot to either (a) audience-build phase (ship content not skills) or (b) abandon, no sunk-cost continuation.
 
@@ -50,7 +54,7 @@ Reach without activation = vanity. We track activation via skill-end telemetry (
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  GitHub repo: github.com/<wakala-org>/skills        │
+│  GitHub repo: github.com/<alimni-ai-org>/skills        │
 │  (the product itself — north-star asset)            │
 │  Org name finalized in implementation plan          │
 │                                                      │
@@ -65,7 +69,7 @@ Reach without activation = vanity. We track activation via skill-end telemetry (
                        │ install button
                        ▼
 ┌─────────────────────────────────────────────────────┐
-│  Landing: wakala.dev (Astro static, RTL, 1 page)    │
+│  Landing: alimni-ai.com (Astro static, RTL, 1 page)    │
 │  - Hero AR + value prop                             │
 │  - 5 skill cards with "Install" buttons             │
 │  - "Request Arabic skill" form (Formspree)          │
@@ -79,7 +83,7 @@ Reach without activation = vanity. We track activation via skill-end telemetry (
 ┌─────────────────────────────────────────────────────┐
 │  Distribution loops                                 │
 │  - LinkedIn AR/FR: 1 manual build note/week         │
-│  - Telegram broadcast channel @wakala_ar            │
+│  - Telegram broadcast channel @alimni_ar            │
 │  - X threads (release notes)                        │
 │  - YouTube Shorts: 60s demo clips per skill release │
 └─────────────────────────────────────────────────────┘
@@ -132,7 +136,7 @@ V1 ships **Claude Code + Codex Agent Skills only**. Cursor and Windsurf are expl
 | LinkedIn ENG | 1 build note / week | Same build note | Manual native ENG, builder/AI/dev register, global reach + diaspora | 15 min |
 | LinkedIn FR | 1 build note / week | Same build note | Manual native FR, founder network + Maghreb bilingual | 15 min |
 | X (thread) | Each skill release | Skill release notes (canonical) | Manual ENG + AR variants, ~7 tweets each | 30 min |
-| Telegram broadcast `@wakala_ar` | Each release + notes | Same as LinkedIn AR | One-way push, 1 message + image | 5 min |
+| Telegram broadcast `@alimni_ar` | Each release + notes | Same as LinkedIn AR | One-way push, 1 message + image | 5 min |
 | YouTube Shorts | Each skill release | 60s demo screen-rec | AR voiceover + AR/EN burned-in captions | 1–2h |
 
 ### 🟡 Secondary — repurposed from primary assets, every skill release (not for build notes)
@@ -159,7 +163,7 @@ V1 ships **Claude Code + Codex Agent Skills only**. Cursor and Windsurf are expl
 - **Snapchat** — not dev-relevant
 - **Mastodon** — niche anglo tech, weak AR signal
 - **Bluesky** — weak AR signal in 2026 (revisit V2 if TikTok/Instagram saturate)
-- **Wakala Discord server (own community)** — moderation debt for solo founder; revisit V2 only if inbound community demand justifies it
+- **Alimni AI Discord server (own community)** — moderation debt for solo founder; revisit V2 only if inbound community demand justifies it
 
 ### Cadence target
 
@@ -197,23 +201,33 @@ This sits at the upper edge of the budget. The **skip-week protocol** (any week 
 
 ## 9. Brand & identity
 
-- **Name**: Wakala — Arabic for "agent" (وكيل). Short, memorable, dev-feel via `.dev` TLD.
+- **Name**: **Alimni AI** — from the Arabic imperative علّمني («teach me»). Universal across all Arabic dialects (MSA, Maghreb, Levant, Egyptian, Gulf). The brand IS the pitch: invites the AR-first learner to ask the academy directly to teach them.
+- **Visual identity**:
+  - **Primary logo**: Arabic-script `علّمني` — visible everywhere (landing hero, GitHub avatar, social profiles, YT thumbnails, email signatures). For AR-first audience, this is the immediate signal of belonging.
+  - **Secondary mark**: Latin transliteration `Alimni AI` — used in URLs, English/French distribution contexts, and product UI labels.
+  - **Always paired** in social bios, hero sections, and OG images so AR-monolingual users instantly recognize they're in the right place.
+- **Tagline (AR primary)**: علّمني الذكاء الاصطناعي بالعربية — «Teach me AI in Arabic».
+- **Tagline (EN/FR secondary)**: «Teach me AI — in Arabic.» / «Apprends-moi l'IA — en arabe.»
 - **Domain strategy — hybrid (locked)**:
-  - **W1 immediate**: acquire `wakala.dev` as **insurance** ($14, parked on Cloudflare with no DNS records). Non-negotiable — prevents squatting once the brand becomes public.
-  - **W1–W6 hosting**: V1 landing hosted on `wakala.tenereonline.com` (sub-domain of existing TENERE infrastructure). Reasoning: zero new infra cost, reuses Caddy + CF + backup pipeline, instant DNS, aligned with founder's existing pattern (RIMAYA, Kiosque, BCF cadrage). The brand name is preserved visibly in the URL.
-  - **Sub-domain explicitly chosen**: `wakala.tenereonline.com`, NOT `academy.tenereonline.com` — preserves brand identity in the URL.
-  - **W6 migration trigger (Gate intermediate)**: if telemetry shows ≥10 unique skill completions by end of W6 (real activation signal), migrate to `wakala.dev` in W7–W8. If activation weak, stay on sub-domain (saves migration effort if wedge fails).
-  - **Migration mechanics**: Caddy 301 redirect `wakala.tenereonline.com` → `wakala.dev` (link equity preserved). The GitHub repo URL `github.com/<wakala-org>/skills` is **immutable from day 1** — install commands in skills, videos, posts never break.
-  - **Documented tension with §1**: V1 hosting on a TENERE sub-domain temporarily contradicts the "B-only independent side-brand" stance. This is an explicit, time-bounded compromise — the W6 migration trigger ensures it does not become permanent.
+  - **W1 immediate**: acquire `alimni-ai.com` ($12/yr at Cloudflare Registrar) as the canonical domain. **Strongly recommended companion**: also acquire `alimniai.com` ($12/yr) and configure as 301 redirect → `alimni-ai.com` for typo recovery. Both parked at Cloudflare with no DNS records initially.
+  - **W1–W6 hosting**: V1 landing hosted on `alimni.tenereonline.com` (sub-domain of TENERE infrastructure). Reasoning: zero new infra cost, reuses Caddy + CF + backup pipeline, instant DNS, aligned with founder's existing pattern (Kiosque, RIMAYA, BCF cadrage). Brand name preserved visibly in the URL.
+  - **Sub-domain explicitly chosen**: `alimni.tenereonline.com` (no hyphen at sub-domain level — host conventions favor letters-only; the standalone `alimni-ai.com` carries the hyphen post-migration).
+  - **W6 migration trigger (Gate intermediate)**: if telemetry shows ≥10 unique skill completions by end of W6 (real activation signal), migrate to `alimni-ai.com` in W7–W8. If activation weak, stay on sub-domain (saves migration effort if wedge fails).
+  - **Migration mechanics**: Caddy 301 redirect `alimni.tenereonline.com` → `alimni-ai.com`, plus `alimniai.com` permanently 301 → `alimni-ai.com` (typo recovery). The GitHub repo URL `github.com/alimni-ai/skills` is **immutable from day 1** — install commands in skills, videos, and posts never break.
+  - **Documented tension with §1**: V1 hosting on a TENERE sub-domain temporarily contradicts the «independent side-brand» stance. This is an explicit, time-bounded compromise — the W6 migration trigger ensures it does not become permanent.
 - **Brand-lock checklist (mandatory before any public commit to the name)**:
-  1. **Domain purchase** — confirm `wakala.dev` available at registrar (Cloudflare or Porkbun preferred), purchase immediately
-  2. **Trademark search** — clear "Wakala" against USPTO (US), EUIPO (EU), and WIPO Madrid in Nice classes 9 (software) + 41 (educational services). Document results.
-  3. **Reputational/conflict scan** — Google "Wakala AI" / "Wakala dev" / X handle search / GitHub org search to surface existing brands we'd clash with (note: "wakala" is a generic Arabic noun and may have legitimate prior commercial uses in non-tech sectors; if so, file in tech classes only, accept coexistence)
-  4. **Social handles** — secure `@wakala_dev` (or chosen variant) on X, LinkedIn page, Telegram channel handle, GitHub org, simultaneously
-- **Fallbacks if any blocker**: `muhandis.dev` (verified DNS-free 2026-05-07), then back to brainstorming round.
-- **Email**: `hello@wakala.dev` (not personal, not TENERE).
-- **Tone**: dev-community warm, builder-to-builder. Vouvoiement is OK in FR posts, MSA simple in AR. Less corporate than TENERE, more authentic.
-- **Visual**: minimal, dark-mode default, monospace + serif AR pairing. Logo TBD at design phase.
+  1. **Domain purchase** — purchase `alimni-ai.com` at Cloudflare Registrar ($12/yr), simultaneously purchase `alimniai.com` ($12/yr) for typo redirect insurance. Total: $24/yr.
+  2. **Trademark search** — clear "ALIMNI" + "ALIMNI AI" + "علّمني" against USPTO (US), EUIPO (EU), and WIPO Madrid in Nice classes 9 (software) + 41 (educational services). Document results. **Specific check**: surface any "Alumni AI" alumni-engagement products to verify they are in different sub-classes (alumni-management ≠ AI engineering education) — coexistence acceptable if no class overlap.
+  3. **Reputational/conflict scan** — Google "Alimni AI" / "علّمني AI" / "Alimni dev", X handle search, GitHub org search, LinkedIn page search. Specifically check for existing AI/dev brands using "Alimni" since 2024-2026 (recent enough to risk active conflict). "alumni-management AI" tools are a separate category and not a blocker.
+  4. **Social handles** — secure `@alimni_ai` (or chosen variant) on X, LinkedIn page «Alimni AI — Arabic AI Engineering Academy», Telegram channel `@alimni_ar` (broadcast, not group), GitHub org `alimni-ai`, Bluesky `@alimni-ai.com` (custom domain handle, free after domain purchase). All using `contact@tenereonline.com` for now → migrate to `hello@alimni-ai.com` post-W6 if migration triggers.
+- **Fallbacks if any blocker**:
+  - First fallback: `allimni-ai.com` (double-l, more AR-faithful transliteration)
+  - Second fallback: `mu3allim-ai.com` (Arabish, "teacher")
+  - Third fallback: `muhandis.dev` (engineer)
+  - Then back to brainstorming round if nothing clears.
+- **Email**: `hello@alimni-ai.com` (post-W6 migration). Pre-W6: `contact@tenereonline.com` operationally.
+- **Tone**: warm, pedagogical, invitational, dev-community. AR-first whenever possible. Vouvoiement OK in FR posts, MSA simple in AR. Less corporate than TENERE, more inclusive of self-taught learners.
+- **Visual**: minimal, dark-mode default, AR-script-first hero, monospace (Latin code) + serif AR pairing. Logo iteration at design phase (V1 = stylized علّمني calligraphy, can be iterated by hired designer post-W4).
 
 ## 10. What is explicitly NOT in V1
 
@@ -238,19 +252,19 @@ If V1 hits or exceeds success metrics, V2 prioritization is decided based on whi
 
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| Founder bandwidth collapses across TENERE app + Kiosque + RIMAYA + Wakala | High | High | Cadence sized for 1 skill / 2 weeks (not 1/week). Hard cap on weekly time. Skip-week protocol if blocked. |
+| Founder bandwidth collapses across TENERE app + Kiosque + RIMAYA + Alimni AI | High | High | Cadence sized for 1 skill / 2 weeks (not 1/week). Hard cap on weekly time. Skip-week protocol if blocked. |
 | Multi-harness format drift (Claude or Codex changes spec) | Medium | Medium | CI tests against latest CLI weekly. Version-pin in `package.json`. Skills authored to lowest-common-denominator capabilities. |
 | Copyright complaint from a creator | Low | High | Independent original content. Credit + courtesy outreach. Take-down protocol: remove on first request, no debate. |
 | Launch with no audience (radio silence at week 12) | Medium | High | Build-in-public starts week 1, not week 12. Even before V1 ships, we have an audience watching the build. |
-| Domain `wakala.dev` actually taken at purchase | Low | Low | Fallback `muhandis.dev` (verified free). |
+| Domain `alimni-ai.com` actually taken at purchase | Low | Low | Fallback `muhandis.dev` (verified free). |
 | Arabic translation quality criticized publicly | Medium | Medium | Native AR speaker reviews every skill before publish. Public correction protocol: PR welcome, named contributors credited. |
 | AI-detection downrank on LinkedIn AR/FR | Medium | Medium | All founder posts written manually. Use AI for research only. |
 
 ## 12. Out-of-scope V2+ candidates (not committed)
 
-- **Wakala Pro**: paid tier — premium skills, cohort access, certificate
-- **Wakala MCP**: an MCP server that hosts the academy as a queryable skill library inside any agent
-- **Wakala for Teams**: white-label academy for MENA companies onboarding their devs to agentic tools
+- **Alimni AI Pro**: paid tier — premium skills, cohort access, certificate
+- **Alimni AI MCP**: an MCP server that hosts the academy as a queryable skill library inside any agent
+- **Alimni AI for Teams**: white-label academy for MENA companies onboarding their devs to agentic tools
 - **Demo studio (Remotion-based)**: programmatic video generation for skill demos, versioned in Git
 - **Activepieces integration**: if we ever embed automation in a paid tier, prefer Activepieces (MIT) over n8n (Sustainable Use License blocks SaaS reselling)
 
@@ -258,7 +272,7 @@ If V1 hits or exceeds success metrics, V2 prioritization is decided based on whi
 
 These are picked up by the next skill (writing-plans), not resolved here:
 
-- Exact GitHub org name (`wakala-dev`? `wakala-ar`?)
+- Exact GitHub org name (`alimni-dev`? `alimni-ar`?)
 - Choice of Astro vs raw HTML for landing (Astro likely overkill for 1 page)
 - Whether to write the build script in Node, Bun, or Deno
 - CI runner: GitHub Actions free tier sufficient?

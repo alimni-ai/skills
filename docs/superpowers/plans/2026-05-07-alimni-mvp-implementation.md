@@ -1,10 +1,10 @@
-# Wakala Academy MVP Implementation Plan
+# Alimni AI Academy MVP Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship Wakala Academy V1 — 5 Arabic skills for agentic coding tools (Claude Code + Codex), a static RTL landing page, distribution loops (LinkedIn AR/FR + Telegram + X + YT Shorts), and activation telemetry — within 12 weeks, with go/no-go gates at weeks 4, 8, and 12.
+**Goal:** Ship Alimni AI Academy V1 — 5 Arabic skills for agentic coding tools (Claude Code + Codex), a static RTL landing page, distribution loops (LinkedIn AR/FR + Telegram + X + YT Shorts), and activation telemetry — within 12 weeks, with go/no-go gates at weeks 4, 8, and 12.
 
-**Architecture:** Monorepo at `/home/creed/wakala`. Single-source-of-truth `source.md` per skill compiles to Claude Code SKILL.md + Codex skill.json via Node build script. GitHub Actions CI tests every skill against both harnesses on push. Static Astro landing on `wakala.dev` (gestion VPS + Caddy + CF). Activation telemetry: anonymous opt-in completion ping → simple Express endpoint on gestion → Postgres count.
+**Architecture:** Monorepo at `/home/creed/alimni`. Single-source-of-truth `source.md` per skill compiles to Claude Code SKILL.md + Codex skill.json via Node build script. GitHub Actions CI tests every skill against both harnesses on push. Static Astro landing on `alimni-ai.com` (gestion VPS + Caddy + CF). Activation telemetry: anonymous opt-in completion ping → simple Express endpoint on gestion → Postgres count.
 
 **Tech Stack:** Node 20+, GitHub Actions, Astro static + RTL CSS, Caddy, Cloudflare DNS, Postgres (existing on gestion), Bash (skill test runners), Markdown frontmatter (skill metadata). No build framework lock-in — boring stack on purpose.
 
@@ -27,10 +27,10 @@
 - 🟠 **Opportunistic** (bounded events: W4 launch + W8 flagship + W12 V1 close): Product Hunt · Hacker News · Reddit · existing AR/MENA dev community drops
 
 **Hosting strategy (locked from spec §9 — hybrid):**
-- W1: acquire `wakala.dev` as insurance ($14, parked, no DNS). Non-negotiable.
-- W1–W6: V1 hosted on `wakala.tenereonline.com` (sub-domain of TENERE infra, zero-cost reuse of Caddy + CF + backup pipeline)
-- W6 Gate intermediate: migration trigger evaluation. If activation positive (≥10 unique completions) → migrate to `wakala.dev` at W7–W8. If weak → stay on subdomain.
-- GitHub repo URL `github.com/<wakala-org>/skills` is immutable from day 1 — install commands never break, regardless of landing domain.
+- W1: acquire `alimni-ai.com` as insurance ($14, parked, no DNS). Non-negotiable.
+- W1–W6: V1 hosted on `alimni.tenereonline.com` (sub-domain of TENERE infra, zero-cost reuse of Caddy + CF + backup pipeline)
+- W6 Gate intermediate: migration trigger evaluation. If activation positive (≥10 unique completions) → migrate to `alimni-ai.com` at W7–W8. If weak → stay on subdomain.
+- GitHub repo URL `github.com/<alimni-ai-org>/skills` is immutable from day 1 — install commands never break, regardless of landing domain.
 
 **Execution mode (locked from EXECUTION_MODE.md):**
 - 🤖 Subagent for: Task 2 (repo+CI), Task 6 (telemetry), code-only parts of Task 4 + 11
@@ -43,7 +43,7 @@
 ## File Structure (created across the 12 weeks)
 
 ```
-/home/creed/wakala/
+/home/creed/alimni/
 ├── README.md                                  ← W2
 ├── COMPATIBILITY.md                           ← W2 (skill-vs-harness matrix)
 ├── LICENSE                                    ← W2 (MIT or Apache-2.0)
@@ -68,7 +68,7 @@
 │   ├── src/styles/rtl.css
 │   └── public/
 │       ├── og-image.png
-│       └── wakala-logo.svg
+│       └── alimni-logo.svg
 ├── telemetry/                                 ← W6
 │   ├── server.js                              (Express ping endpoint)
 │   ├── schema.sql                             (Postgres table)
@@ -83,7 +83,7 @@
 └── docs/
     ├── superpowers/
     │   ├── specs/2026-05-07-arabic-academy-mvp-design.md  ← exists
-    │   └── plans/2026-05-07-wakala-mvp-implementation.md  ← THIS FILE
+    │   └── plans/2026-05-07-alimni-mvp-implementation.md  ← THIS FILE
     └── retro/
         └── 2026-XX-XX-v1-retrospective.md     ← W12
 ```
@@ -100,7 +100,7 @@
 ### Task 1: Brand-lock checklist (Week 1)
 
 **Files:**
-- Create: `/home/creed/wakala/distribution/brand-lock-report.md`
+- Create: `/home/creed/alimni/distribution/brand-lock-report.md`
 
 This is non-code work but blocks everything downstream. **Done = a single committed report file documenting all outcomes + hybrid hosting plumbing live.**
 
@@ -110,14 +110,14 @@ This is non-code work but blocks everything downstream. **Done = a single commit
 3. Step 1.5 (subdomain infra) — once name is provisionally cleared
 4. Step 1.6 (commit) — at the end
 
-- [ ] **Step 1.1: Acquire `wakala.dev` as insurance + park**
+- [ ] **Step 1.1: Acquire `alimni-ai.com` as insurance + park**
 
-Run: `whois wakala.dev` (re-confirm DNS-free). If still free, purchase **immediately** via Cloudflare Registrar (preferred — same provider as future DNS, no markup, no upsell). Backup registrar: Porkbun.
+Run: `whois alimni-ai.com` (re-confirm DNS-free). If still free, purchase **immediately** via Cloudflare Registrar (preferred — same provider as future DNS, no markup, no upsell). Backup registrar: Porkbun.
 
 Important: this is **insurance, not the V1 landing host**. Domain stays parked at Cloudflare with **no DNS records** for the duration of V1 (W1–W6). Activation only at W6 if migration trigger fires (per spec §9).
 
 - Registrar: Cloudflare Registrar (preferred)
-- Owner email: `contact@tenereonline.com` for now (TENERE LLC operational email; migrate to `hello@wakala.dev` once email forward is set up post-W6 migration)
+- Owner email: `contact@tenereonline.com` for now (TENERE LLC operational email; migrate to `hello@alimni-ai.com` once email forward is set up post-W6 migration)
 - WHOIS privacy: ON
 - Auto-renew: ON (avoid accidental drop)
 - Cost: ~$14/year
@@ -127,41 +127,41 @@ Acceptance: receipt screenshot saved to `distribution/brand-lock-report.md`, dom
 - [ ] **Step 1.2: Trademark search**
 
 Manual searches (free, ~30 min total):
-- USPTO TESS: https://tmsearch.uspto.gov — search "WAKALA" in classes 9 (computer software) + 41 (educational services)
+- USPTO TESS: https://tmsearch.uspto.gov — search "ALIMNI" in classes 9 (computer software) + 41 (educational services)
 - EUIPO eSearch plus: https://euipo.europa.eu/eSearch — same query
 - WIPO Madrid Monitor: https://www3.wipo.int/branddb/en — global view
 - For each: screenshot results page
 
-Expected: "Wakala" is a generic Arabic noun ("agency"), so likely some unrelated commercial uses exist (real estate agencies, financial services). Acceptable as long as **no existing mark in classes 9 or 41 in target jurisdictions (US, EU, MENA)**.
+Expected: "Alimni AI" is a generic Arabic noun ("agency"), so likely some unrelated commercial uses exist (real estate agencies, financial services). Acceptable as long as **no existing mark in classes 9 or 41 in target jurisdictions (US, EU, MENA)**.
 
 Acceptance: 3 search screenshots embedded in report, conclusion line "No conflicting mark in classes 9+41 in US/EU as of 2026-05-XX" (or fallback decision).
 
 - [ ] **Step 1.3: Reputational scan**
 
 Run searches and document:
-- Google: `"Wakala AI"`, `"Wakala dev"`, `"Wakala academy"`
-- X search: `from:wakala_dev OR @wakala_dev`
-- GitHub org search: https://github.com/wakala-dev
-- LinkedIn page search: "Wakala"
+- Google: `"Alimni AI"`, `"Alimni AI dev"`, `"Alimni AI academy"`
+- X search: `from:alimni_dev OR @alimni_ai`
+- GitHub org search: https://github.com/alimni-ai
+- LinkedIn page search: "Alimni AI"
 
-Expected: surface any AI/dev product calling itself Wakala. If a recent (2025-2026) AI startup uses the name, even unregistered, it's a soft conflict — fall back to `muhandis.dev`.
+Expected: surface any AI/dev product calling itself Alimni AI. If a recent (2025-2026) AI startup uses the name, even unregistered, it's a soft conflict — fall back to `muhandis.dev`.
 
-Acceptance: scan results documented in report, conclusion go/no-go on Wakala name.
+Acceptance: scan results documented in report, conclusion go/no-go on Alimni AI name.
 
 - [ ] **Step 1.4: Secure social handles simultaneously**
 
 Within 60 minutes of go-decision (handle squatters move fast), claim:
-- X: `@wakala_dev`
-- LinkedIn: company page "Wakala — Arabic AI Engineering Academy"
-- Telegram: `@wakala_ar` (broadcast channel, not group)
-- GitHub: org `wakala-dev` (or chosen variant from §13 of spec)
-- Bluesky: `@wakala.dev` (cheap insurance)
+- X: `@alimni_ai`
+- LinkedIn: company page "Alimni AI — Arabic AI Engineering Academy"
+- Telegram: `@alimni_ar` (broadcast channel, not group)
+- GitHub: org `alimni-dev` (or chosen variant from §13 of spec)
+- Bluesky: `@alimni-ai.com` (cheap insurance)
 
 Each handle: log URL + screenshot in report.
 
-Acceptance: 5 handles secured, all linked in report, all using `contact@tenereonline.com` for now (migrate to `hello@wakala.dev` once email forward is set up in Task 2).
+Acceptance: 5 handles secured, all linked in report, all using `contact@tenereonline.com` for now (migrate to `hello@alimni-ai.com` once email forward is set up in Task 2).
 
-- [ ] **Step 1.5: Setup `wakala.tenereonline.com` subdomain on Caddy + CF (V1 hosting)**
+- [ ] **Step 1.5: Setup `alimni.tenereonline.com` subdomain on Caddy + CF (V1 hosting)**
 
 Per the hybrid hosting strategy (spec §9), V1 lives on this sub-domain until the W6 migration trigger.
 
@@ -169,7 +169,7 @@ Per the hybrid hosting strategy (spec §9), V1 lives on this sub-domain until th
 
 Add A record:
 - Type: A
-- Name: `wakala`
+- Name: `alimni`
 - IPv4: gestion VPS public IP (existing in CF zone)
 - Proxy status: orange cloud ON (use CF as proxy, consistent with existing TENERE site pattern)
 - TTL: Auto
@@ -181,16 +181,16 @@ Add AAAA record (IPv6) if gestion has a public IPv6, same proxied setup.
 SSH to gestion. Edit `/etc/caddy/Caddyfile` (or the include file pattern existing TENERE projects use). Add:
 
 ```
-wakala.tenereonline.com {
-    root * /var/www/wakala
+alimni.tenereonline.com {
+    root * /var/www/alimni
     file_server
     encode gzip
     log {
-        output file /var/log/caddy/wakala.log
+        output file /var/log/caddy/alimni.log
     }
     header {
-        # Brand identity — make it visible this is Wakala, not TENERE corporate
-        X-Wakala-Brand "true"
+        # Brand identity — make it visible this is Alimni AI, not TENERE corporate
+        X-Alimni AI-Brand "true"
     }
 }
 ```
@@ -198,8 +198,8 @@ wakala.tenereonline.com {
 Create the directory:
 
 ```bash
-sudo mkdir -p /var/www/wakala
-sudo chown creed:creed /var/www/wakala
+sudo mkdir -p /var/www/alimni
+sudo chown creed:creed /var/www/alimni
 ```
 
 For now (W1, no landing built yet), drop a temporary `index.html`:
@@ -207,7 +207,7 @@ For now (W1, no landing built yet), drop a temporary `index.html`:
 ```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><title>Wakala — قريبًا</title></head>
+<head><meta charset="utf-8"><title>Alimni AI — قريبًا</title></head>
 <body style="font-family: serif; padding: 2rem; max-width: 600px; margin: auto;">
   <h1>وكالة</h1>
   <p>أكاديمية عربية لأدوات البرمجة الذكية. قريبًا.</p>
@@ -221,42 +221,42 @@ Reload Caddy: `sudo caddy reload --config /etc/caddy/Caddyfile`.
 - [ ] **5.c — Smoke test + cert verification**
 
 ```bash
-curl -sSI https://wakala.tenereonline.com | head -5
+curl -sSI https://alimni.tenereonline.com | head -5
 # Expected: HTTP/2 200, valid Let's Encrypt cert (issued by Caddy automatically via CF Full strict)
-curl -sS https://wakala.tenereonline.com | grep -o 'وكالة'
+curl -sS https://alimni.tenereonline.com | grep -o 'وكالة'
 # Expected: matches (AR rendering OK over HTTPS)
 ```
 
 If cert fails to issue: check that CF zone is "Full strict" mode, not "Flexible" (otherwise Caddy can't get a valid LE cert behind CF proxy).
 
-Acceptance: `https://wakala.tenereonline.com` returns 200 with the placeholder page, valid TLS cert, AR text renders. Document URL + cert info in `brand-lock-report.md`.
+Acceptance: `https://alimni.tenereonline.com` returns 200 with the placeholder page, valid TLS cert, AR text renders. Document URL + cert info in `brand-lock-report.md`.
 
 - [ ] **Step 1.6: Commit brand-lock report**
 
 ```bash
-cd /home/creed/wakala
+cd /home/creed/alimni
 git add distribution/brand-lock-report.md
-git commit -m "brand: lock Wakala — domain insurance + subdomain live + trademark clear + handles secured"
+git commit -m "brand: lock Alimni AI — domain insurance + subdomain live + trademark clear + handles secured"
 git tag w1-brand-locked
 git push --tags  # if remote already exists; else defer to Task 2
 ```
 
 **Time estimate:** 4–5h total (registrar + 3 manual searches + handles + Caddy/CF setup + smoke).
-**Blocks:** all downstream tasks. If Wakala fails any of the 4 checks (Steps 1.1–1.4) → fall back to `muhandis.dev` and re-run Task 1 with new name (add 1 week to plan).
+**Blocks:** all downstream tasks. If Alimni AI fails any of the 4 checks (Steps 1.1–1.4) → fall back to `muhandis.dev` and re-run Task 1 with new name (add 1 week to plan).
 
 ---
 
 ### Task 2: Repo skeleton + CI (Week 2)
 
 **Files:**
-- Create: `/home/creed/wakala/README.md`
-- Create: `/home/creed/wakala/COMPATIBILITY.md`
-- Create: `/home/creed/wakala/LICENSE`
-- Create: `/home/creed/wakala/package.json`
-- Create: `/home/creed/wakala/.gitignore`
-- Create: `/home/creed/wakala/scripts/build.js`
-- Create: `/home/creed/wakala/.github/workflows/ci.yml`
-- Create: `/home/creed/wakala/distribution/build-notes/2026-05-XX-week-1-foundations.md` (build note from Week 1 brand-lock work)
+- Create: `/home/creed/alimni/README.md`
+- Create: `/home/creed/alimni/COMPATIBILITY.md`
+- Create: `/home/creed/alimni/LICENSE`
+- Create: `/home/creed/alimni/package.json`
+- Create: `/home/creed/alimni/.gitignore`
+- Create: `/home/creed/alimni/scripts/build.js`
+- Create: `/home/creed/alimni/.github/workflows/ci.yml`
+- Create: `/home/creed/alimni/distribution/build-notes/2026-05-XX-week-1-foundations.md` (build note from Week 1 brand-lock work)
 
 - [ ] **Step 2.1: README + LICENSE + .gitignore**
 
@@ -270,7 +270,7 @@ Acceptance: 3 files exist, `git status` shows them clean.
 
 ```json
 {
-  "name": "wakala-skills",
+  "name": "alimni-skills",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -298,7 +298,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 test('compileSkill emits Claude SKILL.md and Codex skill.json from source.md', () => {
-  const tmp = join(tmpdir(), `wakala-test-${Date.now()}`);
+  const tmp = join(tmpdir(), `alimni-test-${Date.now()}`);
   mkdirSync(tmp, { recursive: true });
   const sourcePath = join(tmp, 'source.md');
   const fixture = `---\nslug: test-skill\ntitle_ar: مهارة اختبار\nestimated_runtime: 10m\nharness: [claude, codex]\n---\n\n# مهارة اختبار\n\nمحتوى الاختبار.\n`;
@@ -427,7 +427,7 @@ Legend: ✅ tested working · ⚠️ experimental · ❌ unsupported
 - [ ] **Step 2.9: Push to GitHub + verify CI green**
 
 ```bash
-gh repo create wakala-dev/skills --public --source=. --remote=origin --push
+gh repo create alimni-ai/skills --public --source=. --remote=origin --push
 ```
 
 Wait for CI run. Expected: green check on `main`.
@@ -470,12 +470,12 @@ git push --tags
 ### Task 3: Skill #1 `setup-agentic-ar` (Week 3)
 
 **Files:**
-- Create: `/home/creed/wakala/skills/setup-agentic-ar/source.md`
-- Create: `/home/creed/wakala/skills/setup-agentic-ar/test.sh`
-- Create: `/home/creed/wakala/skills/setup-agentic-ar/examples/hello-claude.md`
-- Create: `/home/creed/wakala/scripts/new-skill.sh` (helper to scaffold future skills)
-- Modify: `/home/creed/wakala/COMPATIBILITY.md` (add row)
-- Modify: `/home/creed/wakala/.github/workflows/ci.yml` (un-guard the verify step)
+- Create: `/home/creed/alimni/skills/setup-agentic-ar/source.md`
+- Create: `/home/creed/alimni/skills/setup-agentic-ar/test.sh`
+- Create: `/home/creed/alimni/skills/setup-agentic-ar/examples/hello-claude.md`
+- Create: `/home/creed/alimni/scripts/new-skill.sh` (helper to scaffold future skills)
+- Modify: `/home/creed/alimni/COMPATIBILITY.md` (add row)
+- Modify: `/home/creed/alimni/.github/workflows/ci.yml` (un-guard the verify step)
 
 This is the foundational skill — it gets installed first and assumed installed by every later skill. Quality bar is high.
 
@@ -498,7 +498,7 @@ inspired_by:
 harness: [claude, codex]
 audience: [maghreb, diaspora]
 license: MIT
-wakala_telemetry: true
+alimni_telemetry: true
 ---
 
 # ${SLUG}
@@ -626,25 +626,25 @@ git push --tags
 ### Task 4: Landing page MVP + Skill #1 publish + Gate 1 (Week 4)
 
 **Files:**
-- Create: `/home/creed/wakala/landing/astro.config.mjs`
-- Create: `/home/creed/wakala/landing/package.json`
-- Create: `/home/creed/wakala/landing/src/pages/index.astro`
-- Create: `/home/creed/wakala/landing/src/components/SkillCard.astro`
-- Create: `/home/creed/wakala/landing/src/styles/rtl.css`
-- Create: `/home/creed/wakala/landing/public/wakala-logo.svg`
-- Create: `/home/creed/wakala/landing/public/og-image.png`
+- Create: `/home/creed/alimni/landing/astro.config.mjs`
+- Create: `/home/creed/alimni/landing/package.json`
+- Create: `/home/creed/alimni/landing/src/pages/index.astro`
+- Create: `/home/creed/alimni/landing/src/components/SkillCard.astro`
+- Create: `/home/creed/alimni/landing/src/styles/rtl.css`
+- Create: `/home/creed/alimni/landing/public/alimni-logo.svg`
+- Create: `/home/creed/alimni/landing/public/og-image.png`
 - Create: Caddy config snippet on gestion VPS
 - Create: `distribution/build-notes/2026-05-XX-week-4-launch.md`
 
 - [ ] **Step 4.1: Astro init + RTL setup**
 
 ```bash
-cd /home/creed/wakala/landing
+cd /home/creed/alimni/landing
 npm create astro@latest . -- --template minimal --no-install --yes
 npm install
 ```
 
-Edit `astro.config.mjs` to set `site: 'https://wakala.dev'`. Edit `src/pages/index.astro`:
+Edit `astro.config.mjs` to set `site: 'https://alimni-ai.com'`. Edit `src/pages/index.astro`:
 - `<html lang="ar" dir="rtl">`
 - font: system AR fallback (`'Noto Naskh Arabic', 'Amiri', serif`) + monospace for code (`'JetBrains Mono', monospace`)
 - 1 page, 5 sections: hero / value prop / 5 skill cards / "request a skill" form / founder build-in-public links
@@ -653,11 +653,11 @@ Edit `astro.config.mjs` to set `site: 'https://wakala.dev'`. Edit `src/pages/ind
 
 A minimal placeholder: stylized و (Arabic letter "waw") + dot. ~30 lines of inline SVG. Hervé can iterate later or hire a designer ($200 Fiverr/Upwork).
 
-Acceptance: `landing/public/wakala-logo.svg` renders cleanly at 32px and 256px.
+Acceptance: `landing/public/alimni-logo.svg` renders cleanly at 32px and 256px.
 
 - [ ] **Step 4.3: SkillCard component**
 
-`src/components/SkillCard.astro` props: `slug`, `title_ar`, `description_ar`, `runtime`, `status` (`shipped` | `coming-soon`). Renders RTL card with install button (links to `https://github.com/wakala-dev/skills/tree/main/skills/<slug>`).
+`src/components/SkillCard.astro` props: `slug`, `title_ar`, `description_ar`, `runtime`, `status` (`shipped` | `coming-soon`). Renders RTL card with install button (links to `https://github.com/alimni-ai/skills/tree/main/skills/<slug>`).
 
 - [ ] **Step 4.4: Index page composition**
 
@@ -672,23 +672,23 @@ Run: `npm run dev` (in `landing/`). Open http://localhost:4321. Verify:
 - No console errors
 - Mobile viewport: cards stack, no horizontal scroll
 
-- [ ] **Step 4.6: Build static + deploy to gestion VPS at `wakala.tenereonline.com`**
+- [ ] **Step 4.6: Build static + deploy to gestion VPS at `alimni.tenereonline.com`**
 
 Per the hybrid hosting strategy (spec §9), W1–W6 deploys go to the sub-domain. Caddy + CF DNS were set up at Task 1 Step 1.5; here we just push the real built site over the placeholder.
 
 ```bash
-cd /home/creed/wakala/landing
+cd /home/creed/alimni/landing
 npm run build  # outputs to landing/dist/
-rsync -avz --delete landing/dist/ creed@gestion:/var/www/wakala/
+rsync -avz --delete landing/dist/ creed@gestion:/var/www/alimni/
 ```
 
-(Note: `/var/www/wakala/` directory already exists from Task 1 Step 1.5b. The `--delete` flag removes the W1 placeholder index.html.)
+(Note: `/var/www/alimni/` directory already exists from Task 1 Step 1.5b. The `--delete` flag removes the W1 placeholder index.html.)
 
-Caddy config: **no change needed** — the `wakala.tenereonline.com` block was already configured at Task 1 Step 1.5b. Caddy serves whatever is in `/var/www/wakala/`.
+Caddy config: **no change needed** — the `alimni.tenereonline.com` block was already configured at Task 1 Step 1.5b. Caddy serves whatever is in `/var/www/alimni/`.
 
 Reload only if Caddyfile changed: not needed here.
 
-**`wakala.dev` remains parked** (no DNS records, no Caddy block). It only activates at W7–W8 IF the W6 migration trigger fires (per Task 6 Step 6.12).
+**`alimni-ai.com` remains parked** (no DNS records, no Caddy block). It only activates at W7–W8 IF the W6 migration trigger fires (per Task 6 Step 6.12).
 
 - [ ] **Step 4.7: Smoke test runtime headless (per memory `feedback_no_blind_push_to_public_site.md`)**
 
@@ -696,8 +696,8 @@ This rule is non-negotiable. Local build OK ≠ runtime OK. Run a headless chrom
 
 ```bash
 # Reuse the smoke gate pattern from project_tenere_site_smoke_gate.md
-# Adapt: 6 gates — DOM mounts, no console error, title contains "Wakala", AR text renders, form visible, no broken images
-bash /home/creed/tenere-site/scripts/smoke-headless.sh https://wakala.dev
+# Adapt: 6 gates — DOM mounts, no console error, title contains "Alimni AI", AR text renders, form visible, no broken images
+bash /home/creed/tenere-site/scripts/smoke-headless.sh https://alimni-ai.com
 ```
 
 Or write a quick `landing/scripts/smoke.sh` adapted to the same 6-gate pattern. Block launch announcement until all 6 PASS.
@@ -712,7 +712,7 @@ Manual writing (per non-negotiables) of the launch build note as the canonical s
 - LinkedIn AR — launch story in MSA (~300 words)
 - LinkedIn ENG — launch story in ENG (~300 words)
 - LinkedIn FR — launch story in FR (~300 words)
-- X thread (ENG version, ~7 tweets walking through what Wakala is)
+- X thread (ENG version, ~7 tweets walking through what Alimni AI is)
 - X thread (AR version, ~7 tweets, separate post not translation)
 - Telegram channel pin (AR variant adapted)
 - YouTube Shorts (60s screen-rec install demo, AR voiceover, AR + EN burned-in captions)
@@ -734,7 +734,7 @@ Acceptance: 7 primary posts live (3 LinkedIn + 2 X + Telegram + YT Shorts), 3 se
 Compute go criteria (binary, no fudging):
 - ✅ Brand legally clear (Task 1 report says go)
 - ✅ Repo public, CI green, ≥1 skill compiled
-- ✅ Landing live at https://wakala.dev with smoke 6/6 PASS
+- ✅ Landing live at https://alimni-ai.com with smoke 6/6 PASS
 - ✅ Skill #1 tested install in 2 harnesses (Claude + Codex)
 - ✅ ≥3 real users have invoked the skill end-to-end (ask 3 specific people in Hervé's network: friends, X followers, Maghreb dev community — 30-min ask)
 
@@ -761,9 +761,9 @@ git push --tags
 ### Task 5: Skill #2 `prompt-loop-ar` (Week 5)
 
 **Files:**
-- Create: `/home/creed/wakala/skills/prompt-loop-ar/source.md`
-- Create: `/home/creed/wakala/skills/prompt-loop-ar/test.sh`
-- Create: `/home/creed/wakala/skills/prompt-loop-ar/examples/debug-session-real.md`
+- Create: `/home/creed/alimni/skills/prompt-loop-ar/source.md`
+- Create: `/home/creed/alimni/skills/prompt-loop-ar/test.sh`
+- Create: `/home/creed/alimni/skills/prompt-loop-ar/examples/debug-session-real.md`
 - Modify: `COMPATIBILITY.md` (add row)
 - Create: `distribution/build-notes/2026-05-XX-week-5-skill-2-drafted.md`
 
@@ -786,11 +786,11 @@ Following the same 9-step pattern as Task 3, adapted for prompt-loop content:
 ### Task 6: Skill #2 publish + Telemetry + Telegram launch (Week 6)
 
 **Files:**
-- Modify: `/home/creed/wakala/landing/src/pages/index.astro` (mark skill #2 shipped)
-- Create: `/home/creed/wakala/telemetry/server.js`
-- Create: `/home/creed/wakala/telemetry/schema.sql`
-- Create: `/home/creed/wakala/telemetry/README.md`
-- Create: `/home/creed/wakala/telemetry/server.test.js`
+- Modify: `/home/creed/alimni/landing/src/pages/index.astro` (mark skill #2 shipped)
+- Create: `/home/creed/alimni/telemetry/server.js`
+- Create: `/home/creed/alimni/telemetry/schema.sql`
+- Create: `/home/creed/alimni/telemetry/README.md`
+- Create: `/home/creed/alimni/telemetry/server.test.js`
 - Modify: each skill `source.md` to add the optional ping snippet
 - Create: `distribution/build-notes/2026-05-XX-week-6-telemetry-and-telegram.md`
 
@@ -801,7 +801,7 @@ Telemetry is the activation-tracking spine. **It must be opt-in, anonymous, and 
 `telemetry/schema.sql`:
 
 ```sql
-CREATE TABLE IF NOT EXISTS wakala_skill_completions (
+CREATE TABLE IF NOT EXISTS alimni_skill_completions (
   id BIGSERIAL PRIMARY KEY,
   skill_slug TEXT NOT NULL,
   harness TEXT NOT NULL CHECK (harness IN ('claude', 'codex', 'cursor', 'windsurf', 'unknown')),
@@ -809,12 +809,12 @@ CREATE TABLE IF NOT EXISTS wakala_skill_completions (
   ts TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_completions_skill_ts
-  ON wakala_skill_completions (skill_slug, ts DESC);
+  ON alimni_skill_completions (skill_slug, ts DESC);
 CREATE INDEX IF NOT EXISTS idx_completions_client
-  ON wakala_skill_completions (client_uuid);
+  ON alimni_skill_completions (client_uuid);
 ```
 
-Apply on gestion: `sudo -u postgres psql wakala_telemetry < telemetry/schema.sql` (create the DB first: `CREATE DATABASE wakala_telemetry; CREATE USER wakala_telemetry WITH PASSWORD '...';`).
+Apply on gestion: `sudo -u postgres psql alimni_telemetry < telemetry/schema.sql` (create the DB first: `CREATE DATABASE alimni_telemetry; CREATE USER alimni_telemetry WITH PASSWORD '...';`).
 
 - [ ] **Step 6.2: Failing test for /ping endpoint**
 
@@ -865,7 +865,7 @@ const { Pool } = pg;
 
 const ALLOWED_HARNESS = new Set(['claude', 'codex', 'cursor', 'windsurf', 'unknown']);
 
-export async function startServer({ port = 8787, dbUrl = process.env.WAKALA_DB_URL }) {
+export async function startServer({ port = 8787, dbUrl = process.env.ALIMNI_DB_URL }) {
   const pool = new Pool({ connectionString: dbUrl });
   const server = createServer(async (req, res) => {
     if (req.method !== 'POST' || req.url !== '/ping') {
@@ -882,7 +882,7 @@ export async function startServer({ port = 8787, dbUrl = process.env.WAKALA_DB_U
           return;
         }
         await pool.query(
-          'INSERT INTO wakala_skill_completions (skill_slug, harness, client_uuid) VALUES ($1, $2, $3)',
+          'INSERT INTO alimni_skill_completions (skill_slug, harness, client_uuid) VALUES ($1, $2, $3)',
           [skill_slug, harness, client_uuid]
         );
         res.writeHead(204).end();
@@ -908,22 +908,22 @@ Add `pg` to `package.json` deps: `npm install pg`.
 
 - [ ] **Step 6.5: Run test, verify it passes**
 
-`TEST_DB_URL=postgres://wakala_telemetry:...@localhost/wakala_telemetry npm test` → PASS.
+`TEST_DB_URL=postgres://alimni_telemetry:...@localhost/alimni_telemetry npm test` → PASS.
 
 - [ ] **Step 6.6: Deploy as systemd service on gestion**
 
-`/etc/systemd/system/wakala-telemetry.service`:
+`/etc/systemd/system/alimni-telemetry.service`:
 
 ```ini
 [Unit]
-Description=Wakala telemetry ping endpoint
+Description=Alimni AI telemetry ping endpoint
 After=network.target postgresql.service
 
 [Service]
 Type=simple
 User=creed
-WorkingDirectory=/var/www/wakala-telemetry
-EnvironmentFile=/home/creed/secrets/wakala-telemetry.env
+WorkingDirectory=/var/www/alimni-telemetry
+EnvironmentFile=/home/creed/secrets/alimni-telemetry.env
 ExecStart=/usr/bin/node server.js
 Restart=on-failure
 
@@ -934,24 +934,24 @@ WantedBy=multi-user.target
 Caddy reverse proxy:
 
 ```
-ping.wakala.dev {
+ping.alimni-ai.com {
     reverse_proxy localhost:8787
     log
 }
 ```
 
-`sudo systemctl daemon-reload && sudo systemctl enable --now wakala-telemetry && sudo caddy reload`.
+`sudo systemctl daemon-reload && sudo systemctl enable --now alimni-telemetry && sudo caddy reload`.
 
-Smoke: `curl -X POST https://ping.wakala.dev/ping -H 'content-type: application/json' -d '{"skill_slug":"smoke","harness":"unknown","client_uuid":"smoke-uuid"}' -w '\n%{http_code}\n'`. Expected: `204`.
+Smoke: `curl -X POST https://ping.alimni-ai.com/ping -H 'content-type: application/json' -d '{"skill_slug":"smoke","harness":"unknown","client_uuid":"smoke-uuid"}' -w '\n%{http_code}\n'`. Expected: `204`.
 
 - [ ] **Step 6.7: Add ping snippet to skills**
 
 In each skill's `source.md`, add a final section "✅ المهارة مكتملة" with an opt-in:
 
 ```markdown
-> اختياري: مساعدة Wakala على معرفة عدد المتعلّمين الذين أكملوا هذه المهارة (بدون أي بيانات شخصية).
+> اختياري: مساعدة Alimni AI على معرفة عدد المتعلّمين الذين أكملوا هذه المهارة (بدون أي بيانات شخصية).
 > ```bash
-> curl -sS -X POST https://ping.wakala.dev/ping \
+> curl -sS -X POST https://ping.alimni-ai.com/ping \
 >   -H 'content-type: application/json' \
 >   -d '{"skill_slug":"setup-agentic-ar","harness":"claude","client_uuid":"'"$(uuidgen 2>/dev/null || echo anon)"'"}' >/dev/null
 > ```
@@ -959,7 +959,7 @@ In each skill's `source.md`, add a final section "✅ المهارة مكتمل�
 
 - [ ] **Step 6.8: Telegram broadcast channel real launch**
 
-Channel `@wakala_ar` was claimed in Task 1. Now make it real:
+Channel `@alimni_ar` was claimed in Task 1. Now make it real:
 - Pinned post: AR welcome + value prop + link to landing
 - 1 launch post: AR + 1 image (skill #1 install GIF)
 - Cross-link from LinkedIn + X
@@ -975,23 +975,23 @@ Important narrative move: explain publicly **why** telemetry is opt-in + anonymo
 ```bash
 git tag skills-v0.2.0
 git push --tags
-gh release create skills-v0.2.0 --title "Wakala Skills v0.2.0 — prompt-loop-ar" --notes "..."
+gh release create skills-v0.2.0 --title "Alimni AI Skills v0.2.0 — prompt-loop-ar" --notes "..."
 ```
 
 - [ ] **Step 6.11: 🚦 GATE INTERMEDIATE — domain migration trigger evaluation**
 
-Per spec §9 hybrid hosting strategy, evaluate at the end of W6 whether to migrate from `wakala.tenereonline.com` to `wakala.dev` in W7–W8. **Decision is binary, recorded in `distribution/migration-decision.md`, no fudging.**
+Per spec §9 hybrid hosting strategy, evaluate at the end of W6 whether to migrate from `alimni.tenereonline.com` to `alimni-ai.com` in W7–W8. **Decision is binary, recorded in `distribution/migration-decision.md`, no fudging.**
 
 Compute migration trigger criteria:
-- ✅ ≥10 unique skill completions in telemetry (`SELECT COUNT(DISTINCT client_uuid) FROM wakala_skill_completions;`)
+- ✅ ≥10 unique skill completions in telemetry (`SELECT COUNT(DISTINCT client_uuid) FROM alimni_skill_completions;`)
 - ✅ ≥30 GitHub stars
 - ✅ ≥30 Telegram subscribers
 - ✅ ≥1 substantive inbound feedback signal (issue, PR, DM, thoughtful reply)
 - ✅ Hervé bandwidth status: not in skip-week debt, ≤2 cumulative skip-weeks used so far
 
-**Trigger fires (migrate to wakala.dev at W7–W8) IF**: 4 of 5 criteria hit.
-**Trigger does NOT fire (stay on wakala.tenereonline.com) IF**: <4 of 5 hit.
-**Override clause**: even if trigger fires, Hervé can defer migration by 4 weeks if a higher-priority Wakala work item is blocking. Document the deferral rationale.
+**Trigger fires (migrate to alimni-ai.com at W7–W8) IF**: 4 of 5 criteria hit.
+**Trigger does NOT fire (stay on alimni.tenereonline.com) IF**: <4 of 5 hit.
+**Override clause**: even if trigger fires, Hervé can defer migration by 4 weeks if a higher-priority Alimni AI work item is blocking. Document the deferral rationale.
 
 Write the decision file:
 
@@ -1035,41 +1035,41 @@ git push --tags
 This is the **flagship skill** — 2-hour end-to-end build. Highest production value. Deserves more time than other skills.
 
 **Files:**
-- Create: `/home/creed/wakala/skills/ship-real-product-ar/source.md`
-- Create: `/home/creed/wakala/skills/ship-real-product-ar/test.sh`
-- Create: `/home/creed/wakala/skills/ship-real-product-ar/examples/built-product/` (a real working tiny product as the artifact — e.g., a static habit tracker deployable in 1 command)
-- (Conditional) Modify: Caddy config + CF DNS to migrate to `wakala.dev`
+- Create: `/home/creed/alimni/skills/ship-real-product-ar/source.md`
+- Create: `/home/creed/alimni/skills/ship-real-product-ar/test.sh`
+- Create: `/home/creed/alimni/skills/ship-real-product-ar/examples/built-product/` (a real working tiny product as the artifact — e.g., a static habit tracker deployable in 1 command)
+- (Conditional) Modify: Caddy config + CF DNS to migrate to `alimni-ai.com`
 
-- [ ] **Step 7.0: 🔀 CONDITIONAL — Domain migration to `wakala.dev` (only if W6 trigger fired)**
+- [ ] **Step 7.0: 🔀 CONDITIONAL — Domain migration to `alimni-ai.com` (only if W6 trigger fired)**
 
 Read `distribution/migration-decision.md` (committed at Step 6.11). If decision is **STAY**, skip to Step 7.1.
 
 If decision is **MIGRATE**:
 
-**7.0.a — Cloudflare DNS for `wakala.dev`** (the parked domain from Step 1.1):
-- Add A record: `wakala.dev` → gestion VPS public IP, proxied
-- Add A record: `www.wakala.dev` → same, proxied
+**7.0.a — Cloudflare DNS for `alimni-ai.com`** (the parked domain from Step 1.1):
+- Add A record: `alimni-ai.com` → gestion VPS public IP, proxied
+- Add A record: `www.alimni-ai.com` → same, proxied
 - Wait 30s for propagation
 
 **7.0.b — Caddy config on gestion**:
 
 ```
-wakala.dev {
-    root * /var/www/wakala
+alimni-ai.com {
+    root * /var/www/alimni
     file_server
     encode gzip
     log {
-        output file /var/log/caddy/wakala-dev.log
+        output file /var/log/caddy/alimni-ai.log
     }
 }
 
-www.wakala.dev {
-    redir https://wakala.dev{uri} permanent
+www.alimni-ai.com {
+    redir https://alimni-ai.com{uri} permanent
 }
 
 # Keep the old subdomain alive as 301 redirect for link equity
-wakala.tenereonline.com {
-    redir https://wakala.dev{uri} permanent
+alimni.tenereonline.com {
+    redir https://alimni-ai.com{uri} permanent
 }
 ```
 
@@ -1078,29 +1078,29 @@ Reload: `sudo caddy reload --config /etc/caddy/Caddyfile`.
 **7.0.c — Smoke test runtime headless** (per memory `feedback_no_blind_push_to_public_site.md` — non-negotiable):
 
 ```bash
-bash /home/creed/tenere-site/scripts/smoke-headless.sh https://wakala.dev
+bash /home/creed/tenere-site/scripts/smoke-headless.sh https://alimni-ai.com
 # Expected: 6/6 PASS
-bash /home/creed/tenere-site/scripts/smoke-headless.sh https://wakala.tenereonline.com
-# Expected: 301 redirect to wakala.dev (smoke adapted to handle redirects)
+bash /home/creed/tenere-site/scripts/smoke-headless.sh https://alimni.tenereonline.com
+# Expected: 301 redirect to alimni-ai.com (smoke adapted to handle redirects)
 ```
 
 **7.0.d — Update install commands + landing references**:
 
-In `landing/src/pages/index.astro`, update any reference to `wakala.tenereonline.com` to `wakala.dev`. Re-build + deploy.
+In `landing/src/pages/index.astro`, update any reference to `alimni.tenereonline.com` to `alimni-ai.com`. Re-build + deploy.
 
-GitHub repo URL stays unchanged (`github.com/wakala-dev/skills` — was always the canonical install URL).
+GitHub repo URL stays unchanged (`github.com/alimni-ai/skills` — was always the canonical install URL).
 
 **7.0.e — Public migration announcement**:
 
-Build note + 3 LinkedIn variants (AR + ENG + FR, manual) + Telegram pin + X thread. Frame: "Wakala is now at wakala.dev — same skills, new home". Link old subdomain redirect for transparency.
+Build note + 3 LinkedIn variants (AR + ENG + FR, manual) + Telegram pin + X thread. Frame: "Alimni AI is now at alimni-ai.com — same skills, new home". Link old subdomain redirect for transparency.
 
 **7.0.f — Update spec §9 + plan + project memory**:
 
 ```bash
 # In spec §9, update brand identity section to reflect migration completed
-# Update project_wakala_academy.md memory: status migrated 2026-XX-XX
+# Update project_alimni_academy.md memory: status migrated 2026-XX-XX
 git add docs/superpowers/specs/2026-05-07-arabic-academy-mvp-design.md
-git commit -m "domain: migrate wakala.tenereonline.com → wakala.dev (W7 trigger)"
+git commit -m "domain: migrate alimni.tenereonline.com → alimni-ai.com (W7 trigger)"
 git tag w7-domain-migrated
 ```
 
@@ -1225,7 +1225,7 @@ This is the **meta-skill** — automating the academy itself (transcript → tra
 
 **Files:**
 - Modify: landing (mark all 5 shipped, update hero to "5 skills live, V1 complete")
-- Create: `/home/creed/wakala/docs/retro/2026-XX-XX-v1-retrospective.md`
+- Create: `/home/creed/alimni/docs/retro/2026-XX-XX-v1-retrospective.md`
 - Create: `distribution/build-notes/2026-XX-XX-week-12-v1-close.md`
 - Create: `distribution/x-threads/v1-recap-thread.md`
 
@@ -1235,15 +1235,15 @@ This is the **meta-skill** — automating the academy itself (transcript → tra
 - [ ] **Step 12.3:** Compute V1 metrics from raw data:
 
 ```sql
--- Run on gestion postgres wakala_telemetry
+-- Run on gestion postgres alimni_telemetry
 SELECT skill_slug, COUNT(DISTINCT client_uuid) AS unique_completions
-FROM wakala_skill_completions
+FROM alimni_skill_completions
 GROUP BY skill_slug
 ORDER BY unique_completions DESC;
 
 SELECT COUNT(DISTINCT client_uuid) AS total_unique_users,
        COUNT(*) AS total_completions
-FROM wakala_skill_completions;
+FROM alimni_skill_completions;
 ```
 
 - GitHub: stars, forks, issues, PRs (`gh repo view --json stargazerCount,forkCount,issues,pullRequests`)
@@ -1278,7 +1278,7 @@ Outcome paths:
   - AR variant (~1000 words MSA)
   - ENG variant (~900 words native ENG, builder/AI register)
   - FR variant (~800 words native FR, founder network angle)
-  Each ends with explicit V2 ask adapted to its audience: "what should Wakala build next? reply or DM."
+  Each ends with explicit V2 ask adapted to its audience: "what should Alimni AI build next? reply or DM."
 
   **🟠 Opportunistic V1 close (per spec §7) — burn the bounded events here:**
   - Hacker News Show HN with V1 retrospective (ENG, manual) — Tuesday-Thursday, comment thread prepared
@@ -1306,9 +1306,9 @@ git push --tags
 
 Once telemetry is live (W6), every Monday morning check (5 min):
 
-1. `SELECT COUNT(DISTINCT client_uuid) FROM wakala_skill_completions;` — track unique users curve
-2. `SELECT skill_slug, COUNT(*) FROM wakala_skill_completions GROUP BY 1;` — which skill activates most
-3. `SELECT COUNT(*) FROM wakala_skill_completions WHERE ts > NOW() - INTERVAL '7 days';` — weekly activation velocity
+1. `SELECT COUNT(DISTINCT client_uuid) FROM alimni_skill_completions;` — track unique users curve
+2. `SELECT skill_slug, COUNT(*) FROM alimni_skill_completions GROUP BY 1;` — which skill activates most
+3. `SELECT COUNT(*) FROM alimni_skill_completions WHERE ts > NOW() - INTERVAL '7 days';` — weekly activation velocity
 4. Telegram subscribers count + active poll engagement
 5. GitHub stars delta vs last week
 
@@ -1372,7 +1372,7 @@ This is a non-negotiable founder-bandwidth safeguard. 12-week timeline can exten
 
 ## Execution handoff
 
-Plan complete and saved to `/home/creed/wakala/docs/superpowers/plans/2026-05-07-wakala-mvp-implementation.md`.
+Plan complete and saved to `/home/creed/alimni/docs/superpowers/plans/2026-05-07-alimni-mvp-implementation.md`.
 
 Two execution options:
 

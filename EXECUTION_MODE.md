@@ -1,4 +1,4 @@
-# Wakala — Execution Mode
+# Alimni AI — Execution Mode
 
 > Mixed mode: subagent for deterministic code, inline for content/brand/voice, HITL gates at milestones.
 > Locked from Plan v1 (2026-05-07) and approved by Hervé.
@@ -61,7 +61,7 @@ When dispatching a subagent for a code task:
 3. **No social media access.** Subagents cannot post on LinkedIn / X / Telegram / TikTok / IG / etc. Hervé manual only for all public-facing voice.
 4. **No domain or DNS changes** without Hervé approval.
 5. **No AR content writing.** Subagents may scaffold skill directories, but skill body content is always written by Hervé.
-6. **Smoke gate before any deploy** (per memory `feedback_no_blind_push_to_public_site.md` — non-negotiable for *.tenereonline.com and wakala.dev): headless chromium 6 gates.
+6. **Smoke gate before any deploy** (per memory `feedback_no_blind_push_to_public_site.md` — non-negotiable for *.tenereonline.com and alimni-ai.com): headless chromium 6 gates.
 7. **Pin SemVer exact** for any third-party dependency (per Wissam anti-pattern: never `latest` or `npx -y` for MCP packages — Q1-2026 supply chain wave).
 
 ## Inline rules of engagement
