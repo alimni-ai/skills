@@ -119,17 +119,71 @@ V1 ships **Claude Code + Codex Agent Skills only**. Cursor and Windsurf are expl
 
 ## 7. Distribution & founder cadence
 
-| Channel | Cadence | Format | Time/week |
+### Distribution principle (locked, non-negotiable)
+
+**One source asset, repurposed into N platform variants.** We never produce 10 different pieces for 10 platforms. We write or record once, then adapt format and language manually per platform. Automation is allowed only for **format adaptation** (vertical video crop, caption resize, X→Threads cross-post via Buffer/Hypefury). It is **forbidden** for written voice (no AI translation of LinkedIn variants — Originality.ai documents -45% engagement on AI-rewritten founder posts in 2026, and LinkedIn's 360Brew model downranks them). The GitHub repo is the canonical source for skill releases; the weekly build note Markdown file is the canonical source for storytelling.
+
+### 🟢 Primary — every release and every build note
+
+| Channel | Cadence | Source asset | Adaptation | Time/release |
+|---|---|---|---|---|
+| GitHub repo | Continuous | The work itself | — | (the work) |
+| LinkedIn AR | 1 build note / week | Build note .md (canonical) | Manual MSA, dev-community register | 15 min |
+| LinkedIn ENG | 1 build note / week | Same build note | Manual native ENG, builder/AI/dev register, global reach + diaspora | 15 min |
+| LinkedIn FR | 1 build note / week | Same build note | Manual native FR, founder network + Maghreb bilingual | 15 min |
+| X (thread) | Each skill release | Skill release notes (canonical) | Manual ENG + AR variants, ~7 tweets each | 30 min |
+| Telegram broadcast `@wakala_ar` | Each release + notes | Same as LinkedIn AR | One-way push, 1 message + image | 5 min |
+| YouTube Shorts | Each skill release | 60s demo screen-rec | AR voiceover + AR/EN burned-in captions | 1–2h |
+
+### 🟡 Secondary — repurposed from primary assets, every skill release (not for build notes)
+
+| Channel | Source asset reused | Adaptation | Time/release |
 |---|---|---|---|
-| GitHub repo | Continuous | Skills + docs + matrix | (work itself) |
-| LinkedIn AR/FR | 1 build note/week | Manual founder voice, no AI rewrite. Story or learning, not promo. | 30–45 min |
-| Telegram broadcast `@wakala_ar` | Each release + occasional notes | One-way push. Zero moderation. | 5 min/release |
-| X threads | Each skill release | Thread of ~7 tweets walking through the skill's value | 30 min/release |
-| YouTube Shorts | Each skill release | 60s demo, screen-rec, AR voiceover with Arabic captions burned-in | 1–2h/release |
+| TikTok | YT Shorts vertical video | TikTok-sized captions AR, hashtag rewrite | 15 min |
+| Instagram Reels | YT Shorts vertical video | Caption rewrite for IG audience | 15 min |
+| YouTube long-form | Expanded screen-rec (5–8 min) of the skill in action | New voiceover, more depth | 1–2h |
+| Threads (Meta) | Auto-cross-post from X via Buffer/Hypefury free tier | None (auto, format-only) | 0 |
 
-**Cadence target**: 1 polished skill every 2 weeks + 1 build note every week. This gives 5 skills + 12 build notes by week 12.
+### 🟠 Opportunistic — bounded count across V1, not weekly
 
-**Anti-AI-rewrite discipline**: per the LinkedIn 2026 algorithm (360Brew downranks AI-templated founder content) and the human-premium doctrine, all founder posts are written manually by Hervé. AI is used as a research/draft tool, never for the published voice.
+| Channel | Trigger | Asset | Time |
+|---|---|---|---|
+| Product Hunt | V1 close (W12) or flagship skill (W8) | Landing + 5 skills as the launch | 2h prep |
+| Hacker News | V1 close (W12) | Show HN with V1 retrospective | 1h prep |
+| Reddit (r/arabs, r/learnprogramming, r/SideProject) | V1 launch (W4) + V1 close (W12) | Adapted post, no link spam, value-first | 1h per push |
+| AR/MENA dev community drops (existing Slack/Discord servers Hervé already belongs to) | Each major release | Polite share, no broadcast spam | 30 min |
+
+### 🔴 Excluded from V1 (documented reasoning)
+
+- **Facebook** — different demographic (gen-X, not dev-first), low ROI for MENA dev audience
+- **Snapchat** — not dev-relevant
+- **Mastodon** — niche anglo tech, weak AR signal
+- **Bluesky** — weak AR signal in 2026 (revisit V2 if TikTok/Instagram saturate)
+- **Wakala Discord server (own community)** — moderation debt for solo founder; revisit V2 only if inbound community demand justifies it
+
+### Cadence target
+
+- 1 polished skill every 2 weeks → 5 skills by week 12
+- 1 build note every week → 12 build notes by week 12, each with 3 LinkedIn language variants
+- No daily posting on any channel
+- No moderation-debt commitments (no own Discord, no own Slack workspace, no own forum) in V1
+
+### Anti-AI-rewrite discipline
+
+All founder-voice content (LinkedIn AR + ENG + FR variants, X threads, build notes, retrospective) is manually authored by Hervé. AI is used as a research, outline, and proofread tool — never as the published voice. This is enforced by self-discipline plus a periodic Originality.ai check (sample 1 post / month) to confirm AI-detection score stays <30%.
+
+### Bandwidth math (verified vs the 5–8h/week budget)
+
+| Activity | Time/week (avg) |
+|---|---|
+| Skill creation (drafting, AR review, harness test) | 4–6h |
+| Primary distribution (3× LinkedIn + X + Telegram + YT Shorts averaged across release weeks) | 1.3h |
+| Secondary repurposing (TikTok + IG Reels + YT long-form during release weeks) | 0.7h |
+| Opportunistic pushes (averaged: 4 events × 2h ÷ 12 weeks) | 0.7h |
+| Telemetry monitoring + admin | 0.2h |
+| **Total** | **6.9–8.9h / week** |
+
+This sits at the upper edge of the budget. The **skip-week protocol** (any week logged >10h triggers a skip-week the following week, build note only) absorbs spikes. If we consistently exceed 9h/week for 2 weeks in a row, the council reassesses (drop a secondary channel, push a release back).
 
 ## 8. Legal & ethical frame
 
