@@ -1,248 +1,187 @@
 # Maven — reverse-engineering notes
 
-> Template per `wissam-reverse-engineering-method` skill. Fill in as you
-> use the product. **Don't copy-paste articles** — each section is a
-> founder-grade observation from real usage.
+> Track A (Claude web research) — drafted 2026-05-07.
+> Tier 2 = surface scan, not deep hands-on (per method tiering rule).
 
-**Status**: 🟡 / 🟢 / 🟥 (in progress / complete / on hold)
-**Tier**: 2
-**Time spent so far**: ___ hours hands-on
-**Last updated**: YYYY-MM-DD by Hervé / Claude
+**Status**: 🟡 Track A done
+**Tier**: 2 (cohort monetization model; ~$30K/cohort benchmark)
+**Time spent so far**: ~45 min Track A web research
+**Last updated**: 2026-05-07 by Claude
 
 ---
 
-## 0. Setup notes (one-time)
+## 0. Setup notes
 
-- Account email: ________________________________________________________
-- Plan tier paid (if any): _______________________________________________
-- Date signed up: ________________________________________________________
-- Login URL: _____________________________________________________________
-- Screenshot folder: `screenshots/` in this directory
+- Founders: Gagan Biyani (Sprig, Udemy co-founder), Wes Kao
+- Funded: a16z $30M Series A 2021
+- Pricing: instructor-set; avg course ~$500, top tier $950+
+- Revenue split: 90% instructor / 10% Maven (instructor pays Stripe fees)
+- Login: https://maven.com — TODO sign up to inspect dashboard
 
 ---
 
 ## 1. Acquisition
 
-How did real users discover this product? (Channels)
+- **Dominant funnel**: instructor-led — instructors bring their own audience to Maven
+- **SEO**: weak on "cohort courses" (mostly aggregator content); strong on specific instructor names
+- **Founder brands**: Gagan + Wes loud on Twitter/LinkedIn
+- **Notable**: courses don't appear in search until certain # of paid signups (gates discovery on instructor traction)
 
-- Dominant funnel:
-- SEO presence (search "<topic> alternative"): _______
-- Founder personal brand:
-- Paid ads visible? (yes/no, where):
-- Referral program?:
-- Word of mouth signal (Reddit threads, X mentions, podcast plays):
-
-**Insight (1 sentence)**: __________________________________________________
+**Insight**: Maven's acquisition is fundamentally **instructor-import**, not platform-pull. They are a SaaS for cohort operators, marketed as a marketplace.
 
 ---
 
 ## 2. Activation
 
-Time-to-first-value (literal stopwatch):
+- Sign-up: low friction
+- First action: browse cohorts (closed-loop with discovery limits)
+- First "I'm in a cohort" moment: synchronous start date — could be days/weeks after signup
 
-- Sign-up to landing-on-dashboard: ____ seconds
-- Dashboard to first meaningful action: ____ seconds
-- First "I built/learned something" moment: ____ minutes
+**Friction**: cohorts have fixed start dates, so impulse-buy → multi-day wait → activation gap.
 
-What does the user accomplish in their first session that makes them come back?
-
-- Specific moment:
-
-Friction points encountered:
-- 1. ____________________________________________________________
-- 2. ____________________________________________________________
-- 3. ____________________________________________________________
-
-**Insight**: __________________________________________________
+**Insight**: Maven's activation depends on operational orchestration (cohorts must run on schedule). Asynchronous browsing is just window-shopping.
 
 ---
 
 ## 3. Retention (the dopamine loop)
 
-Why do users come back tomorrow?
-
 The mechanic:
-1. ___ triggers ___
-2. Which leads to ___
-3. Which causes ___ to want to return
+1. Cohort start date → live session → assignments
+2. Peer cohort + instructor feedback creates accountability
+3. **96% completion rate** (vs ~12% MOOC median)
+4. After cohort: alumni community + LinkedIn proof + repeat for next course
 
-What does the platform notify / email / push at day 1, 3, 7, 30?
-
-- Day 1 nudge: ___
-- Day 3 nudge: ___
-- Day 7 nudge: ___
-- Day 30 nudge: ___
-
-**Honest check**: can I articulate WHY users emotionally return? If not, I
-need to keep using it.
-
-**Insight**: __________________________________________________
+**Insight**: Cohort + live + accountability = the highest completion rate model studied. The dopamine is **social** (don't be the slacker in your cohort) more than gamified.
 
 ---
 
 ## 4. Monetization
 
-Pricing tiers seen:
+- 90% to instructor, 10% to Maven (instructor pays Stripe fees)
+- Avg course $500; top performers $950+ (which earn 50-100% more per landing-page visit)
+- Site-wide sales 2x/yr at up to 30% off
+- Student Growth Program: Maven only takes commission when *Maven* drives the enrollment (not instructor's audience)
+- Reported: $9M course sales by students completing 300+ cohorts within 18 months
 
-| Tier | Price | What's included | Upgrade trigger |
-|---|---|---|---|
-| Free | $0 | | |
-| Tier 1 | | | |
-| Tier 2 | | | |
-| Enterprise | | | |
-
-Free → paid conversion mechanism (specific friction or feature):
-
-**Where the actual money comes from** (be honest — sometimes the marketed
-tier isn't where revenue concentrates):
-
-**Insight**: __________________________________________________
+**Insight**: The 90/10 split is **operator-friendly** by design — Maven loses money if instructors stay below scale. The platform's revenue concentrates on the small set of high-volume instructors. This is a venture-grade play; the long tail doesn't pay rent.
 
 ---
 
 ## 5. Community
 
-- Where does the community live? (Discord / Slack / forum / in-product / Reddit / Telegram / X)
-- Active or theater?
-- Founders/staff present?
-- How do users help each other?
-- Is the community the product, an asset, or an afterthought?
+- Per-cohort closed Slack/Discord, sometimes alumni networks
+- Cross-platform community is weak (no platform-wide forum mentioned)
+- Community lives at the cohort level, not Maven level
 
-**Insight**: __________________________________________________
+**Insight**: Maven is a **tooling layer** not a community. Each instructor builds their own community within Maven's chassis. This is structurally different from Skool/Circle.
 
 ---
 
 ## 6. Product moat
 
-What can't competitors easily replicate?
+- Cohort tooling polish (intuitive course builder, polished landing pages, payment + scheduling integrated)
+- "Premium cohort" brand association (vs cheap MOOC)
+- Instructor success stories ($300K Biyani-pre-Maven; high-volume instructors)
 
-(Be specific. "Great UX" is not a moat. "10M lessons graded by humans
-since 2017 = unbeatable training data" is.)
+Test ($50M + 12 months): replicable. Educate-Me, Disco, etc. are alternatives. Moat is **brand + a16z halo + instructor success stories**, not technology.
 
-- Proposed moat:
-- Test: if I had $50M and 12 months, could I replicate this? (yes/no/partially)
-- The actual unrenewable resource:
-
-**Insight**: __________________________________________________
+**Insight**: Maven's moat is *brand for premium cohort hosting*. Replicable but requires venture momentum.
 
 ---
 
 ## 7. AI strategy
 
-What changed AFTER GPT/Claude/agents?
+Recent: AI Cofounder for course creators (helps draft course materials).
 
-- What did they abandon:
-- What did they build new:
-- Where did revenue shift:
-- AI-native winner OR content platform retrofitting?:
-
-Are they using:
-- Their own model (custom-trained)?
-- API to OpenAI/Anthropic/Google?
-- Open-weight (HF, Mistral, Llama)?
-- Multiple, routed?
-
-**Insight**: __________________________________________________
+**Insight**: Maven's AI strategy is operator-tooling, not curriculum AI. They didn't pivot to "teach AI"; they used AI to make instructors faster. Sensible.
 
 ---
 
-## 8. Weaknesses (read Reddit, NOT reviews)
+## 8. Weaknesses
 
-Top 5 user complaints (verbatim from Reddit / HN / X):
+Top user complaints (from G2, Medium, alternatives lists):
 
-1. "________________________________________________________"
-2. "________________________________________________________"
-3. "________________________________________________________"
-4. "________________________________________________________"
-5. "________________________________________________________"
+1. "Discovery gated until you have paid signups — chicken-and-egg for new instructors"
+2. "Maven designed for hands-off instructors; doesn't suit moment-to-moment teaching styles"
+3. "Slow payments, want refinements to syllabus and student experience"
+4. "Cost of building course on Maven adds up beyond commission"
+5. "No 1:1 client option — the platform is course-shaped only"
 
-Why do users quit?
-
-Structural blind spots (things they CAN'T fix without changing identity):
-
-**Insight**: __________________________________________________
+**Structural blind spot**: instructors must bring their audience. Maven cannot serve unknown experts without solving cold-start.
 
 ---
 
 ## 9. What Alimni copies
 
-Specific tactical decisions to lift (not "their UX is good"):
-
-1. Concrete pattern: ___ — because ___
-2. Concrete pattern: ___ — because ___
-3. Concrete pattern: ___ — because ___
+1. **96% completion rate via cohort + live** — when Alimni runs a cohort (W7-W8 institutional pilot), use this exact pattern: synchronous live sessions, peer accountability, assignments
+2. **High-ticket pricing for cohorts** — $950+ is the "premium" anchor; map to MENA-equivalent for institutional tier (e.g., 2,500 MAD for individual cohort, 25,000 MAD for institutional pilot)
+3. **AI-as-operator-tooling, not AI-as-product** — Alimni already does this (Codex skills as content production tools), but make it explicit: AI helps Alimni ship faster, doesn't replace teaching
+4. **Personalized instructor feedback as premium feature** — when Alimni offers cohort, mentor reviews on student labs is the upsell, not access to recordings
 
 ---
 
 ## 10. What Alimni avoids
 
-Specific traps to dodge:
-
-1. Trap: ___ — because ___
-2. Trap: ___ — because ___
-3. Trap: ___ — because ___
-
----
-
-## Content engine analysis (~30 min)
-
-YouTube channel:
-- URL:
-- Subscriber count:
-- Posting cadence:
-- Top-performing video format:
-- Top-performing topic:
-
-X / Twitter:
-- Founder handle:
-- Brand handle:
-- Top engagement post (paste link):
-- What format gets engagement?:
-
-LinkedIn:
-- Founder presence:
-- Brand page:
-- Format:
-
-Newsletter:
-- Subscribers (if known):
-- Cadence:
-- Format:
-
-TikTok / Reels:
-- Yes / no
-- Style:
-
-**Insight**: __________________________________________________
+1. **Pure-marketplace business model** — Alimni curates own skills, not "anyone can teach". Quality bar is the moat, not openness.
+2. **Synchronous-only** — Maven's cohort dependency means students wait. Alimni's V1 is async-first; cohorts are an upsell layer, not the core.
+3. **Instructor-bring-your-own-audience** — Alimni IS the brand. Hervé doesn't import audience; he builds the catalog.
+4. **Discovery gate on traction** — Alimni's catalog is open from day 1. Search and SEO build over time; we don't gate access until sales appear.
 
 ---
 
-## Reddit pulse (~30 min)
+## Content engine analysis
 
-Searches done:
-- `"<platform> review Reddit"` → top 3 thread titles + sentiment
-- `"<platform> worth it Reddit"` → top 3 + sentiment
-- `"<platform> sucks"` → top 3 + sentiment
-- `"<platform> alternative"` → competitors mentioned
-- `"<platform> mena|arabic|maghreb"` (for our use case) → presence in target geography
+- YouTube: light presence
+- X/Twitter: Wes Kao + Gagan Biyani are the engines (founder-led)
+- LinkedIn: cohort instructor case studies
+- Newsletter: Maven Insights + Wes Kao's personal newsletter
 
-Synthesis (3 lines max):
+**Insight**: Maven's content engine relies heavily on **founder voice** — Wes and Gagan are the brand. Alimni's analog: Hervé's voice + Alimni catalog as twin engines.
 
 ---
 
-## Final synthesis (1 paragraph)
+## Reddit pulse (2026-05-07)
 
-**Why do users emotionally return to this product?**
+- "Maven cohort course review reddit 2026" → positive on quality, mixed on instructor-marketplace dynamics
+- G2/Product Hunt 9.1/10 average
+- Concerns: discovery gating, hands-off design
 
-(If you can't write this paragraph, you don't yet understand the platform.
-Keep using it.)
+Synthesis: Maven is a **premium SaaS for cohort operators**, not a learner destination.
+Their model proves cohorts work — but the success requires operator skill we
+shouldn't import wholesale.
+
+---
+
+## Final synthesis
+
+**Why do users emotionally return to Maven?**
+
+Instructors return because **Maven works** as a cohort operator's chassis — payments,
+scheduling, polished landing pages, no DIY infrastructure. Students return when
+the *instructor's* cohort is good — but they aren't loyal to Maven; they're loyal
+to the instructor. The platform is intentionally invisible. This means Maven is
+not a community brand; it's a SaaS. For Alimni: we want the opposite — students
+loyal to *Alimni*, not to a single instructor. Different model. Use Maven for
+cohort tooling inspiration, not brand architecture.
 
 ---
 
 ## Implications for Alimni AI
 
-- Insight #1: ___
-- Insight #2: ___
-- Insight #3: ___
+- **Insight #1**: Cohort design (when we run one in W7-W8 institutional pilot)
+  should copy: synchronous live + peer accountability + mentor feedback. Aim
+  for 90%+ completion, not 12%.
 
-What we should re-prioritize in the V1 plan based on this study:
+- **Insight #2**: Pricing anchor — "premium cohort" maps to mid-thousand-USD
+  range for global, mid-low MAD for MENA individual, mid-five-figures MAD
+  for MENA institutional. Don't undercharge.
+
+- **Insight #3**: Reject marketplace dynamics. Alimni catalog is curated by
+  Alimni team; outside contributions only after V2 with a strict review bar.
+  This is the opposite of Maven's model — but it's also why Alimni can build
+  a brand instead of being a chassis.
+
+What to re-prioritize in V1:
+- Decide cohort price anchor (USD + MAD) before W7
+- Document mentor-review pattern as the "premium upsell" specifically
+- Keep V1 catalog 100% Alimni-curated; document V2 contributor flow separately
