@@ -47,10 +47,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <!-- Theme color (matches body bg) -->
     <meta name="theme-color" content="#0b0d10" />
 
-    <!-- Arabic web font (Amiri) — system fallback if blocked -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" />
+    <!-- Self-hosted Amiri (avoids Google Fonts CDN dependency + improves perf) -->
+    <link rel="preload" href="/fonts/amiri-400-arabic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/amiri-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <slot />
