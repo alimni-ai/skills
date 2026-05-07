@@ -35,14 +35,24 @@ const m = meta[stage] ?? meta['planned'];
     color: var(--fg-muted);
   }
 
-  .maturity-badge.size-sm { font-size: 0.72rem; padding: 0.15rem 0.5rem; }
+  .maturity-badge.size-sm { font-size: 0.72rem; padding: 0.15rem 0.5rem; gap: 0.3rem; }
 
   .maturity-badge .icon { font-size: 1rem; line-height: 1; }
   .maturity-badge .label-ar { font-family: var(--font-ar); }
   .maturity-badge .label-en {
     color: var(--fg-muted);
     font-size: 0.7rem;
-    opacity: 0.7;
+  }
+
+  /* Skill cards (size-sm): drop EN label. The ladder section (size-md) keeps
+     both AR + EN as the canonical bilingual reference; cards stay compact and
+     keep WCAG contrast even when their parent has reduced opacity. */
+  .maturity-badge.size-sm .label-en { display: none; }
+
+  /* Mobile: drop EN even on the ladder (size-md) to avoid overflow; AR-mono
+     primary audience doesn't need both at small viewports. */
+  @media (max-width: 540px) {
+    .maturity-badge .label-en { display: none; }
   }
 
   .maturity-mve-complete { color: var(--accent); border-color: var(--accent-dim); }

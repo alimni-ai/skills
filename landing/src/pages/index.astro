@@ -15,13 +15,19 @@ import RequestSkill from '../components/RequestSkill.astro';
 const SKILLS_DIR = join(process.cwd(), '..', 'skills');
 
 // V1 curriculum order locked from spec §5
-const V1_ORDER = [
+// Split: core path (1-3, MVE-complete cibles) vs extensions (4-5, MVE-partial cibles)
+const V1_CORE = [
   'setup-agentic-ar',
   'prompt-loop-ar',
-  'ship-real-product-ar',
+  'ship-real-product-ar'
+];
+
+const V1_EXTENSIONS = [
   'repo-to-agent-ar',
   'n8n-mcp-pipeline-ar'
 ];
+
+const V1_ORDER = [...V1_CORE, ...V1_EXTENSIONS];
 
 const V1_PLANNED_DEFAULTS: Record<string, { title_ar: string; description_ar: string; est_runtime_min: number }> = {
   'setup-agentic-ar':     { title_ar: 'إعداد بيئة الذكاء الاصطناعي الوكيل', description_ar: 'تثبيت Claude Code وCodex، أوّل برومبت، وحلّ مشاكل البيئة (مدخل عربي)',         est_runtime_min: 30 },
@@ -63,6 +69,9 @@ const skills: SkillData[] = V1_ORDER.map((slug, idx) => {
   };
 });
 
+const coreSkills = skills.filter(s => V1_CORE.includes(s.slug));
+const extensionSkills = skills.filter(s => V1_EXTENSIONS.includes(s.slug));
+
 // Counts for the maturity ladder section
 const counts = {
   mveComplete: skills.filter(s => ['mve-complete', 'mature', 'reference'].includes(s.maturity)).length,
@@ -74,29 +83,62 @@ const counts = {
   title="AI علّمني — Alimni AI · Arabic AI Engineering Academy"
   description="تعلّم الذكاء الاصطناعي بالممارسة، لا بالمشاهدة فقط. Agentic execution in Arabic, across tools."
 >
+  <main>
   <!-- ── Hero ───────────────────────────────────────────────────────── -->
   <section class="hero">
-    <div class="container prose hero-inner">
-      <h1 class="ar-script hero-mark" aria-label="AI Alimni — Alimni AI">AI&nbsp;علّمني</h1>
+    <div class="container hero-inner">
+      <!-- Brand mark — AR-script master, Latin sub-mark discret -->
+      <div class="brand-mark">
+        <h1 class="ar-script hero-mark" aria-label="علّمني — Alimni AI">علّمني</h1>
+        <p class="sub-mark latin"><span class="sub-mark-dot">·</span> Alimni AI</p>
+      </div>
+
       <p class="hero-tagline-ar">علّمني الذكاء الاصطناعي بالعربية</p>
+
       <p class="hero-sub-ar">
         طبقة تنفيذ بالعربية لأدوات الذكاء الاصطناعي الوكيل،
-        <br />
-        عبر <strong>Claude Code</strong> و<strong>Codex</strong> و<strong>n8n</strong> و<strong>MCP</strong>.
+        عبر <strong>Claude&nbsp;Code</strong> و<strong>Codex</strong> و<strong>n8n</strong> و<strong>MCP</strong>.
       </p>
 
-      <hr class="divider-sm" />
+      <!-- Dopamine block C1 — proof of execution, not just promise -->
+      <div class="proof-block" aria-labelledby="proof-label">
+        <p id="proof-label" class="proof-label-ar">
+          في ٣٠ دقيقة، تنشر أوّل وكيل حقيقي
+          <span class="proof-label-en latin">— ship your first agent in 30 min.</span>
+        </p>
 
-      <p class="latin hero-tagline-en">
-        <strong>Alimni&nbsp;AI</strong> · Learn AI by building real agents — in Arabic.
-      </p>
-      <p class="latin muted">
-        Agentic execution in Arabic, across tools.
-      </p>
+        <div class="proof-flow" role="list" aria-label="Path: install, run, publish">
+          <span class="proof-step" role="listitem">
+            <span class="proof-step-icon" aria-hidden="true">⚙️</span>
+            <span class="proof-step-ar">تثبيت</span>
+            <span class="proof-step-en latin">install</span>
+          </span>
+          <span class="proof-arrow" aria-hidden="true">←</span>
+          <span class="proof-step" role="listitem">
+            <span class="proof-step-icon" aria-hidden="true">▶️</span>
+            <span class="proof-step-ar">تشغيل</span>
+            <span class="proof-step-en latin">run</span>
+          </span>
+          <span class="proof-arrow" aria-hidden="true">←</span>
+          <span class="proof-step is-published" role="listitem">
+            <span class="proof-step-icon" aria-hidden="true">📦</span>
+            <span class="proof-step-ar">نشر</span>
+            <span class="proof-step-en latin">publish</span>
+          </span>
+        </div>
+
+        <pre class="proof-terminal latin" aria-label="Example workflow"><code><span class="t-prompt">$</span> claude plugin install <span class="t-token">alimni-ai/setup-agentic-ar</span>
+<span class="t-ok">✓</span> Environment ready  <span class="t-muted">·  بيئة جاهزة</span>
+<span class="t-arrow">→</span> github.com/<span class="t-token">&lt;you&gt;</span>/first-agent</code></pre>
+      </div>
 
       <div class="hero-cta">
-        <a href="#skills" class="btn btn-primary">المهارات · <span class="latin">Skills</span></a>
-        <a href="https://github.com/alimni-ai/skills" class="btn latin" target="_blank" rel="noopener">GitHub →</a>
+        <a href="#skills" class="btn btn-primary">
+          ابدأ المسار <span class="latin">· Start the path</span>
+        </a>
+        <a href="https://github.com/alimni-ai/skills" class="btn btn-ghost latin" target="_blank" rel="noopener">
+          GitHub →
+        </a>
       </div>
     </div>
   </section>
@@ -158,15 +200,16 @@ const counts = {
   <!-- ── Skills ──────────────────────────────────────────────────────── -->
   <section id="skills" class="skills">
     <div class="container">
+      <!-- Core path: 3 skills MVE-complete cibles = main curriculum -->
       <div class="prose">
-        <h2>المهارات · <span class="latin">V1 Curriculum</span></h2>
+        <h2>المسار الأساسيّ · <span class="latin">Core path</span></h2>
         <p class="muted">
-          منهج تدريجي. كلّ مهارة تفترض أنّ سابقتها مثبّتة. ليس كتالوجًا — مسار.
+          ٣ مهارات متدرّجة من البيئة إلى المنتج المنشور. كلّ واحدة تفترض أنّ سابقتها مثبّتة.
         </p>
       </div>
 
-      <div class="skills-grid">
-        {skills.map(skill => (
+      <div class="skills-grid skills-grid--core">
+        {coreSkills.map(skill => (
           <SkillCard
             number={skill.number}
             slug={skill.slug}
@@ -174,6 +217,31 @@ const counts = {
             description_ar={skill.description_ar}
             est_runtime_min={skill.est_runtime_min}
             maturity={skill.maturity}
+            variant="core"
+          />
+        ))}
+      </div>
+
+      <!-- Extensions: 2 skills MVE-partial cibles = optional add-ons -->
+      <div class="prose extensions-intro">
+        <h3 class="extensions-title">
+          إثراءات <span class="latin extensions-suffix">· Extensions</span>
+        </h3>
+        <p class="muted extensions-blurb">
+          مهارات متخصّصة تبني على المسار الأساسيّ. اختياريّة، تُفتح عند الحاجة.
+        </p>
+      </div>
+
+      <div class="skills-grid skills-grid--ext">
+        {extensionSkills.map(skill => (
+          <SkillCard
+            number={skill.number}
+            slug={skill.slug}
+            title_ar={skill.title_ar}
+            description_ar={skill.description_ar}
+            est_runtime_min={skill.est_runtime_min}
+            maturity={skill.maturity}
+            variant="ext"
           />
         ))}
       </div>
@@ -208,6 +276,7 @@ const counts = {
 
   <!-- ── Request a skill ─────────────────────────────────────────────── -->
   <RequestSkill />
+  </main>
 
   <!-- ── Footer ──────────────────────────────────────────────────────── -->
   <footer class="footer">
@@ -239,46 +308,180 @@ const counts = {
   </footer>
 
   <style>
-    /* ── Hero ── */
+    /* ── Hero ────────────────────────────────────────────────────────── */
     .hero {
-      padding-block: var(--s-3xl);
+      padding-block: var(--s-3xl) var(--s-2xl);
       text-align: center;
     }
     /* No `align-items: center` here: it would shrink children to intrinsic
        content width and overflow the viewport on long Latin sentences.
        Children stretch to container width; AR paragraphs inherit text-align:
        center from `.hero`, while `.latin` keeps its text-align: left. */
-    .hero-inner { display: flex; flex-direction: column; gap: var(--s-md); }
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-md);
+      max-width: 720px;
+      margin-inline: auto;
+    }
     .hero-cta { align-self: center; }
 
-    .hero-mark {
-      font-size: clamp(5rem, 14vw, 9rem);
-      color: var(--accent);
-      line-height: 1;
+    /* Brand mark — AR-script master, Latin sub-mark discret */
+    .brand-mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--s-xs);
       margin-block-end: var(--s-sm);
     }
 
+    .hero-mark {
+      font-size: clamp(4.5rem, 13vw, 9rem);
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: 0;
+      /* AR diacritics need breathing room */
+      padding-block-start: 0.05em;
+    }
+
+    .sub-mark {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--fg-muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+    }
+
+    .sub-mark-dot {
+      color: var(--accent-dim);
+      font-size: 1.2em;
+      line-height: 1;
+    }
+
     .hero-tagline-ar {
-      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      font-size: clamp(1.15rem, 2.4vw, 1.5rem);
       color: var(--fg);
       font-weight: 400;
+      max-width: 540px;
+      margin-inline: auto;
     }
 
     .hero-sub-ar {
       color: var(--fg-muted);
-      max-width: 540px;
+      max-width: 560px;
+      margin-inline: auto;
       font-size: 1.05rem;
     }
-
-    .hero-tagline-en { font-size: 1rem; color: var(--fg); }
 
     .hero-cta {
       display: flex;
       gap: var(--s-md);
       flex-wrap: wrap;
       justify-content: center;
-      margin-block-start: var(--s-lg);
+      margin-block-start: var(--s-md);
     }
+
+    .btn-ghost { background: transparent; }
+
+    /* ── Dopamine block C1 — proof of execution ─────────────────────── */
+    .proof-block {
+      margin-block: var(--s-lg) var(--s-sm);
+      padding: var(--s-lg) var(--s-md);
+      background: var(--bg-elevated);
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-md);
+      text-align: center;
+    }
+
+    .proof-label-ar {
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      color: var(--fg);
+    }
+
+    .proof-label-en {
+      display: inline;
+      color: var(--fg-muted);
+      font-size: 0.8rem;
+      padding-inline-start: 0.4em;
+      unicode-bidi: isolate;
+    }
+
+    .proof-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s-sm);
+      direction: rtl;
+    }
+
+    .proof-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.8rem;
+      background: var(--bg-card);
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      color: var(--fg);
+    }
+
+    .proof-step.is-published {
+      border-color: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .proof-step-icon { font-size: 0.95rem; line-height: 1; }
+    .proof-step-en {
+      color: var(--fg-muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-transform: lowercase;
+    }
+
+    .proof-arrow {
+      color: var(--accent-dim);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .proof-terminal {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-inline-start: 2px solid var(--accent);
+      border-radius: 6px;
+      padding: var(--s-md);
+      margin-block-start: var(--s-xs);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      direction: ltr;
+      text-align: left;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--fg);
+    }
+
+    .proof-terminal code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    .t-prompt   { color: var(--accent-dim); padding-inline-end: 0.5em; }
+    .t-ok       { color: var(--accent); padding-inline-end: 0.4em; }
+    .t-arrow    { color: var(--accent); padding-inline-end: 0.4em; }
+    .t-token    { color: var(--accent-bright); }
+    .t-muted    { color: var(--fg-muted); }
 
     /* ── Why ── */
     .why p:first-of-type { font-size: 1.1rem; }
@@ -310,7 +513,7 @@ const counts = {
 
     .ladder-note { direction: ltr; text-align: center; margin-block-start: var(--s-md); }
 
-    /* ── Skills ── */
+    /* ── Skills ──────────────────────────────────────────────────────── */
     .skills-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -318,13 +521,51 @@ const counts = {
       margin-block-start: var(--s-xl);
     }
 
+    /* Core path — main curriculum, large cards */
+    .skills-grid--core { gap: var(--s-md); }
+
     @media (min-width: 700px) {
-      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .skills-grid--core { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Extensions — visually secondary: smaller, denser, lower contrast */
+    .skills-grid--ext {
+      margin-block-start: var(--s-md);
+      gap: var(--s-md);
+    }
+
+    @media (min-width: 700px) {
+      .skills-grid--ext { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (min-width: 1000px) {
-      .skills-grid { grid-template-columns: repeat(3, 1fr); }
+      .skills-grid--ext {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 760px;
+        margin-inline: auto;
+      }
     }
+
+    .extensions-intro {
+      margin-block-start: var(--s-2xl);
+      padding-block-start: var(--s-lg);
+      border-block-start: 1px dashed var(--line);
+    }
+
+    .extensions-title {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+      margin-block-end: var(--s-xs);
+    }
+
+    .extensions-suffix {
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .extensions-blurb { font-size: 0.95rem; }
 
     /* ── Audience ── */
     .audience-list {
@@ -377,5 +618,20 @@ const counts = {
     }
 
     .footer-credits { direction: ltr; text-align: center; margin-block-start: var(--s-md); }
+
+    /* ── Mobile fixes ────────────────────────────────────────────────── */
+    @media (max-width: 540px) {
+      .hero { padding-block: var(--s-2xl) var(--s-xl); }
+      .hero-tagline-ar { font-size: 1.05rem; }
+      .hero-sub-ar { font-size: 0.95rem; }
+
+      .proof-block { padding: var(--s-md) var(--s-sm); gap: var(--s-sm); }
+      .proof-flow { gap: 0.35rem; }
+      .proof-step { padding: 0.25rem 0.55rem; font-size: 0.8rem; }
+      .proof-step-en { display: none; }
+      .proof-terminal { font-size: 0.7rem; padding: var(--s-sm); line-height: 1.6; }
+
+      .extensions-intro { margin-block-start: var(--s-xl); }
+    }
   </style>
 </BaseLayout>
