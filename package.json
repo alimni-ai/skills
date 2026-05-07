@@ -1,0 +1,39 @@
+{
+  "name": "alimni-ai-skills",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Alimni AI (علّمني) — agentic execution in Arabic, across tools. The skill repository is the product.",
+  "homepage": "https://alimni-ai.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alimni-ai/skills.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Hervé Davies Paul <hello@alimni-ai.com>",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:skill": "node scripts/build.js",
+    "lint:frontmatter": "node scripts/lint-frontmatter.js",
+    "test": "node scripts/test-skills.js",
+    "new-skill": "bash scripts/new-skill.sh"
+  },
+  "dependencies": {
+    "gray-matter": "4.0.3"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "alimni-ai",
+    "arabic",
+    "ai",
+    "agentic",
+    "claude-code",
+    "codex",
+    "skills",
+    "education",
+    "mena"
+  ]
+}

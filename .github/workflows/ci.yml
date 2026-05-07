@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Lint frontmatter, build skills, run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci || npm install
+
+      - name: Lint skill frontmatter
+        run: node scripts/lint-frontmatter.js
+
+      - name: Build all skills (dry-run check)
+        run: node scripts/build.js --check
+
+      - name: Build all skills (real)
+        run: node scripts/build.js
+
+      - name: Run all skill smoke tests
+        run: node scripts/test-skills.js
+
+      - name: Confirm no uncommitted build outputs (build is reproducible)
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "❌ Build produced changes that should be committed:"
+            git status --short
+            git diff
+            exit 1
+          fi
+          echo "✅ Build is reproducible — no uncommitted changes"
