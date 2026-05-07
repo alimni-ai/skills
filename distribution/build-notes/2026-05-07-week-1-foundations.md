@@ -128,7 +128,7 @@ Suggested bullets (W0 → 2026-05-07 nuit). Edit, keep, or replace freely :
 
   * Accessibility 100/100
   * SEO 100/100
-  * Best Practices 100/100
+  * Performance 98/100
 
 الفكرة الأساسية:
 إذا كان هناك Tool جديد أو Tutorial مهم، يجب أن يتمكن المستخدم العربي من فهمه واستخدامه دون الحاجة لإتقان الإنجليزية.
