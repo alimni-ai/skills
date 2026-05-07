@@ -1,25 +1,174 @@
 # Lab — setup-agentic-ar
 
-> **Goal**: TODO — what the learner will have built/done by the end of this lab.
-> **Estimated time**: TODO min
-> **Mobile-friendly first steps**: TODO yes/no
+> **الهدف (Goal)**: في نهاية هذا المختبر، يكون لديك **GitHub repo** فيه صفحة عربية،
+> و**رابط حيّ منشور** يمكنك مشاركته على واتساب / لينكدإن.
+>
+> **الزمن المقدّر (Estimated time)**: 30 دقيقة (mobile-friendly في الخطوات 1-2 فقط)
+>
+> **المتطلّبات**: terminal محلّي + حساب GitHub + حساب Vercel أو Cloudflare Pages.
 
-## Setup
+---
 
-TODO — step-by-step environment prep, in Arabic.
+## القاعدة الذهبية لعلّمني (Alimni golden rule)
 
-## Exercise
+> **لا تنتهي هذه المهارة بدون رابط منشور.**
+> "أنهيت الدرس" ليست شهادة. **الرابط الحيّ هو الشهادة.**
 
-TODO — the actual lab. Each step in Arabic, with command examples.
+هذا المختبر مصمَّم بحيث ينتج عنه أثر منشور تلقائيًا. اختبار `test.sh`
+سيتحقّق من وجوده.
 
-## Acceptance criteria
+---
 
-The learner has completed the lab when:
+## Setup (الإعداد) — 5 دقائق
 
-- [ ] TODO — criterion 1
-- [ ] TODO — criterion 2
-- [ ] TODO — criterion 3
+### 1. تثبيت Claude Code
+
+```bash
+# macOS / Linux
+curl -fsSL https://claude.ai/install.sh | bash
+
+# Windows (PowerShell as admin)
+irm https://claude.ai/install.ps1 | iex
+```
+
+التحقّق:
+```bash
+claude --version
+```
+
+### 2. تثبيت Codex CLI
+
+```bash
+npm install -g @openai/codex-cli   # أو حسب وثائق OpenAI الحالية
+codex --version
+```
+
+> **ملاحظة**: لا تحتاج اشتراكين مدفوعين في الوقت ذاته. هدف هذه المهارة
+> هو معرفة الأداتين معًا. اختر واحدة للعمل اليومي بناءً على المهارة #2.
+
+### 3. تجهيز مجلّد العمل
+
+```bash
+mkdir my-first-arabic-page
+cd my-first-arabic-page
+git init
+```
+
+---
+
+## Exercise (التمرين الأساسي) — 20 دقيقة
+
+### الخطوة 1 — أوّل برومبت عربي
+
+افتح Claude Code في المجلّد:
+
+```bash
+claude
+```
+
+أدخل البرومبت التالي **بالعربية**:
+
+> أنشئ موقعًا بسيطًا من ملف HTML واحد، باللغة العربية، اتجاه RTL،
+> يحتوي على:
+> - عنوان: "أوّل صفحة عربية بنيتُها بالذكاء الاصطناعي"
+> - فقرة قصيرة (٣ أسطر) تشرح الفكرة
+> - Footer فيه اسمي والتاريخ
+> أضف ملف README.md عربي يصف ما يفعله الموقع.
+> أضف ملف `lesson-1-output.md` فيه: البرومبت الأصلي + ناتج الوكيل + رابط النشر النهائي (سأملؤه لاحقًا).
+
+### الخطوة 2 — مراجعة الناتج (لا تنفّذ بعد)
+
+اقرأ الكود المولّد:
+- هل `<html lang="ar" dir="rtl">` موجود؟
+- هل النصّ مفهوم لقارئ عربي؟
+- هل META charset = UTF-8؟
+
+إن وجدت خطأ: استخدم برومبت تصحيحي (مثال: "النصّ يظهر بالاتجاه الخاطئ، صحّح القالب").
+
+### الخطوة 3 — التشغيل المحلّي
+
+```bash
+python3 -m http.server 8080   # أو أي خادم static بسيط
+```
+
+افتح `http://localhost:8080` وتأكّد أنّ النصّ يظهر بشكل صحيح من اليمين إلى اليسار.
+
+### الخطوة 4 — دفع repo إلى GitHub
+
+```bash
+git add .
+git commit -m "أوّل صفحة عربية بالذكاء الاصطناعي"
+
+# أنشئ repo جديدًا على github.com (واجهة الويب)، ثمّ:
+git branch -M main
+git remote add origin git@github.com:<username>/my-first-arabic-page.git
+git push -u origin main
+```
+
+### الخطوة 5 — النشر على Vercel أو Cloudflare Pages
+
+**Vercel**:
+1. اذهب إلى vercel.com → New Project
+2. استورد repo
+3. اضغط Deploy
+4. ستحصل على رابط مثل: `my-first-arabic-page.vercel.app`
+
+**Cloudflare Pages** (إن كان مفضّلًا):
+1. dash.cloudflare.com → Workers & Pages → Create
+2. Connect to Git → اختر repo
+3. Deploy
+
+### الخطوة 6 — تحديث lesson-1-output.md
+
+افتح `lesson-1-output.md` وأضف الرابط الحيّ:
+
+```markdown
+## رابط النشر النهائي
+https://my-first-arabic-page.vercel.app
+```
+
+ادفع التحديث:
+```bash
+git add lesson-1-output.md
+git commit -m "إضافة رابط النشر"
+git push
+```
+
+---
+
+## Acceptance criteria (معايير القبول)
+
+✅ المهارة مكتملة عندما يتحقّق الآتي **كلّه**:
+
+- [ ] لديك `claude --version` و`codex --version` يعطيان رقم نسخة (ليس "command not found")
+- [ ] لديك repo عام (أو خاص حسب رغبتك) على GitHub بإسم على الأقلّ commit واحد
+- [ ] الـ repo يحتوي على `index.html` بـ `<html lang="ar" dir="rtl">`
+- [ ] الـ repo يحتوي على `README.md` عربي
+- [ ] الـ repo يحتوي على `lesson-1-output.md` فيه البرومبت + الناتج + **الرابط الحيّ**
+- [ ] الرابط الحيّ يفتح صفحة عربية تظهر بشكل صحيح RTL
+- [ ] أرسلتَ الرابط لشخصٍ واحد على الأقلّ (واتساب / لينكدإن / مجموعة علّمني)
+
+> **القاعدة 7**: المشاركة الاجتماعية ليست تجميلًا — هي **جزء من المهارة**.
+> الأثر غير المرئي = أثر غير منشور.
+
+---
 
 ## Common errors and how to debug
 
-TODO — list error → diagnosis → fix.
+| الخطأ | التشخيص | الحلّ |
+|---|---|---|
+| `claude: command not found` | الأداة غير في PATH | أعد فتح terminal أو أضف يدويًا `~/.local/bin` إلى PATH |
+| النصّ يظهر معكوسًا في المتصفّح | `dir="rtl"` ناقص | أضفه إلى `<html>` |
+| رموز غريبة بدلًا من العربية | UTF-8 مفقود | أضف `<meta charset="utf-8">` كأوّل عنصر في `<head>` |
+| Vercel deploy فشل | لم يُعرَّف framework | اختَر "Other" أو "Static" في إعدادات Project |
+| `git push` يطلب كلمة سرّ | لم تربط SSH key | اتبع: github.com/settings/keys |
+
+---
+
+## ما بعد المهارة — انتقالك للمهارة #2
+
+بعد هذا الأثر المنشور، أنت جاهز لـ **prompt-loop-ar**: حلقة البرومبت
+الاحترافيّة (`prompt → run → read → debug → re-prompt`).
+
+ستتعلّم هناك كيف تعمل **داخل** المشروع الذي بنيته للتوّ، بدلًا من بنائه
+من الصفر مرّة أخرى.

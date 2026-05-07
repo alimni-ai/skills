@@ -359,6 +359,49 @@ These are picked up by the next skill (writing-plans), not resolved here:
 - Logo design path (Hervé in Figma, or hire a designer for $200)
 - First skill to write (suggested: `setup-agentic-ar` — easiest, most foundational)
 
+## 14. Track A copy/avoid matrix as review gate (added 2026-05-07 nuit)
+
+> Matrix v1 is in `research/README.md` (commit `58f5e3b`).
+> Every PR that touches a skill, the landing, monetization, distribution, or
+> cohort design **must be reviewed against it** before merge.
+
+### Hard gates derived from the matrix (V1 non-negotiables)
+
+| ID | Gate | Source pattern |
+|---|---|---|
+| G1 | Every skill must declare `publishes_artifact: true` + `artifact_kind` in its source.md frontmatter | C1 Replit, C12 Replit/HF |
+| G2 | Every skill's `test.sh` must have a learner-mode validation that the artifact exists + is real | C1 Replit |
+| G3 | Pricing pages must NOT charge per-token / per-Agent-attempt — flat tier or transparent cap only | A1 Replit Lemkin |
+| G4 | Every skill's lab must have a "rollback to last green" step before any irreversible action | A2 Replit |
+| G5 | Skills must NOT depend on video production for ship — text-first, voice optional | A3 Scrimba |
+| G6 | Alimni does NOT host inference for students — they bring their own keys | A5 HF |
+| G7 | Alimni catalog is curated by Alimni team in V1 — no open marketplace | A7 Maven |
+| G8 | Brand artifact = HDØZ AI parent line; never single-founder-name credentialing | A8 founder-fragility |
+| G9 | The credential of completing a skill = the *executed artifact*, not a PDF certificate | A9 DLAI |
+| G10 | Every published skill must include `lesson-X-output.md` template that captures the published URL | C1 Replit |
+
+### Soft guides (encouraged, not blocking)
+
+- Skills SHOULD include a WhatsApp companion thread reference (C5 Nas.io)
+- Skills SHOULD link to relevant Hugging Face models when they use open weights (C6 HF)
+- Skills SHOULD credit the model maker in `credits.md` (C4 DLAI partnership prep)
+
+### Review checklist (paste into PR body)
+
+```
+- [ ] G1 source.md declares publishes_artifact + artifact_kind
+- [ ] G2 test.sh has learner-mode validation
+- [ ] G3 no per-token billing introduced
+- [ ] G4 lab has rollback-to-last-green step
+- [ ] G5 no video production gate added
+- [ ] G6 no hosted inference for students
+- [ ] G7 no open contribution marketplace path
+- [ ] G8 HDØZ AI parent line preserved in any new artifact
+- [ ] G9 artifact-as-credential preserved
+- [ ] G10 lesson-X-output.md present
+- [ ] Soft guides: WhatsApp ref / HF link / model credit considered
+```
+
 ---
 
 **End of design.** Implementation plan to follow via `writing-plans` skill once this design is approved.

@@ -1346,3 +1346,19 @@ Two execution options:
 **My recommendation:** **mixed mode** — inline for content/brand/ops tasks (where Hervé's voice and judgment are needed), subagent for the code tasks (build script, telemetry server, Astro landing).
 
 Which approach?
+
+---
+
+## Track A copy/avoid matrix — review gate (added 2026-05-07 nuit)
+
+Every task in this plan that ships content (skills), surface (landing), pricing,
+distribution, or cohort design **must be reviewed against the matrix** before
+merge.
+
+- Source: `research/README.md` (commit `58f5e3b`)
+- Hard gates: spec §14 (G1-G10) — non-negotiable
+- Soft guides: spec §14 (WhatsApp ref / HF link / model credit)
+- Per-PR checklist: paste from spec §14 into the PR body
+
+This applies retroactively to anything still under work, and forward to all
+future tasks.

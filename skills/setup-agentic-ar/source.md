@@ -1,44 +1,69 @@
 ---
 slug: setup-agentic-ar
-title_ar: "TODO — العنوان العربي"
-description_ar: "TODO — وصف موجز بالعربية"
-audience: "AR-primary, beginner|intermediate|advanced"
+title_ar: "إعداد بيئة الذكاء الاصطناعي الوكيل"
+description_ar: "تثبيت Claude Code وCodex، أوّل برومبت، ونشر أوّل أثر حقيقي على الإنترنت — مدخل عربي عملي."
+audience: "AR-primary, beginner"
 prerequisites: []
 est_runtime_min: 30
 maturity: mve-partial
 requires_local_terminal: true
-mobile_friendly_first_steps: false
+mobile_friendly_first_steps: true
 inspired_by: null
+publishes_artifact: true
+artifact_kind: "github_repo + deployed_url"
 ---
 
-# TODO — Lesson title (Arabic)
+# إعداد بيئة الذكاء الاصطناعي الوكيل — Skill #1
 
-<!-- Start writing in Arabic. This is the source of truth.
-     Build pipeline emits claude/SKILL.md + codex/skill.json from this file
-     once maturity ≥ mve-complete. -->
+<!-- Source of truth in Arabic. Build pipeline emits claude/SKILL.md +
+     codex/skill.json from this file once maturity ≥ mve-complete. -->
 
 ## التعريف
 
-TODO — explain the concept in Arabic.
+هذه أوّل مهارة في علّمني. هدفها أن تنتقل خلال ٣٠ دقيقة من **لا شيء**
+إلى أنك:
+
+- ركّبت أداتين وكيليتين على جهازك (Claude Code + Codex)
+- نفّذت أوّل برومبت عربي ينتج كودًا جاهزًا للنشر
+- نشرت أوّل أثر حقيقي على الإنترنت يحمل اسمك (رابط حيّ + repo على GitHub)
+
+> **القاعدة الذهبية لعلّمني**: لا تنتهي مهارة بدون **أثر منشور**.
+> ليس "درس مكتمل" — بل **رابط حيّ يمكنك مشاركته** أو **repo دفعته**.
 
 ## ما ستتعلّمه
 
-- TODO — bullet 1
-- TODO — bullet 2
-- TODO — bullet 3
+- كيفية تثبيت بيئة وكيلية بالكامل بأوامر سطر القيادة
+- كيف تكتب برومبت عربي يعطي نتائج قابلة للتنفيذ (وليس وصفًا)
+- كيف تتجنّب أخطاء الترميز (UTF-8 / RTL) الشائعة في البيئات الإنجليزية
+- كيف تنشر النتيجة على نطاق فرعي حقيقي وتتحقّق منه
 
 ## الخطوات
 
-1. TODO — step 1
-2. TODO — step 2
-3. TODO — step 3
+1. **تركيب Claude Code وCodex** على macOS / Linux / Windows (WSL)
+2. **التحقّق من البيئة**: `claude --version` و`codex --version`
+3. **أوّل برومبت عربي**: توليد صفحة هبوط بسيطة باللغة العربية
+4. **مراجعة الناتج**: قراءة الكود المولّد قبل تنفيذه (لا تثق ولا ترفض عمياء)
+5. **النشر**: دفع repo إلى GitHub + نشر صفحة على Vercel / Cloudflare Pages
+6. **التحقّق النهائي**: زيارة الرابط الحيّ والتأكّد من ظهور النصّ العربي صحيحًا
 
 ## الأخطاء الشائعة
 
-- TODO — common mistake 1
-- TODO — common mistake 2
+- نسيان `lang="ar"` و`dir="rtl"` في `<html>` — يظهر النصّ معكوسًا
+- استخدام برومبت إنجليزي → ناتج لا يفهم السياق العربي
+- عدم قراءة الكود قبل النشر → نشر أخطاء واضحة
+- استخدام محرّر متصفّح فقط → لا يحفظ في repo حقيقي → لا أثر دائم
+
+## الأثر المتوقّع (ما يجب أن يبقى لديك بعد ٣٠ دقيقة)
+
+1. **رابط GitHub repo** يحمل اسمك (مثال: `github.com/<username>/my-first-arabic-page`)
+2. **رابط حيّ منشور** (مثال: `my-first-arabic-page.vercel.app`)
+3. ملف `lesson-1-output.md` في repo فيه:
+   - البرومبت الأصلي (عربي)
+   - ناتج الوكيل (عربي + كود)
+   - رابط النشر النهائي
 
 ## الموارد
 
-- TODO — link to lab.md
-- TODO — link to starter-repo/ if applicable
+- Lab تفصيلي: [lab.md](./lab.md)
+- Repo بداية: [starter-repo/](./starter-repo/) (يُضاف عند MVE-complete)
+- اختبار آلي: [test.sh](./test.sh) — يتحقّق من وجود الأثر في repo التلميذ
