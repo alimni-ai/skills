@@ -25,7 +25,7 @@ This report documents brand-lock outcomes. **All checks must be ✅ before any p
 | Owner email | contact@tenereonline.com |
 | WHOIS privacy | ON (CF default) |
 | Auto-renew | ON (verify in CF dashboard) |
-| Parking status | Active, no DNS records (parked as planned) |
+| Parking status | Currently no DNS records (will activate at Step 1.5: A records + CF Email Routing) |
 | Cost | $12/year |
 | CF dashboard confirmation | Active · 0 records · 0 transfer · Free plan |
 
@@ -119,23 +119,53 @@ Goal: claim handles within 60 minutes of domain purchase (already done ~2026-05-
 | GitHub Org | alimni-ai | https://github.com/alimni-ai | ⏳ | | |
 | Bluesky | @alimni-ai.com (custom domain handle, free after domain registered) | <FILL> | ⏳ | | |
 
-All handles use email `contact@tenereonline.com` for now (will migrate to `hello@alimni-ai.com` post-W6 if migration trigger fires).
+All handles use `hello@alimni-ai.com` once Cloudflare Email Routing is live (Step 1.5b). Fallback to `contact@tenereonline.com` only if a handle has to be claimed before routing is up — update the handle email after.
 
 **Hervé action**: claim all 5 handles in the next 30 minutes.
 
 ---
 
-## Step 1.5 — Subdomain `alimni.tenereonline.com` setup (V1 hosting)
+## Step 1.5 — `alimni-ai.com` hosting setup (V1, single-track)
 
-| Field | Value |
+> **Revised 2026-05-07**: V1 lives directly on `alimni-ai.com` from W0 — no transitional sub-domain (spec §9). Brand-aligned URL from day 1.
+
+### 5.a — Cloudflare DNS (in `alimni-ai.com` zone)
+
+| Record | Value | Status |
+|---|---|---|
+| `A @` → gestion VPS public IPv4 (proxied 🟠) | ⏳ pending | |
+| `A www` → gestion VPS public IPv4 (proxied 🟠) | ⏳ pending | |
+| SSL/TLS mode = Full (strict) | ⏳ pending verify | |
+
+### 5.b — Cloudflare Email Routing (`hello@alimni-ai.com`)
+
+| Step | Status |
 |---|---|
-| Cloudflare DNS A record (in tenereonline.com zone) | ⏳ pending |
-| Caddy config block on gestion | ⏳ pending |
-| Placeholder `index.html` AR/EN deployed | ⏳ pending |
-| Smoke test (curl + cert + AR rendering) | ⏳ pending |
-| Public URL accessible | ⏳ https://alimni.tenereonline.com |
+| Enable Email Routing in `alimni-ai.com` zone (CF auto-adds MX + SPF) | ⏳ pending |
+| Verify destination `davies.herve@gmail.com` | ⏳ pending |
+| Forwarding rule: `hello@alimni-ai.com` → Hervé Gmail | ⏳ pending |
+| Optional catch-all: `*@alimni-ai.com` → Hervé Gmail | ⏳ pending |
+| Test: send mail from third-party inbox → arrives within 60s | ⏳ pending |
 
-**Claude action** (after Hervé confirms handles secured): SSH gestion, configure DNS + Caddy, deploy placeholder, smoke test.
+### 5.c — Caddy config + placeholder on gestion
+
+| Step | Status |
+|---|---|
+| `alimni-ai.com, www.alimni-ai.com` block in Caddyfile | ⏳ pending |
+| `/var/www/alimni-ai/` directory + placeholder `index.html` (AR primary + EN secondary) | ⏳ pending |
+| `caddy reload` clean (no syntax error, no port conflict) | ⏳ pending |
+
+### 5.d — Smoke test + cert verification (headless gate, non-negotiable)
+
+| Check | Status |
+|---|---|
+| `curl -sSI https://alimni-ai.com` → 200 + valid LE cert + `server: cloudflare` | ⏳ pending |
+| `curl -sSI https://www.alimni-ai.com` → 301 redirect to apex | ⏳ pending |
+| AR text `علّمني` rendered in HTML body | ⏳ pending |
+| Headless smoke (6 gates) PASS | ⏳ pending |
+| Public URL: https://alimni-ai.com | ⏳ pending |
+
+**Claude action** (after Hervé confirms handles secured): SSH gestion, configure DNS + Email Routing + Caddy, deploy placeholder, run headless smoke gate.
 
 ---
 
@@ -146,11 +176,11 @@ All handles use email `contact@tenereonline.com` for now (will migrate to `hello
 - [ ] Step 1.2 trademark cleared
 - [ ] Step 1.3 reputational scan clean
 - [ ] Step 1.4 5 handles secured
-- [ ] Step 1.5 subdomain live with valid TLS cert
+- [ ] Step 1.5 `alimni-ai.com` live with valid TLS cert + email routing + headless smoke 6/6
 - [ ] **Brand: Alimni AI** confirmed locked
 
 If any check fails → fallback to `allimni-ai.com` (double-l) → `mu3allim-ai.com` → `muhandis.dev` → re-brainstorm.
 
 ---
 
-**Last updated**: 2026-05-07 — alimni-ai.com purchased on Cloudflare ✅, awaiting handles + scans + subdomain setup.
+**Last updated**: 2026-05-07 — `alimni-ai.com` purchased on Cloudflare ✅, hosting strategy revised to single-track (spec §9 + plan revised same day, see commit log). Awaiting handles + scans + Step 1.5 (DNS + email routing + Caddy + smoke).

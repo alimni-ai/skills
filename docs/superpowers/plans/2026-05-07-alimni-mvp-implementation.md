@@ -26,11 +26,11 @@
 - 🟡 **Secondary** (every skill release, repurposed from YT Shorts asset): TikTok · Instagram Reels · YouTube long-form · Threads
 - 🟠 **Opportunistic** (bounded events: W4 launch + W8 flagship + W12 V1 close): Product Hunt · Hacker News · Reddit · existing AR/MENA dev community drops
 
-**Hosting strategy (locked from spec §9 — hybrid):**
-- W1: acquire `alimni-ai.com` as insurance ($14, parked, no DNS). Non-negotiable.
-- W1–W6: V1 hosted on `alimni.tenereonline.com` (sub-domain of TENERE infra, zero-cost reuse of Caddy + CF + backup pipeline)
-- W6 Gate intermediate: migration trigger evaluation. If activation positive (≥10 unique completions) → migrate to `alimni-ai.com` at W7–W8. If weak → stay on subdomain.
-- GitHub repo URL `github.com/<alimni-ai-org>/skills` is immutable from day 1 — install commands never break, regardless of landing domain.
+**Hosting strategy (locked from spec §9 — single-track, revised 2026-05-07):**
+- ✅ W0: `alimni-ai.com` acquired at Cloudflare Registrar ($12/yr, registered 2026-05-07).
+- W1: V1 hosted directly on `alimni-ai.com` (Caddy on gestion VPS + CF DNS + LE cert). Brand-aligned URL from day 1, no transitional sub-domain, no W6 migration to plan.
+- Optional: acquire `alimniai.com` typo-redirect ($12/yr, permanent 301 → `alimni-ai.com`). Decision pending Hervé in `brand-lock-report.md`.
+- GitHub repo URL `github.com/alimni-ai/skills` is immutable from day 1 — install commands never break.
 
 **Execution mode (locked from EXECUTION_MODE.md):**
 - 🤖 Subagent for: Task 2 (repo+CI), Task 6 (telemetry), code-only parts of Task 4 + 11
@@ -102,27 +102,25 @@
 **Files:**
 - Create: `/home/creed/alimni/distribution/brand-lock-report.md`
 
-This is non-code work but blocks everything downstream. **Done = a single committed report file documenting all outcomes + hybrid hosting plumbing live.**
+This is non-code work but blocks everything downstream. **Done = a single committed report file documenting all outcomes + `alimni-ai.com` hosting live with valid TLS cert.**
 
 **Recommended execution order (per founder priority — all steps are independent and can be parallelized, but launch in this order to minimize squatting risk):**
-1. Step 1.1 (domain insurance) → Step 1.4 (handles) — within same hour, before anyone hears the name
+1. Step 1.1 (domain — ✅ done 2026-05-07) → Step 1.4 (handles) — within same hour as initial name commit
 2. Steps 1.2 + 1.3 (trademark + reputational) — can run in parallel
-3. Step 1.5 (subdomain infra) — once name is provisionally cleared
+3. Step 1.5 (`alimni-ai.com` DNS + Caddy + placeholder + email routing) — once name is provisionally cleared
 4. Step 1.6 (commit) — at the end
 
-- [ ] **Step 1.1: Acquire `alimni-ai.com` as insurance + park**
+- [x] **Step 1.1: Acquire `alimni-ai.com`** (✅ done 2026-05-07)
 
-Run: `whois alimni-ai.com` (re-confirm DNS-free). If still free, purchase **immediately** via Cloudflare Registrar (preferred — same provider as future DNS, no markup, no upsell). Backup registrar: Porkbun.
+`alimni-ai.com` registered at Cloudflare Registrar on 2026-05-07 11:03:29 UTC, expires 2027-05-07. WHOIS-confirmed: registrar Cloudflare Inc., status `clientTransferProhibited` (CF default protection). DNS records will be added at Step 1.5 (no longer parked-only — V1 lives directly on this domain).
 
-Important: this is **insurance, not the V1 landing host**. Domain stays parked at Cloudflare with **no DNS records** for the duration of V1 (W1–W6). Activation only at W6 if migration trigger fires (per spec §9).
-
-- Registrar: Cloudflare Registrar (preferred)
-- Owner email: `contact@tenereonline.com` for now (TENERE LLC operational email; migrate to `hello@alimni-ai.com` once email forward is set up post-W6 migration)
+- Registrar: Cloudflare Registrar
+- Owner email at registrar: `contact@tenereonline.com` (TENERE LLC operational email — Hervé's working inbox; brand-facing public email `hello@alimni-ai.com` is set up at Step 1.5b via CF Email Routing)
 - WHOIS privacy: ON
-- Auto-renew: ON (avoid accidental drop)
-- Cost: ~$14/year
+- Auto-renew: verify ON in CF dashboard (avoid accidental drop)
+- Cost: $12/year
 
-Acceptance: receipt screenshot saved to `distribution/brand-lock-report.md`, domain visible in CF dashboard, **no DNS records configured** (parked status confirmed).
+Acceptance: ✅ domain visible in CF Registrar dashboard, WHOIS-confirmed.
 
 - [ ] **Step 1.2: Trademark search**
 
@@ -159,47 +157,59 @@ Within 60 minutes of go-decision (handle squatters move fast), claim:
 
 Each handle: log URL + screenshot in report.
 
-Acceptance: 5 handles secured, all linked in report, all using `contact@tenereonline.com` for now (migrate to `hello@alimni-ai.com` once email forward is set up in Task 2).
+Acceptance: 5 handles secured, all linked in report. Use `hello@alimni-ai.com` if Step 1.5b (CF Email Routing) is already live; otherwise fall back to `contact@tenereonline.com` and update the handle email after routing is up.
 
-- [ ] **Step 1.5: Setup `alimni.tenereonline.com` subdomain on Caddy + CF (V1 hosting)**
+- [ ] **Step 1.5: Setup `alimni-ai.com` on Caddy + CF DNS + email routing (V1 hosting)**
 
-Per the hybrid hosting strategy (spec §9), V1 lives on this sub-domain until the W6 migration trigger.
+Per the single-track hosting strategy (spec §9), V1 lives directly on the canonical `alimni-ai.com` from W0 — no transitional sub-domain.
 
-**5.a — Cloudflare DNS** (in the existing `tenereonline.com` zone):
+**5.a — Cloudflare DNS** (in the `alimni-ai.com` zone, which CF auto-created at registration):
 
-Add A record:
-- Type: A
-- Name: `alimni`
-- IPv4: gestion VPS public IP (existing in CF zone)
-- Proxy status: orange cloud ON (use CF as proxy, consistent with existing TENERE site pattern)
-- TTL: Auto
+Verify the zone exists in CF dashboard. Add records:
 
-Add AAAA record (IPv6) if gestion has a public IPv6, same proxied setup.
+| Type | Name | Value | Proxy | TTL |
+|---|---|---|---|---|
+| A | `@` (root) | gestion VPS public IPv4 | 🟠 ON | Auto |
+| A | `www` | gestion VPS public IPv4 | 🟠 ON | Auto |
 
-- [ ] **5.b — Caddy config on gestion VPS**
+Add AAAA records too if gestion has a public IPv6 (same proxied setup).
+
+Verify SSL/TLS encryption mode in `alimni-ai.com` zone settings: must be **Full (strict)** — otherwise Caddy cannot issue a valid LE cert behind CF proxy.
+
+- [ ] **5.b — Cloudflare Email Routing** (`hello@alimni-ai.com` → Hervé's inbox)
+
+In CF dashboard → `alimni-ai.com` zone → Email → Email Routing → Enable. CF auto-adds the required MX + SPF records.
+
+Add forwarding rule:
+- `hello@alimni-ai.com` → `davies.herve@gmail.com` (verify destination address by email confirmation first)
+
+Optional catch-all rule: `*@alimni-ai.com` → `davies.herve@gmail.com` (insurance against typos).
+
+Acceptance: send a test email to `hello@alimni-ai.com` from a third-party inbox; confirms delivery to Hervé's Gmail within 60s.
+
+- [ ] **5.c — Caddy config on gestion VPS**
 
 SSH to gestion. Edit `/etc/caddy/Caddyfile` (or the include file pattern existing TENERE projects use). Add:
 
 ```
-alimni.tenereonline.com {
-    root * /var/www/alimni
+alimni-ai.com, www.alimni-ai.com {
+    root * /var/www/alimni-ai
     file_server
     encode gzip
     log {
-        output file /var/log/caddy/alimni.log
+        output file /var/log/caddy/alimni-ai.log
     }
-    header {
-        # Brand identity — make it visible this is Alimni AI, not TENERE corporate
-        X-Alimni AI-Brand "true"
-    }
+    # Canonicalize www → apex
+    @www host www.alimni-ai.com
+    redir @www https://alimni-ai.com{uri} permanent
 }
 ```
 
 Create the directory:
 
 ```bash
-sudo mkdir -p /var/www/alimni
-sudo chown creed:creed /var/www/alimni
+sudo mkdir -p /var/www/alimni-ai
+sudo chown creed:creed /var/www/alimni-ai
 ```
 
 For now (W1, no landing built yet), drop a temporary `index.html`:
@@ -207,29 +217,46 @@ For now (W1, no landing built yet), drop a temporary `index.html`:
 ```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head><meta charset="utf-8"><title>Alimni AI — قريبًا</title></head>
-<body style="font-family: serif; padding: 2rem; max-width: 600px; margin: auto;">
-  <h1>وكالة</h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>علّمني — Alimni AI</title>
+  <meta name="description" content="أكاديمية عربية للذكاء الاصطناعي والبرمجة الذكية. قريبًا.">
+</head>
+<body style="font-family: serif; padding: 2rem; max-width: 600px; margin: auto; line-height: 1.7;">
+  <h1 style="font-size: 3rem;">علّمني</h1>
   <p>أكاديمية عربية لأدوات البرمجة الذكية. قريبًا.</p>
-  <p style="margin-top: 2rem;">An Arabic AI engineering academy. Coming soon.</p>
+  <p style="margin-top: 2rem;" dir="ltr"><strong>Alimni AI</strong> — Teach me AI, in Arabic. Coming soon.</p>
+  <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;" dir="ltr">
+    <a href="mailto:hello@alimni-ai.com">hello@alimni-ai.com</a>
+  </p>
 </body>
 </html>
 ```
 
 Reload Caddy: `sudo caddy reload --config /etc/caddy/Caddyfile`.
 
-- [ ] **5.c — Smoke test + cert verification**
+- [ ] **5.d — Smoke test + cert verification (headless gate, non-negotiable)**
+
+Per memory `feedback_no_blind_push_to_public_site.md`: build OK ≠ runtime OK. Run the headless smoke gate before declaring Step 1.5 done.
 
 ```bash
-curl -sSI https://alimni.tenereonline.com | head -5
-# Expected: HTTP/2 200, valid Let's Encrypt cert (issued by Caddy automatically via CF Full strict)
-curl -sS https://alimni.tenereonline.com | grep -o 'وكالة'
-# Expected: matches (AR rendering OK over HTTPS)
+# Quick curl checks
+curl -sSI https://alimni-ai.com | head -10
+# Expected: HTTP/2 200, valid Let's Encrypt cert, server: cloudflare
+curl -sSI https://www.alimni-ai.com | head -5
+# Expected: 301 redirect → https://alimni-ai.com/
+curl -sS https://alimni-ai.com | grep -o 'علّمني'
+# Expected: matches (AR script rendered over HTTPS)
+
+# Headless 6-gate smoke (reuse the TENERE script pattern, adapted)
+bash /home/creed/tenere-site/scripts/smoke-headless.sh https://alimni-ai.com
+# Gates: DOM mounted / no console error / title present / AR text rendered / TLS cert valid / CF proxy active
 ```
 
-If cert fails to issue: check that CF zone is "Full strict" mode, not "Flexible" (otherwise Caddy can't get a valid LE cert behind CF proxy).
+If LE cert fails: confirm CF SSL/TLS mode is **Full (strict)**, not Flexible.
 
-Acceptance: `https://alimni.tenereonline.com` returns 200 with the placeholder page, valid TLS cert, AR text renders. Document URL + cert info in `brand-lock-report.md`.
+Acceptance: `https://alimni-ai.com` returns 200 with placeholder page, valid TLS cert, AR text renders, www→apex redirect works, headless smoke 6/6 PASS. Document URL + cert info + smoke output in `brand-lock-report.md`.
 
 - [ ] **Step 1.6: Commit brand-lock report**
 
@@ -672,23 +699,28 @@ Run: `npm run dev` (in `landing/`). Open http://localhost:4321. Verify:
 - No console errors
 - Mobile viewport: cards stack, no horizontal scroll
 
-- [ ] **Step 4.6: Build static + deploy to gestion VPS at `alimni.tenereonline.com`**
+- [ ] **Step 4.6: Build static + deploy to gestion VPS at `alimni-ai.com`**
 
-Per the hybrid hosting strategy (spec §9), W1–W6 deploys go to the sub-domain. Caddy + CF DNS were set up at Task 1 Step 1.5; here we just push the real built site over the placeholder.
+Per the single-track hosting strategy (spec §9), V1 deploys go directly to the canonical domain. Caddy + CF DNS + email routing were set up at Task 1 Step 1.5; here we just push the real built site over the W1 placeholder.
 
 ```bash
 cd /home/creed/alimni/landing
 npm run build  # outputs to landing/dist/
-rsync -avz --delete landing/dist/ creed@gestion:/var/www/alimni/
+rsync -avz --delete landing/dist/ creed@gestion:/var/www/alimni-ai/
 ```
 
-(Note: `/var/www/alimni/` directory already exists from Task 1 Step 1.5b. The `--delete` flag removes the W1 placeholder index.html.)
+(Note: `/var/www/alimni-ai/` directory already exists from Task 1 Step 1.5c. The `--delete` flag removes the W1 placeholder index.html.)
 
-Caddy config: **no change needed** — the `alimni.tenereonline.com` block was already configured at Task 1 Step 1.5b. Caddy serves whatever is in `/var/www/alimni/`.
+Caddy config: **no change needed** — the `alimni-ai.com` block was already configured at Task 1 Step 1.5c. Caddy serves whatever is in `/var/www/alimni-ai/`.
 
-Reload only if Caddyfile changed: not needed here.
+Run smoke headless gate (non-negotiable per memory `feedback_no_blind_push_to_public_site.md`):
 
-**`alimni-ai.com` remains parked** (no DNS records, no Caddy block). It only activates at W7–W8 IF the W6 migration trigger fires (per Task 6 Step 6.12).
+```bash
+bash /home/creed/tenere-site/scripts/smoke-headless.sh https://alimni-ai.com
+# Expected: 6/6 PASS — DOM mounted / no console error / title present / AR text rendered / TLS valid / CF proxy active
+```
+
+If smoke fails: rollback (`rsync` previous backup) before declaring deploy done.
 
 - [ ] **Step 4.7: Smoke test runtime headless (per memory `feedback_no_blind_push_to_public_site.md`)**
 
@@ -978,26 +1010,22 @@ git push --tags
 gh release create skills-v0.2.0 --title "Alimni AI Skills v0.2.0 — prompt-loop-ar" --notes "..."
 ```
 
-- [ ] **Step 6.11: 🚦 GATE INTERMEDIATE — domain migration trigger evaluation**
+- [ ] **Step 6.11: 🚦 GATE INTERMEDIATE — W6 activation health-check**
 
-Per spec §9 hybrid hosting strategy, evaluate at the end of W6 whether to migrate from `alimni.tenereonline.com` to `alimni-ai.com` in W7–W8. **Decision is binary, recorded in `distribution/migration-decision.md`, no fudging.**
+Single-track hosting (spec §9 revised) means there is no domain-migration decision at W6. This gate now exists only as an honest activation-signal checkpoint to inform whether the V1 wedge is working — outcome shapes Task 7's effort budget, not domain plumbing.
 
-Compute migration trigger criteria:
-- ✅ ≥10 unique skill completions in telemetry (`SELECT COUNT(DISTINCT client_uuid) FROM alimni_skill_completions;`)
-- ✅ ≥30 GitHub stars
-- ✅ ≥30 Telegram subscribers
-- ✅ ≥1 substantive inbound feedback signal (issue, PR, DM, thoughtful reply)
-- ✅ Hervé bandwidth status: not in skip-week debt, ≤2 cumulative skip-weeks used so far
+Compute activation signals:
+- Unique skill completions in telemetry (`SELECT COUNT(DISTINCT client_uuid) FROM alimni_skill_completions;`)
+- GitHub stars
+- Telegram subscribers
+- Substantive inbound feedback signals (issue, PR, DM, thoughtful reply)
+- Hervé bandwidth status: cumulative skip-weeks used so far (target ≤2)
 
-**Trigger fires (migrate to alimni-ai.com at W7–W8) IF**: 4 of 5 criteria hit.
-**Trigger does NOT fire (stay on alimni.tenereonline.com) IF**: <4 of 5 hit.
-**Override clause**: even if trigger fires, Hervé can defer migration by 4 weeks if a higher-priority Alimni AI work item is blocking. Document the deferral rationale.
-
-Write the decision file:
+Write the snapshot file (informational, no binary decision):
 
 ```bash
-cat > distribution/migration-decision.md <<'EOF'
-# W6 Migration Trigger Decision — 2026-XX-XX
+cat > distribution/w6-activation-snapshot.md <<'EOF'
+# W6 Activation Snapshot — 2026-XX-XX
 
 ## Metrics computed
 - Unique completions: <N>
@@ -1006,22 +1034,21 @@ cat > distribution/migration-decision.md <<'EOF'
 - Feedback signals: <N>
 - Skip-weeks used: <N>
 
-## Outcome
-- Criteria hit: <N> / 5
-- **Decision: MIGRATE / STAY** (one of)
-- Migration target: W7 + W8 (if MIGRATE) — see Task 7 Step 7.0
-- Rationale: <one paragraph>
+## Health read
+- Activation: STRONG / TEPID / WEAK
+- Implication for Task 7 effort: lean in (flagship gets full 10h) / hold (flagship gets 6h, faster ship) / re-evaluate scope at W8 gate
+- Notes: <one paragraph>
 EOF
-git add distribution/migration-decision.md
+git add distribution/w6-activation-snapshot.md
 ```
 
-Acceptance: decision file committed before W6 commit. Outcome shapes Task 7.
+Acceptance: snapshot file committed before W6 commit. Outcome is honest signal — no fudging — but no rollback or migration mechanics depend on it.
 
 - [ ] **Step 6.12: Commit + tag W6**
 
 ```bash
 git add -A
-git commit -m "feat: telemetry + telegram launch + skill-2 + W6 migration decision"
+git commit -m "feat: telemetry + telegram launch + skill-2 + W6 activation snapshot"
 git tag w6-telemetry-live
 git push --tags
 ```
@@ -1030,7 +1057,7 @@ git push --tags
 
 ---
 
-### Task 7: Skill #3 `ship-real-product-ar` draft (Week 7) + Conditional domain migration
+### Task 7: Skill #3 `ship-real-product-ar` draft (Week 7)
 
 This is the **flagship skill** — 2-hour end-to-end build. Highest production value. Deserves more time than other skills.
 
@@ -1038,73 +1065,8 @@ This is the **flagship skill** — 2-hour end-to-end build. Highest production v
 - Create: `/home/creed/alimni/skills/ship-real-product-ar/source.md`
 - Create: `/home/creed/alimni/skills/ship-real-product-ar/test.sh`
 - Create: `/home/creed/alimni/skills/ship-real-product-ar/examples/built-product/` (a real working tiny product as the artifact — e.g., a static habit tracker deployable in 1 command)
-- (Conditional) Modify: Caddy config + CF DNS to migrate to `alimni-ai.com`
 
-- [ ] **Step 7.0: 🔀 CONDITIONAL — Domain migration to `alimni-ai.com` (only if W6 trigger fired)**
-
-Read `distribution/migration-decision.md` (committed at Step 6.11). If decision is **STAY**, skip to Step 7.1.
-
-If decision is **MIGRATE**:
-
-**7.0.a — Cloudflare DNS for `alimni-ai.com`** (the parked domain from Step 1.1):
-- Add A record: `alimni-ai.com` → gestion VPS public IP, proxied
-- Add A record: `www.alimni-ai.com` → same, proxied
-- Wait 30s for propagation
-
-**7.0.b — Caddy config on gestion**:
-
-```
-alimni-ai.com {
-    root * /var/www/alimni
-    file_server
-    encode gzip
-    log {
-        output file /var/log/caddy/alimni-ai.log
-    }
-}
-
-www.alimni-ai.com {
-    redir https://alimni-ai.com{uri} permanent
-}
-
-# Keep the old subdomain alive as 301 redirect for link equity
-alimni.tenereonline.com {
-    redir https://alimni-ai.com{uri} permanent
-}
-```
-
-Reload: `sudo caddy reload --config /etc/caddy/Caddyfile`.
-
-**7.0.c — Smoke test runtime headless** (per memory `feedback_no_blind_push_to_public_site.md` — non-negotiable):
-
-```bash
-bash /home/creed/tenere-site/scripts/smoke-headless.sh https://alimni-ai.com
-# Expected: 6/6 PASS
-bash /home/creed/tenere-site/scripts/smoke-headless.sh https://alimni.tenereonline.com
-# Expected: 301 redirect to alimni-ai.com (smoke adapted to handle redirects)
-```
-
-**7.0.d — Update install commands + landing references**:
-
-In `landing/src/pages/index.astro`, update any reference to `alimni.tenereonline.com` to `alimni-ai.com`. Re-build + deploy.
-
-GitHub repo URL stays unchanged (`github.com/alimni-ai/skills` — was always the canonical install URL).
-
-**7.0.e — Public migration announcement**:
-
-Build note + 3 LinkedIn variants (AR + ENG + FR, manual) + Telegram pin + X thread. Frame: "Alimni AI is now at alimni-ai.com — same skills, new home". Link old subdomain redirect for transparency.
-
-**7.0.f — Update spec §9 + plan + project memory**:
-
-```bash
-# In spec §9, update brand identity section to reflect migration completed
-# Update project_alimni_academy.md memory: status migrated 2026-XX-XX
-git add docs/superpowers/specs/2026-05-07-arabic-academy-mvp-design.md
-git commit -m "domain: migrate alimni.tenereonline.com → alimni-ai.com (W7 trigger)"
-git tag w7-domain-migrated
-```
-
-Time estimate (if migration triggered): 2–3h. Adds to Task 7 budget.
+> **Note (revised 2026-05-07)**: a previous version of this plan included a conditional W7 domain-migration step (Step 7.0) gated on W6 metrics. That step is removed — single-track hosting (spec §9) puts V1 directly on `alimni-ai.com` from W0, so no migration is ever needed.
 
 - [ ] **Step 7.1:** Scaffold via `new-skill.sh`
 - [ ] **Step 7.2:** Build the example product first (a real tiny CRUD or static tool that the skill teaches users to build). Document each prompt + response. ~2h of real building.

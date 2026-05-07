@@ -14,7 +14,7 @@
 
 Each lesson is delivered as an installable, runnable skill that the learner adds to their own agent — not as a video to watch. The product is a public GitHub repository of skills, distributed through a static landing page in Arabic (RTL), founder build-in-public on LinkedIn AR/ENG/FR + X + Telegram + YouTube Shorts (with TikTok / Instagram Reels secondary repurposing). Every distribution channel funnels back to a single action: install the skill in your agent.
 
-This is a side-business owned independently of TENERE LLC. V1 is hosted transitionally on `alimni.tenereonline.com` (sub-domain of TENERE infrastructure on `gestion` VPS — same operational pattern as Kiosque, RIMAYA, BCF cadrage), with migration to standalone `alimni-ai.com` triggered at W6 if activation thresholds are met (see §9 hybrid hosting strategy).
+This is a side-business owned independently of TENERE LLC. V1 is hosted directly on the standalone domain `alimni-ai.com` (acquired 2026-05-07 at Cloudflare Registrar), served by Caddy on the existing `gestion` VPS — same operational reuse of infra (Caddy + CF + backup pipeline) as Kiosque, RIMAYA, BCF cadrage, but with a brand-aligned URL from W0. No transitional sub-domain, no W6 migration needed.
 
 ## 2. Why this product, why now
 
@@ -208,24 +208,23 @@ This sits at the upper edge of the budget. The **skip-week protocol** (any week 
   - **Always paired** in social bios, hero sections, and OG images so AR-monolingual users instantly recognize they're in the right place.
 - **Tagline (AR primary)**: علّمني الذكاء الاصطناعي بالعربية — «Teach me AI in Arabic».
 - **Tagline (EN/FR secondary)**: «Teach me AI — in Arabic.» / «Apprends-moi l'IA — en arabe.»
-- **Domain strategy — hybrid (locked)**:
-  - **W1 immediate**: acquire `alimni-ai.com` ($12/yr at Cloudflare Registrar) as the canonical domain. **Strongly recommended companion**: also acquire `alimniai.com` ($12/yr) and configure as 301 redirect → `alimni-ai.com` for typo recovery. Both parked at Cloudflare with no DNS records initially.
-  - **W1–W6 hosting**: V1 landing hosted on `alimni.tenereonline.com` (sub-domain of TENERE infrastructure). Reasoning: zero new infra cost, reuses Caddy + CF + backup pipeline, instant DNS, aligned with founder's existing pattern (Kiosque, RIMAYA, BCF cadrage). Brand name preserved visibly in the URL.
-  - **Sub-domain explicitly chosen**: `alimni.tenereonline.com` (no hyphen at sub-domain level — host conventions favor letters-only; the standalone `alimni-ai.com` carries the hyphen post-migration).
-  - **W6 migration trigger (Gate intermediate)**: if telemetry shows ≥10 unique skill completions by end of W6 (real activation signal), migrate to `alimni-ai.com` in W7–W8. If activation weak, stay on sub-domain (saves migration effort if wedge fails).
-  - **Migration mechanics**: Caddy 301 redirect `alimni.tenereonline.com` → `alimni-ai.com`, plus `alimniai.com` permanently 301 → `alimni-ai.com` (typo recovery). The GitHub repo URL `github.com/alimni-ai/skills` is **immutable from day 1** — install commands in skills, videos, and posts never break.
-  - **Documented tension with §1**: V1 hosting on a TENERE sub-domain temporarily contradicts the «independent side-brand» stance. This is an explicit, time-bounded compromise — the W6 migration trigger ensures it does not become permanent.
+- **Domain strategy — single-track (locked, revised 2026-05-07)**:
+  - **`alimni-ai.com` is the canonical domain from W0**, acquired 2026-05-07 at Cloudflare Registrar ($12/yr, status: registered with WHOIS privacy ON, auto-renew ON, ICANN-confirmed). Hosted by Caddy on the `gestion` VPS via DNS A record + CF proxy ON.
+  - **Why no transitional sub-domain**: with zero traffic at W0 there is no SEO/links to lose by starting on the wrong host. `alimni.tenereonline.com` would have signaled wrong parentage (Alimni is independent of TENERE), forced 301 redirects later, and required updating bios + install commands at migration time. Direct-to-canonical eliminates that debt.
+  - **Why infra reuse is still preserved**: same gestion VPS, same Caddy, same CF DNS workflow, same backup pipeline (now adding `alimni-ai.com` to the backup target list). Only the host header changes.
+  - **Typo-redirect insurance**: also acquire `alimniai.com` ($12/yr) and configure as permanent 301 → `alimni-ai.com`. Optional but strongly recommended ($12 insurance vs. losing typo traffic + squatter risk). Decision pending Hervé in `brand-lock-report.md`.
+  - **GitHub repo URL `github.com/alimni-ai/skills` is immutable from day 1** — install commands in skills, videos, and posts never break, regardless of any future hosting changes.
 - **Brand-lock checklist (mandatory before any public commit to the name)**:
   1. **Domain purchase** — purchase `alimni-ai.com` at Cloudflare Registrar ($12/yr), simultaneously purchase `alimniai.com` ($12/yr) for typo redirect insurance. Total: $24/yr.
   2. **Trademark search** — clear "ALIMNI" + "ALIMNI AI" + "علّمني" against USPTO (US), EUIPO (EU), and WIPO Madrid in Nice classes 9 (software) + 41 (educational services). Document results. **Specific check**: surface any "Alumni AI" alumni-engagement products to verify they are in different sub-classes (alumni-management ≠ AI engineering education) — coexistence acceptable if no class overlap.
   3. **Reputational/conflict scan** — Google "Alimni AI" / "علّمني AI" / "Alimni dev", X handle search, GitHub org search, LinkedIn page search. Specifically check for existing AI/dev brands using "Alimni" since 2024-2026 (recent enough to risk active conflict). "alumni-management AI" tools are a separate category and not a blocker.
-  4. **Social handles** — secure `@alimni_ai` (or chosen variant) on X, LinkedIn page «Alimni AI — Arabic AI Engineering Academy», Telegram channel `@alimni_ar` (broadcast, not group), GitHub org `alimni-ai`, Bluesky `@alimni-ai.com` (custom domain handle, free after domain purchase). All using `contact@tenereonline.com` for now → migrate to `hello@alimni-ai.com` post-W6 if migration triggers.
+  4. **Social handles** — secure `@alimni_ai` (or chosen variant) on X, LinkedIn page «Alimni AI — Arabic AI Engineering Academy», Telegram channel `@alimni_ar` (broadcast, not group), GitHub org `alimni-ai`, Bluesky `@alimni-ai.com` (custom domain handle, free after domain purchase). All using `hello@alimni-ai.com` once Cloudflare Email Routing is live (Step 1.5b); use `contact@tenereonline.com` only as fallback if email routing isn't ready when claiming a handle.
 - **Fallbacks if any blocker**:
   - First fallback: `allimni-ai.com` (double-l, more AR-faithful transliteration)
   - Second fallback: `mu3allim-ai.com` (Arabish, "teacher")
   - Third fallback: `muhandis.dev` (engineer)
   - Then back to brainstorming round if nothing clears.
-- **Email**: `hello@alimni-ai.com` (post-W6 migration). Pre-W6: `contact@tenereonline.com` operationally.
+- **Email**: `hello@alimni-ai.com` from W0, set up via Cloudflare Email Routing (free, forwards to Hervé's inbox). `contact@tenereonline.com` is only an interim fallback if routing isn't live yet when a handle is claimed.
 - **Tone**: warm, pedagogical, invitational, dev-community. AR-first whenever possible. Vouvoiement OK in FR posts, MSA simple in AR. Less corporate than TENERE, more inclusive of self-taught learners.
 - **Visual**: minimal, dark-mode default, AR-script-first hero, monospace (Latin code) + serif AR pairing. Logo iteration at design phase (V1 = stylized علّمني calligraphy, can be iterated by hired designer post-W4).
 

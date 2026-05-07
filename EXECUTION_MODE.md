@@ -41,13 +41,13 @@ The mapping below applies the canonical Wissam rollout framework:
 **Aggregate distribution:**
 - 🤖 Subagent: ~25% of total time (Tasks 2, 6, parts of 4, 7, 11)
 - 🧑 Inline: ~70% of total time (Tasks 1, 3, 5, 7-content, 8, 9, 10, 11-content, 12)
-- 🚦 HITL gates: ~5% (W4 + W6 migration trigger + W8 + W12 + native AR reviews)
+- 🚦 HITL gates: ~5% (W4 + W6 activation snapshot + W8 + W12 + native AR reviews)
 
 ## HITL placements (canonical 4 — per Wissam workflow card)
 
 | Placement | When | What |
 |---|---|---|
-| (a) Approval gate before irreversible action | Before each go/no-go gate (W4, W6 migration, W8, W12) and before public launch (W4 step 4.8, W12 step 12.6) | Hervé reviews + approves explicitly. Council consult Claude+Ines if conflicting signals. |
+| (a) Approval gate before irreversible action | Before each go/no-go gate (W4, W6 activation snapshot, W8, W12) and before public launch (W4 step 4.8, W12 step 12.6) | Hervé reviews + approves explicitly. Council consult Claude+Ines if conflicting signals. |
 | (b) Confidence routing (LLM uncertainty) | Any subagent step that signals "unclear" or fails CI more than once | Escalate to Hervé immediately, do not retry blindly |
 | (c) Checkpoint serialization | Weekly `git tag w<N>-<milestone>` | Built-in pause point — Hervé can resume from any tag if interrupted |
 | (d) Timeout safety net | Skip-week protocol: any week >10h actual work logged | Following week is build note only, no skill work |
@@ -61,7 +61,7 @@ When dispatching a subagent for a code task:
 3. **No social media access.** Subagents cannot post on LinkedIn / X / Telegram / TikTok / IG / etc. Hervé manual only for all public-facing voice.
 4. **No domain or DNS changes** without Hervé approval.
 5. **No AR content writing.** Subagents may scaffold skill directories, but skill body content is always written by Hervé.
-6. **Smoke gate before any deploy** (per memory `feedback_no_blind_push_to_public_site.md` — non-negotiable for *.tenereonline.com and alimni-ai.com): headless chromium 6 gates.
+6. **Smoke gate before any deploy** (per memory `feedback_no_blind_push_to_public_site.md` — non-negotiable for `alimni-ai.com` and any *.tenereonline.com host touched): headless chromium 6 gates.
 7. **Pin SemVer exact** for any third-party dependency (per Wissam anti-pattern: never `latest` or `npx -y` for MCP packages — Q1-2026 supply chain wave).
 
 ## Inline rules of engagement
@@ -74,9 +74,9 @@ When working inline with Hervé:
 4. **AR native review mandatory** before any skill publish.
 5. **Skip-week protocol respected** — escalate to Hervé immediately if a week exceeds 10h.
 
-## Migration trigger snapshot (W6 reminder)
+## W6 activation snapshot (informational only)
 
-The hybrid hosting decision (subdomain vs standalone domain) is re-evaluated at Step 6.11 of Task 6. Outcome shapes Task 7 Step 7.0. See spec §9 and plan Step 6.11 for the full trigger criteria.
+Single-track hosting (spec §9 revised 2026-05-07) means there is no domain-migration decision baked into the plan. The W6 checkpoint at Step 6.11 of Task 6 is now an honest activation-signal snapshot (completions / stars / subs / feedback / skip-weeks used) — it shapes Task 7's effort budget, not domain plumbing. See plan Step 6.11.
 
 ## When to update this file
 
