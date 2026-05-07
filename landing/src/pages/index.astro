@@ -145,21 +145,55 @@ const counts = {
 
   <!-- ── Why ─────────────────────────────────────────────────────────── -->
   <section class="why">
-    <div class="container prose">
+    <div class="container prose why-prose">
       <h2>لماذا علّمني؟</h2>
+
       <p>
-        مئتا مليون عربي مقصيّون من ثورة الذكاء الاصطناعي
-        لأنّ المحتوى التقني كلّه بالإنجليزية أو الفرنسية.
-        الترجمة وحدها سلعة. الاختيار الصحيح + التنفيذ + المجتمع — هذا هو المحرّك.
+        مئات الملايين من الناطقين بالعربية خارج ثورة الوكلاء الذكيين
+        لأنّ معظم التعليم العملي للذكاء الاصطناعي ما يزال موجّهًا للإنجليزية.
       </p>
-      <p class="muted latin hide-on-mobile">
-        <small>
-          200M+ Arabic speakers are locked out of the agentic AI revolution
-          because nearly all content is in English or French.
-          Translation is a commodity. Curation + execution + community
-          — that's the engine.
-        </small>
+
+      <p class="why-aside">الترجمة وحدها ليست ميزة.</p>
+
+      <p>ميزة <strong>علّمني</strong> هي:</p>
+      <ul class="why-edge-list">
+        <li>الاختيار،</li>
+        <li>التنفيذ،</li>
+        <li>الشرح،</li>
+        <li>التطبيق العملي،</li>
+        <li>الأدوات القابلة للتشغيل،</li>
+        <li>والمجتمع.</li>
+      </ul>
+
+      <p class="why-closing">
+        نحن لا نبني منصة دروس تقليدية،<br />
+        بل نبني <strong>منظومة تنفيذ للذكاء الاصطناعي باللغة العربية</strong>.
       </p>
+
+      <!-- EN secondary block, desktop only (AR-monolingual primary on mobile) -->
+      <div class="why-en muted latin hide-on-mobile">
+        <p>
+          200M+ Arabic speakers are excluded from the AI-agent revolution
+          because most practical AI education is still English-first.
+        </p>
+
+        <p class="why-aside">Translation alone is a commodity.</p>
+
+        <p>Alimni AI's edge is not translation — it is:</p>
+        <ul class="why-edge-list">
+          <li>curation,</li>
+          <li>execution,</li>
+          <li>pedagogy,</li>
+          <li>feedback loops,</li>
+          <li>installable artifacts,</li>
+          <li>and community.</li>
+        </ul>
+
+        <p class="why-closing">
+          We are building<br />
+          <strong>an Arabic AI execution ecosystem, not a passive course platform</strong>.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -483,8 +517,70 @@ const counts = {
     .t-token    { color: var(--accent-bright); }
     .t-muted    { color: var(--fg-muted); }
 
-    /* ── Why ── */
+    /* ── Why ──────────────────────────────────────────────────────────── */
     .why p:first-of-type { font-size: 1.1rem; }
+
+    .why-prose { display: flex; flex-direction: column; gap: var(--s-md); }
+    .why-prose p { margin: 0; }
+
+    /* Standalone aside — "الترجمة وحدها ليست ميزة." / "Translation alone..." */
+    .why-aside {
+      font-style: italic;
+      color: var(--accent);
+      font-size: 1.05rem;
+      padding-block: var(--s-xs);
+    }
+
+    /* Edge list — "ميزة علّمني هي:" / "Alimni AI's edge is..." */
+    .why-edge-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .why-edge-list li {
+      position: relative;
+      padding-inline-start: 1.2rem;
+      color: var(--fg);
+      line-height: 1.6;
+    }
+
+    .why-edge-list li::before {
+      content: "→";
+      position: absolute;
+      inset-inline-start: 0;
+      color: var(--accent-dim);
+      font-family: var(--font-mono);
+      /* In RTL, inline-start is the right edge; the arrow naturally faces inward.
+         In LTR (.why-en), inline-start is the left edge; same visual logic. */
+    }
+
+    /* Closing emphasis */
+    .why-closing {
+      padding-inline-start: var(--s-md);
+      border-inline-start: 2px solid var(--accent-dim);
+      font-size: 1.05rem;
+      margin-block-start: var(--s-xs);
+    }
+
+    .why-closing strong { color: var(--accent-bright); }
+
+    /* EN secondary block — wraps the bilingual mirror, desktop-only via .hide-on-mobile */
+    .why-en {
+      margin-block-start: var(--s-xl);
+      padding-block-start: var(--s-md);
+      border-block-start: 1px dashed var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-sm);
+      font-size: 0.85rem;
+    }
+
+    .why-en .why-aside { font-size: 0.9rem; }
+    .why-en .why-closing { font-size: 0.9rem; }
 
     /* ── Ladder ── */
     .ladder-grid {
@@ -632,6 +728,10 @@ const counts = {
       .proof-terminal { font-size: 0.7rem; padding: var(--s-sm); line-height: 1.6; }
 
       .extensions-intro { margin-block-start: var(--s-xl); }
+
+      /* Force-hide the EN secondary block on mobile. The .hide-on-mobile global
+         utility loses specificity vs the scoped .why-en `display: flex` rule. */
+      .why-en { display: none; }
     }
   </style>
 </BaseLayout>
