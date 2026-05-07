@@ -166,22 +166,25 @@ brand-facing email routes to the same operational mailbox.
 | Cert `www.alimni-ai.com` obtained from LE | ✅ done 12:18:50 UTC |
 | Other tenants verified intact (gestion.rh2p / tenereonline / rimaya) | ✅ done — all 200 OK |
 
-### 5.d — Smoke test + cert verification (headless gate, non-negotiable)
+### 5.d — Smoke test + cert verification (✅ done 2026-05-07 — 6/6 PASS)
 
-> **Blocked on CF dashboard**: Bot Fight Mode + high Security Level on the new
-> `alimni-ai.com` zone return 403 `cf-mitigated: challenge` to all requests
-> (curl AND real browsers). Smoke gate cannot run until Hervé disables
-> Bot Fight Mode + lowers Security Level → Medium in Step 5.b CF actions.
+Bot Fight Mode OFF (Hervé) was the only CF blocker — Security Level adjustment
+proved unnecessary. Smoke ran clean.
 
 | Check | Status |
 |---|---|
-| `curl -sSI https://alimni-ai.com` → 200 + valid LE cert + `server: cloudflare` | ⏳ blocked on CF Bot Fight |
-| `curl -sSI https://www.alimni-ai.com` → 301 redirect to apex | ⏳ blocked on CF Bot Fight |
-| AR text `علّمني` rendered in HTML body | ⏳ blocked on CF Bot Fight |
-| Headless smoke (6 gates via `infra/scripts/smoke-alimni.sh`) PASS | ⏳ blocked on CF Bot Fight |
-| Public URL: https://alimni-ai.com | ⏳ blocked on CF Bot Fight |
+| `curl -sSI https://alimni-ai.com` → 200 + valid LE cert + `server: cloudflare` | ✅ HTTP/2 200 |
+| `curl -sSI https://www.alimni-ai.com` → 301 redirect to apex | ✅ `location: https://alimni-ai.com/` |
+| `<title>` brand-aligned | ✅ `<title>علّمني — Alimni AI · Arabic AI Engineering Academy</title>` |
+| AR text `علّمني` rendered in HTML body | ✅ confirmed |
+| TLS handshake | ✅ valid LE cert obtained 12:27:07 UTC |
+| Headless chromium load (no console errors) | ✅ screenshot captured at `~/snap/chromium/common/alimni-smoke/home.png` |
+| Public URL: https://alimni-ai.com | ✅ **LIVE** |
 
-**Claude action** (after Hervé confirms Bot Fight OFF + Security Level Medium): run `bash infra/scripts/smoke-alimni.sh`, document outcome here.
+Smoke gate output:
+```
+✅ Smoke 6/6 PASS — https://alimni-ai.com is healthy.
+```
 
 ---
 
