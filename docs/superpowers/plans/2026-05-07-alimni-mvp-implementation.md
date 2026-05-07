@@ -4,6 +4,11 @@
 
 **Goal:** Ship Alimni AI Academy V1 — 5 Arabic skills for agentic coding tools (Claude Code + Codex), a static RTL landing page, distribution loops (LinkedIn AR/FR + Telegram + X + YT Shorts), and activation telemetry — within 12 weeks, with go/no-go gates at weeks 4, 8, and 12.
 
+> **Status update (2026-05-07 nuit) — what shipped ahead of plan during W1:**
+> - `alimni-ai.com` LIVE end-to-end (Caddy + CF + LE cert), commit `7951889` UX pass + Why-section (`e47b5f1`) + Hero AI prefix (`edd931c`) + Maturity ladder redesign (`1501f34`) + OpenClaw ecosystem mention (`06444bf`) + AI Tools Tracker 5 Level 1 cards (`7cf245c`) + Skill #1 starter-repo (`fea65ed`) + Tools Tracker eta_label (`c06f9c0`) + C1 OpenClaw bridge (`284a78c`).
+> - Lighthouse a11y 100/100 mobile + desktop, smoke 3/3 prod across iterations.
+> - Net effect : the public surface (Level 1 across all 5 V1 tools) is fully shipped in W1. Phase 1 W2-W4 focus narrows to **Level 3 first skill (`setup-agentic-ar` MVE-complete)**. Phase 2 work shifts toward Level 2 Arabic Guides (see "Product framework v2" below).
+
 **Architecture:** Monorepo at `/home/creed/alimni`. Single-source-of-truth `source.md` per skill compiles to Claude Code SKILL.md + Codex skill.json via Node build script. GitHub Actions CI tests every skill against both harnesses on push. Static Astro landing on `alimni-ai.com` (gestion VPS + Caddy + CF). Activation telemetry: anonymous opt-in completion ping → simple Express endpoint on gestion → Postgres count.
 
 **Tech Stack:** Node 20+, GitHub Actions, Astro static + RTL CSS, Caddy, Cloudflare DNS, Postgres (existing on gestion), Bash (skill test runners), Markdown frontmatter (skill metadata). No build framework lock-in — boring stack on purpose.
@@ -20,6 +25,52 @@
 - No own Discord/Slack/forum in V1 (moderation debt)
 - No voice cloning of any creator
 - TTS narration labeled per EU AI Act Article 50 (effective 2026-08-02)
+
+---
+
+## Product framework v2 — tool maturity ladder (revised 2026-05-07 nuit)
+
+> The plan was originally written under an implicit "every published tool needs a complete skill" rule (skills = the only public surface). That rule was abandoned 2026-05-07 nuit. Alimni AI is now defined as an **Arabic AI trend-to-execution system** — every trending tool can be surfaced to the AR audience the moment it appears, without waiting for a complete skill.
+
+**Two orthogonal dimensions:**
+
+| Dimension | Levels | What it measures | Where it lives |
+|---|---|---|---|
+| **Tool maturity** (public-facing, per tool) | Level 1 → 2 → 3 | How deep is Alimni's AR coverage of *this tool* | `landing/src/data/tools.ts` + dynamic `/tools/<slug>/` routes |
+| **Skill maturity** (artifact-side, per skill) | 🌱 MVE-partial → 🌿 MVE-complete → 🌳 Mature | How polished is the *publishable artifact* | `skills/<slug>/MATURITY.md` + frontmatter |
+
+**Tool maturity levels:**
+- **Level 1 — Trend Page (AR)** : 1 page minimum per tool : `name_ar`, `why_ar`, `audience_ar`, `build_ar`, `source_url`, `category` (agent/orchestration/automation/protocol), `status` (جاهز / قيد الإعداد / مطلوب من المجتمع), optional `eta_label`. **No skill required.** This is the trend signal — readers see Alimni cover the tool *while* the LLM landscape is moving.
+- **Level 2 — Arabic Guide** : an in-depth AR walkthrough (install / config / commands / errors / glossary). Markdown content, no executable artifact. Lives at `/tools/<slug>/guide` (future route). Does not require a Claude/Codex skill — it is documentation.
+- **Level 3 — Executable Lab** : a Claude+Codex skill at MVE-complete or above (artifact-first contract per spec §6/§14). Publishes a real artifact (repo + deploy URL + workflow). Lives in `skills/<slug>/`.
+
+**Public statuses (visible on cards) — V1:**
+- `جاهز الآن` (ready) — Level 3 done OR Level 2 + clear self-serve path
+- `قيد الإعداد` (wip) — Level 1 published, Level 2/3 in progress (with optional `eta_label`)
+- `مطلوب من المجتمع` (requested) — Level 1 stub, no work scheduled — community vote signal
+
+**Mapping tool → skill — V1 commitment:**
+
+| Tool | Level 1 (Trend Page AR) | Level 2 (Arabic Guide) | Level 3 (Skill MVE-complete) | V1 target |
+|---|---|---|---|---|
+| Claude Code | ✅ shipped W1 | W4–W6 | `setup-agentic-ar` (W3) | Level 3 🌿 |
+| Codex | ✅ shipped W1 | W4–W6 | (shared with `setup-agentic-ar`) | Level 3 🌿 |
+| OpenClaw | ✅ shipped W1 | W6–W8 | V2 (separate skill `openclaw-multi-llm-ar`) | Level 1 + ecosystem mention C1 |
+| n8n | ✅ shipped W1 | W8–W10 | `n8n-mcp-pipeline-ar` (W11, MVE-partial target) | Level 3 🌱 |
+| MCP | ✅ shipped W1 | W8–W10 | `n8n-mcp-pipeline-ar` (W11, MVE-partial target) | Level 3 🌱 |
+
+**Why this matters for the plan:**
+1. The "5 skills" of the original plan = Level 3 commitments. Level 1 across all 5 tools was already shipped 2026-05-07 (commit `7cf245c`).
+2. Phase 1 (W1–W4) was framed as "ship first skill"; in practice W1 also shipped 5 Level 1 Trend Pages — the public surface is *ahead of plan*.
+3. Phase 2 (W5–W8) work shifts : the landing already has 5 visible cards. Pressure on Phase 2 is now to **upgrade tools from Level 1 → Level 2** (Arabic Guides), not to produce more cards.
+4. Tools added to the public catalog *after* V1 (e.g., new agentic CLI in W12) start at Level 1 by default and progress later. **No tool blocked on a complete skill before being publicly listed.**
+
+**Anti-patterns (locked):**
+- ❌ "If the skill isn't done, hide the tool from landing." — abandoned. Level 1 is enough.
+- ❌ Brute external redirect (Claude Code official docs in EN/FR) without an AR Trend Page. Cf memory `feedback_alimni_no_brute_redirect.md`.
+- ❌ Mixing tool maturity ↔ skill maturity in copy. They are separate ladders.
+
+---
 
 **Distribution tiers (locked from spec §7):**
 - 🟢 **Primary** (every build note + release): GitHub · LinkedIn AR · LinkedIn ENG · LinkedIn FR · X · Telegram · YT Shorts
@@ -651,6 +702,16 @@ git push --tags
 ---
 
 ### Task 4: Landing page MVP + Skill #1 publish + Gate 1 (Week 4)
+
+> **Status note 2026-05-07 nuit (revision):** Steps 4.1 → 4.6 are *already complete*. The landing is live at https://alimni-ai.com with content beyond the original Task 4 envelope :
+> - Hero (AR-master + ALIMNI AI sub-mark + dopamine C1 proof block with multi-LLM bridge)
+> - Why-section (200M+ AR speakers framing + 6-edge value list)
+> - Maturity ladder (4 stages, dark cards, status accents)
+> - **Skills section** (split Core path 3 skills + Extensions 2 skills, ladder badges, install commands)
+> - **AI Tools Tracker** (5 Level 1 Trend Pages : Claude Code / Codex / OpenClaw / n8n / MCP — section on landing + dynamic `/tools/<slug>/` routes)
+> - Lighthouse a11y 100/100 mobile + desktop ; smoke 3/3 prod
+>
+> Only Steps 4.7–4.10 remain (formal smoke gate run + W4 build note + W4 tag + Gate 1 review). When `setup-agentic-ar` MVE-complete (Step 3 prereq) Skill #1's landing card flips from `قيد الإعداد` → `جاهز الآن`.
 
 **Files:**
 - Create: `/home/creed/alimni/landing/astro.config.mjs`
