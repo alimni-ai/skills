@@ -15,18 +15,37 @@ infra/
 └── scripts/smoke-alimni.sh      ← Headless smoke gate, run AFTER deploy + DNS resolves
 ```
 
+## Isolation strategy (locked 2026-05-07)
+
+The Alimni Caddy block lives in `/etc/caddy/conf.d/alimni-ai.caddy` on gestion,
+included via a one-time `import conf.d/*.caddy` directive added to the main
+`/etc/caddy/Caddyfile`. **Every future edit to Alimni infra touches only this
+single file** — the main Caddyfile and other tenant blocks (gestion.rh2p.org,
+tenereonline.com, rimaya.tenereonline.com, cadragejn.tenereonline.com) stay
+untouched.
+
+**Rollback Alimni in 1 command** (does not affect any other site):
+
+```bash
+ssh gestion 'sudo rm /etc/caddy/conf.d/alimni-ai.caddy && sudo caddy reload --config /etc/caddy/Caddyfile'
+```
+
 ## Deploy procedure (V1 placeholder)
 
-This is a one-shot deploy. Real landing replaces `/var/www/alimni-ai/index.html`
-at W4 (Task 4 Step 4.6) and follows the same smoke gate.
+One-shot deploy. Real landing replaces `/var/www/alimni-ai/index.html` at W4
+(Task 4 Step 4.6) and follows the same smoke gate.
 
 ### 1. Push files to gestion
 
 ```bash
-# Caddy block
+# Caddy block — single isolated file in conf.d/
 scp infra/caddy/alimni-ai.caddy gestion:/tmp/alimni-ai.caddy
-ssh gestion 'sudo install -m 0644 /tmp/alimni-ai.caddy /etc/caddy/conf.d/alimni-ai.caddy 2>/dev/null \
-            || sudo bash -c "cat /tmp/alimni-ai.caddy >> /etc/caddy/Caddyfile"'
+ssh gestion 'sudo install -m 0644 -o root -g root /tmp/alimni-ai.caddy /etc/caddy/conf.d/alimni-ai.caddy && rm /tmp/alimni-ai.caddy'
+
+# Pre-create log file with caddy:caddy ownership (Caddy runs as caddy user; if
+# the file doesn't exist, caddy can't create it in /var/log/caddy/ which is
+# owned by caddy:caddy with 0755 — but new files default to root if not pre-created).
+ssh gestion 'sudo install -m 0640 -o caddy -g caddy /dev/null /var/log/caddy/alimni-ai.log'
 
 # Placeholder
 ssh gestion 'sudo mkdir -p /var/www/alimni-ai && sudo chown creed:creed /var/www/alimni-ai'
@@ -48,12 +67,14 @@ In `alimni-ai.com` zone at https://dash.cloudflare.com:
 | DNS → `A @` | `157.180.21.245` (gestion VPS public IPv4), proxied (orange cloud ON) |
 | DNS → `A www` | `157.180.21.245`, proxied (orange cloud ON) |
 | SSL/TLS → Encryption mode | **Full (strict)** — required for LE cert behind CF proxy |
+| Security → Bots → Bot Fight Mode | **OFF** (default ON on new zones blocks all visitors with 403 cf-mitigated:challenge) |
+| Security → Settings → Security Level | **Medium** (or Essentially Off for placeholder phase) |
 | Email → Email Routing → Enable | (CF auto-adds MX + SPF) |
-| Email → Destination addresses | `davies.herve@gmail.com` (verify via Gmail confirmation link) |
-| Email → Forwarding rule | `hello@alimni-ai.com` → `davies.herve@gmail.com` |
-| Email → Catch-all (optional) | `*@alimni-ai.com` → `davies.herve@gmail.com` |
+| Email → Destination addresses | `contact@tenereonline.com` (verify via the confirmation link CF sends to that inbox) |
+| Email → Forwarding rule | `hello@alimni-ai.com` → `contact@tenereonline.com` |
+| Email → Catch-all (recommended) | `*@alimni-ai.com` → `contact@tenereonline.com` (insurance against typos like `info@`, `contact@`) |
 
-### 4. Smoke gate (after DNS resolves — propagation ~30s with CF)
+### 4. Smoke gate (after DNS resolves + CF Bot Fight is OFF)
 
 ```bash
 bash infra/scripts/smoke-alimni.sh
@@ -73,3 +94,8 @@ bash infra/scripts/smoke-alimni.sh
 - **HTTP-01 ACME challenge** works through CF orange cloud — CF proxies the
   `/.well-known/acme-challenge/` path to gestion, Caddy responds, LE issues. No
   CF API token / DNS-01 plugin needed.
+- **Email destination = `contact@tenereonline.com`**, not Hervé's personal
+  Gmail directly. Per memory `feedback_tenere_corporate_email_rule.md`, all
+  brand-facing inboxes route through the TENERE corporate operational email
+  (single inbox principle). `contact@tenereonline.com` is itself forwarded to
+  Hervé's working inbox.

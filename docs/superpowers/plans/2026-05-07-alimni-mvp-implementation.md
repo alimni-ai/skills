@@ -176,40 +176,38 @@ Add AAAA records too if gestion has a public IPv6 (same proxied setup).
 
 Verify SSL/TLS encryption mode in `alimni-ai.com` zone settings: must be **Full (strict)** — otherwise Caddy cannot issue a valid LE cert behind CF proxy.
 
-- [ ] **5.b — Cloudflare Email Routing** (`hello@alimni-ai.com` → Hervé's inbox)
+- [ ] **5.b — Cloudflare Email Routing** (`hello@alimni-ai.com` → TENERE corporate inbox)
 
 In CF dashboard → `alimni-ai.com` zone → Email → Email Routing → Enable. CF auto-adds the required MX + SPF records.
 
+Destination is `contact@tenereonline.com` (single-inbox principle per memory `feedback_tenere_corporate_email_rule.md`), not Hervé's personal Gmail directly.
+
 Add forwarding rule:
-- `hello@alimni-ai.com` → `davies.herve@gmail.com` (verify destination address by email confirmation first)
+- `hello@alimni-ai.com` → `contact@tenereonline.com` (verify destination address via the confirmation link CF sends to that inbox)
 
-Optional catch-all rule: `*@alimni-ai.com` → `davies.herve@gmail.com` (insurance against typos).
+Catch-all (recommended): `*@alimni-ai.com` → `contact@tenereonline.com` (insurance against typos like `info@`, `contact@`).
 
-Acceptance: send a test email to `hello@alimni-ai.com` from a third-party inbox; confirms delivery to Hervé's Gmail within 60s.
+Acceptance: send a test email to `hello@alimni-ai.com` from a third-party inbox; confirms delivery to the TENERE corporate inbox within 60s.
 
-- [ ] **5.c — Caddy config on gestion VPS**
+- [ ] **5.c — Caddy config on gestion VPS (isolated conf.d/ pattern, locked 2026-05-07)**
 
-SSH to gestion. Edit `/etc/caddy/Caddyfile` (or the include file pattern existing TENERE projects use). Add:
+SSH to gestion. The Alimni Caddy block lives in its own file under `/etc/caddy/conf.d/`, included via a one-time `import conf.d/*.caddy` directive at the bottom of the main `/etc/caddy/Caddyfile`. **Future Alimni edits never touch the main Caddyfile** — they only modify `conf.d/alimni-ai.caddy`. This keeps gestion's other tenants (gestion.rh2p, tenereonline, rimaya, cadragejn) safe from Alimni-side mistakes.
 
-```
-alimni-ai.com, www.alimni-ai.com {
-    root * /var/www/alimni-ai
-    file_server
-    encode gzip
-    log {
-        output file /var/log/caddy/alimni-ai.log
-    }
-    # Canonicalize www → apex
-    @www host www.alimni-ai.com
-    redir @www https://alimni-ai.com{uri} permanent
-}
-```
+The Caddy block itself is checked into the Alimni repo at `infra/caddy/alimni-ai.caddy` (uses CF-only access matcher matching the TENERE/RIMAYA/BCF anti-phishing pattern, plus HSTS / X-Robots-Tag noindex for the placeholder phase).
 
-Create the directory:
+Deploy:
 
 ```bash
-sudo mkdir -p /var/www/alimni-ai
-sudo chown creed:creed /var/www/alimni-ai
+# Push isolated Caddy block
+scp infra/caddy/alimni-ai.caddy gestion:/tmp/alimni-ai.caddy
+ssh gestion 'sudo install -m 0644 -o root -g root /tmp/alimni-ai.caddy /etc/caddy/conf.d/alimni-ai.caddy && rm /tmp/alimni-ai.caddy'
+
+# Pre-create log file (Caddy runs as caddy user; if the file doesn't exist
+# the reload fails with permission denied — pre-create with right ownership)
+ssh gestion 'sudo install -m 0640 -o caddy -g caddy /dev/null /var/log/caddy/alimni-ai.log'
+
+# Webroot
+ssh gestion 'sudo mkdir -p /var/www/alimni-ai && sudo chown creed:creed /var/www/alimni-ai'
 ```
 
 For now (W1, no landing built yet), drop a temporary `index.html`:

@@ -224,7 +224,7 @@ This sits at the upper edge of the budget. The **skip-week protocol** (any week 
   - Second fallback: `mu3allim-ai.com` (Arabish, "teacher")
   - Third fallback: `muhandis.dev` (engineer)
   - Then back to brainstorming round if nothing clears.
-- **Email**: `hello@alimni-ai.com` from W0, set up via Cloudflare Email Routing (free, forwards to Hervé's inbox). `contact@tenereonline.com` is only an interim fallback if routing isn't live yet when a handle is claimed.
+- **Email**: `hello@alimni-ai.com` is the public-facing brand email from W0, set up via Cloudflare Email Routing. CF Email Routing destination is `contact@tenereonline.com` (TENERE corporate operational inbox — single-inbox principle per memory `feedback_tenere_corporate_email_rule.md`), not Hervé's personal Gmail directly. Visitors interact only with `hello@alimni-ai.com`; routing to the TENERE corporate inbox is internal plumbing.
 - **Tone**: warm, pedagogical, invitational, dev-community. AR-first whenever possible. Vouvoiement OK in FR posts, MSA simple in AR. Less corporate than TENERE, more inclusive of self-taught learners.
 - **Visual**: minimal, dark-mode default, AR-script-first hero, monospace (Latin code) + serif AR pairing. Logo iteration at design phase (V1 = stylized علّمني calligraphy, can be iterated by hired designer post-W4).
 

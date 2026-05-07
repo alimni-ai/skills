@@ -139,33 +139,49 @@ All handles use `hello@alimni-ai.com` once Cloudflare Email Routing is live (Ste
 
 ### 5.b — Cloudflare Email Routing (`hello@alimni-ai.com`)
 
+Destination is `contact@tenereonline.com` (TENERE corporate operational
+inbox), not Hervé's personal Gmail directly — per memory
+`feedback_tenere_corporate_email_rule.md`. Single-inbox principle: all
+brand-facing email routes to the same operational mailbox.
+
 | Step | Status |
 |---|---|
 | Enable Email Routing in `alimni-ai.com` zone (CF auto-adds MX + SPF) | ⏳ pending |
-| Verify destination `davies.herve@gmail.com` | ⏳ pending |
-| Forwarding rule: `hello@alimni-ai.com` → Hervé Gmail | ⏳ pending |
-| Optional catch-all: `*@alimni-ai.com` → Hervé Gmail | ⏳ pending |
-| Test: send mail from third-party inbox → arrives within 60s | ⏳ pending |
+| Verify destination `contact@tenereonline.com` | ⏳ pending |
+| Forwarding rule: `hello@alimni-ai.com` → `contact@tenereonline.com` | ⏳ pending |
+| Catch-all (recommended): `*@alimni-ai.com` → `contact@tenereonline.com` | ⏳ pending |
+| Test: send mail from third-party inbox → arrives in TENERE inbox within 60s | ⏳ pending |
 
-### 5.c — Caddy config + placeholder on gestion
+### 5.c — Caddy config + placeholder on gestion (✅ done 2026-05-07 — isolated via conf.d/ pattern)
 
 | Step | Status |
 |---|---|
-| `alimni-ai.com, www.alimni-ai.com` block in Caddyfile | ⏳ pending |
-| `/var/www/alimni-ai/` directory + placeholder `index.html` (AR primary + EN secondary) | ⏳ pending |
-| `caddy reload` clean (no syntax error, no port conflict) | ⏳ pending |
+| One-time `import conf.d/*.caddy` added to main `/etc/caddy/Caddyfile` (locks isolation envelope) | ✅ done |
+| Alimni Caddy block in **isolated file** `/etc/caddy/conf.d/alimni-ai.caddy` (future edits never touch the main file) | ✅ done |
+| `/var/www/alimni-ai/` directory created (owner `creed:creed`) | ✅ done |
+| Placeholder `index.html` (AR primary `علّمني` + Latin secondary) deployed | ✅ done |
+| `/var/log/caddy/alimni-ai.log` pre-created with `caddy:caddy` ownership | ✅ done |
+| `caddy validate` + `caddy reload` clean | ✅ done |
+| Cert `alimni-ai.com` obtained from LE (HTTP-01 via CF proxy) | ✅ done 12:27:07 UTC |
+| Cert `www.alimni-ai.com` obtained from LE | ✅ done 12:18:50 UTC |
+| Other tenants verified intact (gestion.rh2p / tenereonline / rimaya) | ✅ done — all 200 OK |
 
 ### 5.d — Smoke test + cert verification (headless gate, non-negotiable)
 
+> **Blocked on CF dashboard**: Bot Fight Mode + high Security Level on the new
+> `alimni-ai.com` zone return 403 `cf-mitigated: challenge` to all requests
+> (curl AND real browsers). Smoke gate cannot run until Hervé disables
+> Bot Fight Mode + lowers Security Level → Medium in Step 5.b CF actions.
+
 | Check | Status |
 |---|---|
-| `curl -sSI https://alimni-ai.com` → 200 + valid LE cert + `server: cloudflare` | ⏳ pending |
-| `curl -sSI https://www.alimni-ai.com` → 301 redirect to apex | ⏳ pending |
-| AR text `علّمني` rendered in HTML body | ⏳ pending |
-| Headless smoke (6 gates) PASS | ⏳ pending |
-| Public URL: https://alimni-ai.com | ⏳ pending |
+| `curl -sSI https://alimni-ai.com` → 200 + valid LE cert + `server: cloudflare` | ⏳ blocked on CF Bot Fight |
+| `curl -sSI https://www.alimni-ai.com` → 301 redirect to apex | ⏳ blocked on CF Bot Fight |
+| AR text `علّمني` rendered in HTML body | ⏳ blocked on CF Bot Fight |
+| Headless smoke (6 gates via `infra/scripts/smoke-alimni.sh`) PASS | ⏳ blocked on CF Bot Fight |
+| Public URL: https://alimni-ai.com | ⏳ blocked on CF Bot Fight |
 
-**Claude action** (after Hervé confirms handles secured): SSH gestion, configure DNS + Email Routing + Caddy, deploy placeholder, run headless smoke gate.
+**Claude action** (after Hervé confirms Bot Fight OFF + Security Level Medium): run `bash infra/scripts/smoke-alimni.sh`, document outcome here.
 
 ---
 
