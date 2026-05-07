@@ -4,7 +4,6 @@ import { join } from 'node:path';
 import matter from 'gray-matter';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillCard from '../components/SkillCard.astro';
-import MaturityBadge from '../components/MaturityBadge.astro';
 import RequestSkill from '../components/RequestSkill.astro';
 
 // ── Read skills from ../../skills/<slug>/source.md ────────────────────────
@@ -198,6 +197,12 @@ const counts = {
   </section>
 
   <!-- ── Maturity ladder ────────────────────────────────────────────── -->
+  <!--
+    Card IS the stage (no nested pill badge). Vertical layout: step number,
+    big icon anchor, AR title, EN code, separator, description. Top-border
+    accent darkens progressively (line → accent-dim → accent → accent-bright)
+    to communicate maturation visually.
+  -->
   <section class="ladder">
     <div class="container prose">
       <h2>سلّم النضج</h2>
@@ -206,28 +211,45 @@ const counts = {
         لا نخفي ما لم يكتمل.
       </p>
 
-      <div class="ladder-grid">
-        <div class="ladder-stage">
-          <MaturityBadge stage="mve-partial" />
-          <p class="muted">قابلة للتثبيت والتشغيل. تجمع أوّل التغذية الراجعة.</p>
-        </div>
-        <div class="ladder-stage">
-          <MaturityBadge stage="mve-complete" />
-          <p class="muted">مختبرة على Claude Code وCodex. مسار تنفيذ كامل.</p>
-        </div>
-        <div class="ladder-stage">
-          <MaturityBadge stage="mature" />
-          <p class="muted">إثبات إغلاق حلقة التعلّم — تكرار واحد على أقلّ من تغذية راجعة حقيقية.</p>
-        </div>
-        <div class="ladder-stage">
-          <MaturityBadge stage="reference" />
-          <p class="muted">مرجع كامل: فيديو شرح بالعربية + مساعد GPT/Claude مخصّص + توافق Termux.</p>
-        </div>
-      </div>
+      <ol class="ladder-grid" aria-label="Maturity stages, ascending">
+        <li class="ladder-stage ladder-stage--mve-partial">
+          <span class="ladder-stage__step latin" aria-hidden="true">01</span>
+          <span class="ladder-stage__icon" aria-hidden="true">🌱</span>
+          <p class="ladder-stage__title-ar">مبدئي</p>
+          <p class="ladder-stage__title-en latin">MVE-partial</p>
+          <p class="ladder-stage__desc">قابلة للتثبيت والتشغيل. تجمع أوّل التغذية الراجعة.</p>
+        </li>
+        <li class="ladder-stage ladder-stage--mve-complete">
+          <span class="ladder-stage__step latin" aria-hidden="true">02</span>
+          <span class="ladder-stage__icon" aria-hidden="true">🌿</span>
+          <p class="ladder-stage__title-ar">مكتمل</p>
+          <p class="ladder-stage__title-en latin">MVE-complete</p>
+          <p class="ladder-stage__desc">مختبرة على Claude Code وCodex. مسار تنفيذ كامل.</p>
+        </li>
+        <li class="ladder-stage ladder-stage--mature">
+          <span class="ladder-stage__step latin" aria-hidden="true">03</span>
+          <span class="ladder-stage__icon" aria-hidden="true">🌳</span>
+          <p class="ladder-stage__title-ar">ناضج</p>
+          <p class="ladder-stage__title-en latin">Mature</p>
+          <p class="ladder-stage__desc">إثبات إغلاق حلقة التعلّم — تكرار واحد على أقلّ من تغذية راجعة حقيقية.</p>
+        </li>
+        <li class="ladder-stage ladder-stage--reference">
+          <span class="ladder-stage__step latin" aria-hidden="true">04</span>
+          <span class="ladder-stage__icon" aria-hidden="true">🌲</span>
+          <p class="ladder-stage__title-ar">مرجعي</p>
+          <p class="ladder-stage__title-en latin">Reference</p>
+          <p class="ladder-stage__desc">مرجع كامل: فيديو شرح بالعربية + مساعد GPT/Claude مخصّص + توافق Termux.</p>
+        </li>
+      </ol>
 
-      <p class="latin muted ladder-note">
-        <small>V1 target — {counts.mveComplete} skills at 🌿 MVE-complete + {counts.mvePartial} at 🌱 MVE-partial. Currently {counts.planned} planned.</small>
-      </p>
+      <div class="ladder-status">
+        <p class="ladder-status__now">
+          الحالة الراهنة: {counts.mveComplete} 🌿 · {counts.mvePartial} 🌱 · {counts.planned} ⏳
+        </p>
+        <p class="ladder-status__target latin">
+          <small>V1 target — 3 🌿 MVE-complete + 2 🌱 MVE-partial</small>
+        </p>
+      </div>
     </div>
   </section>
 
@@ -584,12 +606,15 @@ const counts = {
     .why-en .why-aside { font-size: 0.9rem; }
     .why-en .why-closing { font-size: 0.9rem; }
 
-    /* ── Ladder ── */
+    /* ── Ladder ──────────────────────────────────────────────────────── */
+    /* Card IS the stage. No nested pill badge. Vertical, centered layout. */
     .ladder-grid {
+      list-style: none;
+      padding: 0;
+      margin-block: var(--s-xl);
       display: grid;
       grid-template-columns: 1fr;
       gap: var(--s-md);
-      margin-block: var(--s-xl);
     }
     @media (min-width: 700px) {
       .ladder-grid { grid-template-columns: repeat(2, 1fr); }
@@ -599,17 +624,90 @@ const counts = {
     }
 
     .ladder-stage {
+      position: relative;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: var(--s-sm);
-      padding: var(--s-md);
+      align-items: center;
+      gap: var(--s-xs);
+      padding: var(--s-lg) var(--s-md);
       background: var(--bg-card);
       border: 1px solid var(--line);
-      border-radius: 6px;
+      border-radius: 8px;
+      text-align: center;
     }
 
-    .ladder-note { direction: ltr; text-align: center; margin-block-start: var(--s-md); }
+    /* Step number — subtle corner marker, RTL-aware via inset-inline-end */
+    .ladder-stage__step {
+      position: absolute;
+      inset-block-start: var(--s-sm);
+      inset-inline-end: var(--s-md);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--fg-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .ladder-stage__icon {
+      font-size: 2.5rem;
+      line-height: 1;
+      margin-block-start: var(--s-sm);
+      margin-block-end: var(--s-xs);
+    }
+
+    .ladder-stage__title-ar {
+      font-family: var(--font-ar);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--fg);
+      margin: 0;
+    }
+
+    .ladder-stage__title-en {
+      font-size: 0.72rem;
+      color: var(--fg-muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center; /* override .latin's text-align: left */
+      margin: 0;
+    }
+
+    .ladder-stage__desc {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--fg-muted);
+      margin-block-start: var(--s-sm);
+      padding-block-start: var(--s-md);
+      border-block-start: 1px solid var(--line);
+      width: 100%;
+    }
+
+    /* Progression accent — top border darkens through the stages */
+    .ladder-stage--mve-partial  { border-block-start: 2px solid var(--line-strong); }
+    .ladder-stage--mve-complete { border-block-start: 2px solid var(--accent-dim); }
+    .ladder-stage--mature       { border-block-start: 2px solid var(--accent); }
+    .ladder-stage--reference {
+      border-block-start: 2px solid var(--accent-bright);
+      background: linear-gradient(180deg, rgba(212, 165, 116, 0.06) 0%, var(--bg-card) 35%);
+    }
+
+    .ladder-status {
+      margin-block-start: var(--s-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--s-xs);
+    }
+
+    .ladder-status__now {
+      font-size: 0.95rem;
+      color: var(--fg-muted);
+    }
+
+    .ladder-status__target {
+      direction: ltr;
+      text-align: center;
+      color: var(--fg-muted);
+    }
 
     /* ── Skills ──────────────────────────────────────────────────────── */
     .skills-grid {
