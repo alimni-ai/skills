@@ -201,4 +201,11 @@ If any check fails → fallback to `allimni-ai.com` (double-l) → `mu3allim-ai.
 
 ---
 
-**Last updated**: 2026-05-07 — `alimni-ai.com` purchased on Cloudflare ✅, hosting strategy revised to single-track (spec §9 + plan revised same day, see commit log). Awaiting handles + scans + Step 1.5 (DNS + email routing + Caddy + smoke).
+**Last updated**: 2026-05-07 nuit — `alimni-ai.com` LIVE end-to-end :
+- ✅ Hosting LIVE : `https://alimni-ai.com` Astro landing déployée 14:13 UTC, smoke 6/6 PASS
+  - Backup placeholder W1 préservé sur gestion à `/var/www/alimni-ai.bak.20260507-141253-pre-landing/` (rollback en `sudo rsync -av --delete /var/www/alimni-ai.bak.../ /var/www/alimni-ai/`)
+- ✅ Email Routing LIVE : `hello@alimni-ai.com` → `contact@tenereonline.com` (Active, test-03 livré)
+- ✅ Caddy isolation conf.d/ pattern locké
+- ✅ Repo skeleton + CI + build pipeline en place (commit `62f12fb`)
+- ✅ Council Claude+Ines reframing intégré (4 patches : positioning across tools, moat = boucle feedback, format MVE ladder, audience triple-couche + mobile/B2B)
+- ⏳ Pending Hervé : catch-all email + SSL Full strict + Step 1.2/1.3/1.4 (trademark / reputational / 5 social handles) + GitHub org `alimni-ai` création + écriture contenu AR pour skill #1
