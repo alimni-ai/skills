@@ -87,9 +87,9 @@ const counts = {
   <!-- ── Hero ───────────────────────────────────────────────────────── -->
   <section class="hero">
     <div class="container hero-inner">
-      <!-- Brand mark — AR-script master, Latin sub-mark discret -->
+      <!-- Brand mark — AR-script master with "AI" prefix (unified Amiri serif), Latin sub-mark discret -->
       <div class="brand-mark">
-        <h1 class="ar-script hero-mark" aria-label="علّمني — Alimni AI">علّمني</h1>
+        <h1 class="ar-script hero-mark" aria-label="AI Alimni — Alimni AI">AI&nbsp;علّمني</h1>
         <p class="sub-mark latin"><span class="sub-mark-dot">·</span> Alimni AI</p>
       </div>
 
@@ -370,10 +370,12 @@ const counts = {
     }
 
     .hero-mark {
-      font-size: clamp(4.5rem, 13vw, 9rem);
+      /* Sized for "AI علّمني" wordmark — narrower min to fit 390px viewport */
+      font-size: clamp(3.25rem, 11vw, 8rem);
       color: var(--accent);
       line-height: 1;
       letter-spacing: 0;
+      max-width: 100%;
       /* AR diacritics need breathing room */
       padding-block-start: 0.05em;
     }
