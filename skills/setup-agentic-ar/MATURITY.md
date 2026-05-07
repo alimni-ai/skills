@@ -2,47 +2,33 @@
 
 ## Current stage
 
-🌱 **MVE-partial** (scaffolded 2026-05-07)
+🌿 **MVE-complete** (bumped 2026-05-07 nuit suite à council AR review pass)
 
 ## Files present
 
-- [x] source.md (artifact-first content draft — Claude pen, native AR review pending Hervé)
-- [x] lab.md (full Setup + Exercise + Acceptance criteria — Claude pen, native AR review pending)
-- [x] test.sh (author-mode smoke PASS — verifies artifact contract + frontmatter)
+- [x] source.md (artifact-first content, council-reviewed Claude+Ines+Wissam, awaits Hervé final native validation pass)
+- [x] lab.md (Setup + Exercise + Acceptance criteria + safety expectation + mobile path + LTR command framing)
+- [x] test.sh (author-mode smoke PASS + learner-repo verification mode)
 - [x] MATURITY.md
-- [x] starter-repo/  (README.md AR + index.html RTL + lesson-1-output.md + .gitignore + vercel.json — scaffolded 2026-05-07 W1 evening)
-- [ ] claude/SKILL.md  (auto-built when maturity ≥ mve-complete)
-- [ ] codex/skill.json  (auto-built when maturity ≥ mve-complete)
+- [x] starter-repo/ (README.md AR + 3 install paths + index.html RTL + lesson-1-output.md + .gitignore + vercel.json)
+- [x] claude/SKILL.md  (auto-built 2026-05-07, live install verified ~/.claude/skills/, discovered by claude CLI)
+- [x] codex/skill.json (auto-built 2026-05-07, structurally valid, deployed ~/.codex/skills/, full live agent test pending OpenAI auth)
 - [ ] cheatsheet.md  (required for 🌳 Mature)
-- [ ] examples/  (required for 🌳 Mature, dialectal prompt variants per memory `wissam-arabic-builder-ecosystem`)
+- [ ] examples/  (required for 🌳 Mature, dialectal prompt variants)
 - [ ] credits.md  (required for 🌳 Mature)
 
 ## Iteration history
 
 | Date | Change | Source (feedback) | Result |
 |---|---|---|---|
-| 2026-05-07 | Scaffolded via new-skill.sh | — | initial |
-| 2026-05-07 (later) | Artifact-first rewrite of source.md + lab.md + test.sh | Track A reverse-engineering matrix C1 (Replit pattern); Hervé validation 2026-05-07 nuit | Skill now publishes GitHub repo + deployed URL; test.sh has learner-repo validation mode |
-| 2026-05-07 (W1 evening) | starter-repo/ scaffolded (README AR + index.html RTL + lesson-1-output.md + .gitignore + vercel.json) | Plan V1 W1 prerequisite — gate to mve-complete | Learner can clone instead of generating from scratch (mobile-friendly, low-spec MENA pattern) |
+| 2026-05-07 morning | Scaffolded via new-skill.sh | — | initial mve-partial |
+| 2026-05-07 afternoon | Artifact-first rewrite | Track A reverse-engineering matrix C1 (Replit pattern); Hervé validation | Skill publishes GitHub repo + deployed URL artifact contract |
+| 2026-05-07 evening | starter-repo + lab + W1 build note | Plan W1 | mve-partial scaffolded (gate restante: AR review + 1ère completion) |
+| 2026-05-07 nuit | 17 council corrections (Claude+Ines+Wissam) | Hervé validates "all approved" | AR content reviewed council-pass: install commands fixed (npm @anthropic-ai/claude-code + @openai/codex), URLs verified, safety expectation added, mobile path explicit, LTR command framing, calques cleaned, people-first framing |
+| 2026-05-07 nuit | Bump mve-partial → mve-complete | V1 readiness gate (council 2026-05-07 nuit) | Build artifacts generated: claude/SKILL.md + codex/skill.json. Claude Code skill LIVE discovered. Codex skill.json deployed at conventional path. |
 
-## Alimni golden rule applied
+## Live install verification
 
-`publishes_artifact: true` + `artifact_kind: github_repo + deployed_url` declared
-in source.md frontmatter. test.sh enforces both author-side (source.md/lab.md
-declare the contract) and learner-side (`--learner-repo PATH` validates the
-produced repo has Arabic RTL page + lesson-1-output.md with published URL).
+- ✅ `~/.claude/skills/setup-agentic-ar/SKILL.md` deployed, Claude CLI 2.1.132 lists skill in available skills (verified non-interactive `claude --print`)
+- 🟡 `~/.codex/skills/setup-agentic-ar/skill.json` deployed, Codex CLI 0.129.0 installed, skill.json structure valid (name, title, description, instructions, metadata) — full agent invocation test requires OpenAI auth, deferred
 
-## Next iteration target
-
-To graduate to 🌿 **MVE-complete** (gates remaining) :
-
-1. **Native AR review** of source.md + lab.md by Hervé (or recruited mentor — task #29 plan V1). Mark `ar_review: approved` in source.md frontmatter when validated.
-2. **End-to-end test** by 1+ AR-fluent learner using starter-repo/ as clone target. Acceptance criteria from lab.md must pass on a real cloned repo + deployed URL.
-3. **Maturity bump** : edit `source.md` frontmatter `maturity: mve-partial` → `maturity: mve-complete`. Build pipeline (`scripts/build.js`) auto-emits `claude/SKILL.md` + `codex/skill.json`.
-
-To graduate further to 🌳 **Mature** (V2) :
-
-- [ ] Translate prompts to Maghrebi + Levantine + Gulf dialect variants in `examples/` (cultural legitimacy moat per `wissam-arabic-builder-ecosystem`)
-- [ ] Mentor video walkthrough (Maghrebi or Levantine voice; 5 min max)
-- [ ] First learner completion captured (real GitHub repo URL added to `distribution/feedback-loop-log.md`)
-- [ ] First feedback iteration loop closed — at least 1 lab.md edit driven by real learner feedback

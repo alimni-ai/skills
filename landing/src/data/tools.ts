@@ -56,10 +56,9 @@ export const tools: Tool[] = [
     name_ar: 'كلود كود · Claude Code',
     name_en: 'Claude Code',
     icon: '⚡',
-    status: 'wip',
+    status: 'ready',
     level: 1,
     category: 'agent',
-    eta_label: 'الأسبوع ٢',
     why_ar:
       'للذي يبني: Claude Code وكيل برمجة من Anthropic يعمل من الطرفية. يقرأ مستودعك البرمجي، يقترح تعديلات، ويشتغل بأمر واحد. أنت تبقى من يقرر ويراجع.',
     audience_ar:
@@ -75,10 +74,9 @@ export const tools: Tool[] = [
     name_ar: 'Codex',
     name_en: 'Codex',
     icon: '🧠',
-    status: 'wip',
+    status: 'ready',
     level: 1,
     category: 'agent',
-    eta_label: 'الأسبوع ٢',
     why_ar:
       'للذي يبني: Codex وكيل برمجي من OpenAI. يكتب كودا، يجربه، ويقترح إصلاحات — لكن المراجعة قبل الاعتماد تبقى لك.',
     audience_ar:

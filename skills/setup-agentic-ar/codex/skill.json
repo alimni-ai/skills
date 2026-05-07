@@ -1,0 +1,15 @@
+{
+  "name": "setup-agentic-ar",
+  "title": "إعداد بيئة الذكاء الاصطناعي الوكيل",
+  "description": "تثبيت Claude Code وCodex، أوّل برومبت، ونشر أوّل أثر حقيقي على الإنترنت — مدخل عربي عملي.",
+  "instructions": "# إعداد بيئة الذكاء الاصطناعي الوكيل — Skill #1\n\n<!-- Source of truth in Arabic. Build pipeline emits claude/SKILL.md +\n     codex/skill.json from this file once maturity ≥ mve-complete. -->\n\n## التعريف\n\nهذه أوّل مهارة في علّمني. هدفها أن تنتقل خلال ٣٠ دقيقة من **لا شيء**\nإلى أنك:\n\n- ركّبت أداتين وكيليتين على جهازك (Claude Code + Codex)\n- نفّذت أوّل برومبت عربي ينتج كودًا جاهزًا للنشر\n- نشرت أوّل أثر حقيقي على الإنترنت يحمل اسمك (رابط حيّ + repo على GitHub)\n\n> **القاعدة الذهبية لعلّمني**: لا تنتهي مهارة بدون **أثر منشور**.\n> ليس \"درس مكتمل\" — بل **رابط حيّ يمكنك مشاركته** أو **repo دفعته**.\n\n## ما ستتعلّمه\n\n- كيفية تثبيت بيئة وكيلية بالكامل بأوامر سطر القيادة\n- كيف تكتب برومبت عربي يعطي نتائج قابلة للتنفيذ (وليس وصفًا)\n- كيف تتجنّب أخطاء الترميز (UTF-8 / RTL) الشائعة في البيئات الإنجليزية\n- كيف تنشر النتيجة على نطاق فرعي حقيقي وتتحقّق منه\n\n## الخطوات\n\n1. **تركيب Claude Code وCodex** على macOS / Linux / Windows (WSL)\n2. **التحقّق من البيئة**: `claude --version` و`codex --version`\n3. **أوّل برومبت عربي**: توليد صفحة هبوط بسيطة باللغة العربية\n4. **مراجعة الناتج**: قراءة الكود المولّد قبل تنفيذه (لا تثق ولا ترفض عمياء)\n5. **النشر**: دفع repo إلى GitHub + نشر صفحة على Vercel / Cloudflare Pages\n6. **التحقّق النهائي**: زيارة الرابط الحيّ والتأكّد من ظهور النصّ العربي صحيحًا\n\n## الأخطاء الشائعة\n\n- نسيان `lang=\"ar\"` و`dir=\"rtl\"` في `<html>` — يظهر النصّ معكوسًا\n- استخدام برومبت إنجليزي → ناتج لا يفهم السياق العربي\n- عدم قراءة الكود قبل النشر → نشر أخطاء واضحة\n- استخدام محرّر متصفّح فقط → لا يحفظ في repo حقيقي → لا أثر دائم\n\n## الأثر المتوقّع (ما يجب أن يبقى لديك بعد ٣٠ دقيقة)\n\n1. **رابط GitHub repo** يحمل اسمك (مثال: `github.com/<username>/my-first-arabic-page`)\n2. **رابط حيّ منشور** (مثال: `my-first-arabic-page.vercel.app`)\n3. ملف `lesson-1-output.md` في repo فيه:\n   - البرومبت الأصلي (عربي)\n   - ناتج الوكيل (عربي + كود)\n   - رابط النشر النهائي\n\n## متطلبات التشغيل\n\n- **Terminal محلي** على macOS / Linux / Windows (WSL) — الخيار الموصى به\n- **بدائل أونلاين** إن لم يتوفر حاسوب: GitHub Codespaces، Gitpod، أو Replit\n- Node.js ≥ 20 لتثبيت الأداتين عبر npm\n- حساب GitHub + حساب Vercel أو Cloudflare Pages للنشر النهائي\n\n## الموارد\n\n- Lab تفصيلي: [lab.md](./lab.md)\n- Repo بداية: [starter-repo/](./starter-repo/) — قابل للاستنساخ مباشرة\n- اختبار آلي: [test.sh](./test.sh) — يتحقق من وجود الأثر في repo التلميذ",
+  "metadata": {
+    "language": "ar",
+    "est_runtime_min": 30,
+    "maturity": "mve-complete",
+    "audience": "AR-primary, beginner",
+    "requires_local_terminal": true,
+    "mobile_friendly_first_steps": true,
+    "inspired_by": null
+  }
+}

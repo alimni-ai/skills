@@ -1,16 +1,6 @@
 ---
-slug: setup-agentic-ar
-title_ar: "إعداد بيئة الذكاء الاصطناعي الوكيل"
-description_ar: "تثبيت Claude Code وCodex، أوّل برومبت، ونشر أوّل أثر حقيقي على الإنترنت — مدخل عربي عملي."
-audience: "AR-primary, beginner"
-prerequisites: []
-est_runtime_min: 30
-maturity: mve-complete
-requires_local_terminal: true
-mobile_friendly_first_steps: true
-inspired_by: null
-publishes_artifact: true
-artifact_kind: "github_repo + deployed_url"
+name: setup-agentic-ar
+description: تثبيت Claude Code وCodex، أوّل برومبت، ونشر أوّل أثر حقيقي على الإنترنت — مدخل عربي عملي.
 ---
 
 # إعداد بيئة الذكاء الاصطناعي الوكيل — Skill #1
