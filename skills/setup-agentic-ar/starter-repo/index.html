@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>أوّل صفحة — قالب Alimni</title>
+  <meta name="description" content="قالب أساسي لمهارة setup-agentic-ar من Alimni AI. عدّله مع Claude Code أو Codex." />
+
+  <!-- Arabic web font (Amiri) — graceful fallback to system if blocked -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #0b0d10; color: #f5f1e8; font-size: 16px; }
+    body {
+      font-family: 'Amiri', 'Noto Naskh Arabic', 'Times New Roman', serif;
+      line-height: 1.7;
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 3rem 1.5rem;
+      min-height: 100vh;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: #d4a574;
+      margin-block-end: 1.5rem;
+      line-height: 1.2;
+    }
+    p { margin-block-end: 1rem; font-size: 1.1rem; }
+    footer {
+      margin-block-start: 3rem;
+      padding-block-start: 1.5rem;
+      border-block-start: 1px solid #2a2e35;
+      color: #b3a78f;
+      font-size: 0.9rem;
+    }
+    a { color: #d4a574; }
+    a:hover { color: #e8b780; }
+  </style>
+</head>
+<body>
+  <!--
+    هذا القالب الأساسي. لا تحاول تعديله يدويًا.
+    افتح Claude Code (أو Codex) في هذا المجلّد، وأعطه برومبتًا عربيًّا
+    لتعديل المحتوى. مثلًا :
+
+      "غيّر العنوان، استبدل الفقرات، أضف قسمًا جديدًا، ..."
+
+    هذا هو هدف المهارة : أن تتعلّم كيف يصبح الوكيل
+    شريكًا في تعديل الكود، وليس فقط مولِّدًا له.
+  -->
+
+  <h1>أوّل صفحة عربية بنيتُها بالذكاء الاصطناعي</h1>
+
+  <p>
+    هذه صفحتي الأولى ضمن مهارة <strong>setup-agentic-ar</strong> من
+    أكاديمية <a href="https://alimni-ai.com">علّمني AI</a>.
+    سأعدّلها هنا باستعمال Claude Code أو Codex.
+  </p>
+
+  <p>
+    الفكرة بسيطة : لا تنتهي مهارة في علّمني بدون رابط منشور حقيقي.
+    لذا سأنشر هذه الصفحة على الإنترنت قبل إغلاق هذا المختبر.
+  </p>
+
+  <footer>
+    صنعت بواسطة <strong>اسمك هنا</strong> · <span id="date"></span>
+  </footer>
+
+  <script>
+    // Auto-fill date in Arabic locale, with graceful fallback
+    try {
+      document.getElementById('date').textContent =
+        new Date().toLocaleDateString('ar', { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch (e) {
+      document.getElementById('date').textContent = new Date().toISOString().slice(0, 10);
+    }
+  </script>
+</body>
+</html>

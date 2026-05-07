@@ -1,0 +1,26 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Node / build artifacts (in case learner adds tooling)
+node_modules/
+dist/
+.cache/
+*.log
+
+# Local env / secrets — never commit
+.env
+.env.local
+.env.*.local
+
+# Vercel / CF Pages local
+.vercel/
+.wrangler/
+
+# Claude Code / Codex local state
+.claude/
+.codex/
