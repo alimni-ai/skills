@@ -137,20 +137,19 @@ All handles use `hello@alimni-ai.com` once Cloudflare Email Routing is live (Ste
 | `A www` → gestion VPS public IPv4 (proxied 🟠) | ⏳ pending | |
 | SSL/TLS mode = Full (strict) | ⏳ pending verify | |
 
-### 5.b — Cloudflare Email Routing (`hello@alimni-ai.com`)
+### 5.b — Cloudflare Email Routing (`hello@alimni-ai.com`) — ✅ done 2026-05-07
 
-Destination is `contact@tenereonline.com` (TENERE corporate operational
-inbox), not Hervé's personal Gmail directly — per memory
-`feedback_tenere_corporate_email_rule.md`. Single-inbox principle: all
-brand-facing email routes to the same operational mailbox.
+Destination is `contact@tenereonline.com` (TENERE corporate Workspace mailbox,
+MX `smtp.google.com`), not Hervé's personal Gmail directly — per memory
+`feedback_tenere_corporate_email_rule.md`. Single-inbox principle.
 
 | Step | Status |
 |---|---|
-| Enable Email Routing in `alimni-ai.com` zone (CF auto-adds MX + SPF) | ⏳ pending |
-| Verify destination `contact@tenereonline.com` | ⏳ pending |
-| Forwarding rule: `hello@alimni-ai.com` → `contact@tenereonline.com` | ⏳ pending |
-| Catch-all (recommended): `*@alimni-ai.com` → `contact@tenereonline.com` | ⏳ pending |
-| Test: send mail from third-party inbox → arrives in TENERE inbox within 60s | ⏳ pending |
+| Enable Email Routing in `alimni-ai.com` zone (CF auto-adds MX + SPF + DKIM) | ✅ done — `route1/2/3.mx.cloudflare.net` posted, SPF + `cf2024-1._domainkey` set |
+| Verify destination `contact@tenereonline.com` | ✅ done — verification link clicked in Workspace |
+| Forwarding rule: `hello@alimni-ai.com` → `contact@tenereonline.com` | ✅ Active |
+| Catch-all (recommended): `*@alimni-ai.com` → `contact@tenereonline.com` | ⏳ Hervé to enable (currently Disabled+Drop in CF UI) |
+| Test: send mail from third-party inbox → arrives in TENERE inbox | ✅ test-03 from `davies.herve@gmail.com` delivered (after first-mail Gmail MX cache delay on test-02) |
 
 ### 5.c — Caddy config + placeholder on gestion (✅ done 2026-05-07 — isolated via conf.d/ pattern)
 
@@ -195,7 +194,7 @@ Smoke gate output:
 - [ ] Step 1.2 trademark cleared
 - [ ] Step 1.3 reputational scan clean
 - [ ] Step 1.4 5 handles secured
-- [ ] Step 1.5 `alimni-ai.com` live with valid TLS cert + email routing + headless smoke 6/6
+- [x] Step 1.5 `alimni-ai.com` live with valid TLS cert + email routing + headless smoke 6/6 ✅ 2026-05-07
 - [ ] **Brand: Alimni AI** confirmed locked
 
 If any check fails → fallback to `allimni-ai.com` (double-l) → `mu3allim-ai.com` → `muhandis.dev` → re-brainstorm.
