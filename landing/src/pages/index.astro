@@ -88,12 +88,13 @@ const counts = {
   <!-- ── Hero ───────────────────────────────────────────────────────── -->
   <section class="hero">
     <div class="container hero-inner">
-      <!-- Brand mark — AR primary calligraphic anchor, Latin qualifier discret -->
+      <!-- Brand mark — vertical: latin kicker (AI) above, calligraphic AR anchor (علّمني)
+           below, discret bilingual subtitle ("Alimni AI") to clarify that AI is part of
+           the name, not a category label (per Ines council 2026-05-08). -->
       <div class="brand-mark">
-        <h1 class="hero-mark" aria-label="علّمني — Alimni AI">
-          <span class="hero-mark__primary ar-script">علّمني</span>
-          <span class="hero-mark__qualifier latin">AI</span>
-        </h1>
+        <p class="brand-mark__kicker latin" aria-hidden="true">AI</p>
+        <h1 class="brand-mark__primary ar-script" aria-label="علّمني — Alimni AI">علّمني</h1>
+        <p class="brand-mark__subtitle latin" aria-hidden="true">Alimni&nbsp;AI</p>
       </div>
 
       <p class="hero-tagline-ar">علّمني الذكاء الاصطناعي بالعربية</p>
@@ -374,10 +375,10 @@ const counts = {
     <div class="container">
       <div class="footer-grid">
         <div>
-          <p class="footer-mark">
+          <div class="footer-mark">
+            <span class="footer-mark__kicker latin">AI</span>
             <span class="footer-mark__primary ar-script">علّمني</span>
-            <span class="footer-mark__qualifier latin">AI</span>
-          </p>
+          </div>
           <p class="muted latin"><small>Alimni AI · Arabic AI Engineering Academy</small></p>
         </div>
 
@@ -414,55 +415,62 @@ const counts = {
     .hero-inner {
       display: flex;
       flex-direction: column;
-      gap: var(--s-md);
+      gap: var(--s-xl);
       max-width: 720px;
       margin-inline: auto;
     }
     .hero-cta { align-self: center; }
 
-    /* Brand mark — AR calligraphic anchor (massive), Latin qualifier (discret superscript) */
+    /* Brand mark — vertical: latin kicker ↓ AR calligraphic anchor ↓ bilingual subtitle.
+       Generous gap to clear AR calligraphic descenders (ي extends well below baseline). */
     .brand-mark {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-block-end: var(--s-md);
+      gap: 1.1rem;
+      margin-block-end: var(--s-2xl);
     }
 
-    .hero-mark {
-      /* Flex container; in dir=rtl, source order [primary, qualifier] renders
-         primary at RIGHT (RTL natural), qualifier at LEFT — exactly the AR-first
-         visual we want. */
-      display: flex;
-      align-items: flex-start;
-      gap: 0.55em;
+    .brand-mark__kicker {
+      /* Latin qualifier — must be legible enough to read as part of the brand
+         name (Alimni AI), not as section metadata (per Ines council). */
+      font-family: var(--font-mono);
+      font-size: clamp(0.75rem, 0.95vw, 0.9rem);
+      color: var(--fg-muted);
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      font-weight: 500;
       line-height: 1;
-      max-width: 100%;
+      padding-inline-start: 0.55em;
     }
 
-    .hero-mark__primary {
-      /* Calligraphic anchor — visually dominant, warm gold with subtle ambient glow */
+    .brand-mark__primary {
+      /* Calligraphic anchor — warm gold with ambient glow (Replit calm+warm ref).
+         line-height 1.15 contains the long ي descender within its line-box;
+         without this, the descender visually crashes into the subtitle below. */
       font-family: var(--font-ar);
       font-size: clamp(4.5rem, 15vw, 10rem);
       font-weight: 500;
-      line-height: 0.95;
+      line-height: 1.15;
       color: var(--accent);
       letter-spacing: 0;
       padding-block-start: 0.05em;
+      max-width: 100%;
       text-shadow:
-        0 0 80px rgba(212, 165, 116, 0.22),
-        0 0 32px rgba(232, 183, 128, 0.12);
+        0 0 100px rgba(212, 165, 116, 0.18),
+        0 0 32px rgba(232, 183, 128, 0.08);
     }
 
-    .hero-mark__qualifier {
-      /* Discret latin qualifier — sits as superscript-like marker near the top */
+    .brand-mark__subtitle {
+      /* Discret bilingual subtitle — clarifies that AI + علّمني = "Alimni AI" brand,
+         not a category label. Sits very small under the wordmark. */
       font-family: var(--font-mono);
-      font-size: clamp(0.7rem, 1.05vw, 0.85rem);
+      font-size: 0.7rem;
       color: var(--fg-muted);
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
+      letter-spacing: 0.18em;
       font-weight: 500;
-      padding-block-start: 0.55em;
-      /* Direction handled by .latin (ltr); flex parent positions it visually-left in RTL */
+      line-height: 1;
+      opacity: 0.7;
     }
 
     .hero-tagline-ar {
@@ -878,10 +886,19 @@ const counts = {
 
     .footer-mark {
       display: inline-flex;
+      flex-direction: column;
       align-items: flex-start;
-      gap: 0.4em;
+      gap: 0.2rem;
       line-height: 1;
       margin-block-end: var(--s-xs);
+    }
+    .footer-mark__kicker {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--accent-dim);
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      padding-inline-start: 0.45em;
     }
     .footer-mark__primary {
       font-family: var(--font-ar);
@@ -889,14 +906,6 @@ const counts = {
       font-weight: 500;
       color: var(--accent);
       line-height: 1;
-    }
-    .footer-mark__qualifier {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--fg-muted);
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      padding-block-start: 0.5em;
     }
 
     .footer-links {
