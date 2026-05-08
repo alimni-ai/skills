@@ -88,10 +88,12 @@ const counts = {
   <!-- ── Hero ───────────────────────────────────────────────────────── -->
   <section class="hero">
     <div class="container hero-inner">
-      <!-- Brand mark — AR-script master with "AI" prefix (unified Amiri serif), Latin sub-mark discret -->
+      <!-- Brand mark — AR primary calligraphic anchor, Latin qualifier discret -->
       <div class="brand-mark">
-        <h1 class="ar-script hero-mark" aria-label="علّمني AI — Alimni AI">علّمني&nbsp;AI</h1>
-        <p class="sub-mark latin"><span class="sub-mark-dot">·</span> Alimni AI</p>
+        <h1 class="hero-mark" aria-label="علّمني — Alimni AI">
+          <span class="hero-mark__primary ar-script">علّمني</span>
+          <span class="hero-mark__qualifier latin">AI</span>
+        </h1>
       </div>
 
       <p class="hero-tagline-ar">علّمني الذكاء الاصطناعي بالعربية</p>
@@ -372,7 +374,10 @@ const counts = {
     <div class="container">
       <div class="footer-grid">
         <div>
-          <p class="ar-script footer-mark">علّمني&nbsp;AI</p>
+          <p class="footer-mark">
+            <span class="footer-mark__primary ar-script">علّمني</span>
+            <span class="footer-mark__qualifier latin">AI</span>
+          </p>
           <p class="muted latin"><small>Alimni AI · Arabic AI Engineering Academy</small></p>
         </div>
 
@@ -415,42 +420,49 @@ const counts = {
     }
     .hero-cta { align-self: center; }
 
-    /* Brand mark — AR-script master, Latin sub-mark discret */
+    /* Brand mark — AR calligraphic anchor (massive), Latin qualifier (discret superscript) */
     .brand-mark {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--s-xs);
-      margin-block-end: var(--s-sm);
+      margin-block-end: var(--s-md);
     }
 
     .hero-mark {
-      /* Sized for "علّمني AI" wordmark — narrower min to fit 390px viewport */
-      font-size: clamp(3.25rem, 11vw, 8rem);
-      color: var(--accent);
+      /* Flex container; in dir=rtl, source order [primary, qualifier] renders
+         primary at RIGHT (RTL natural), qualifier at LEFT — exactly the AR-first
+         visual we want. */
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55em;
       line-height: 1;
-      letter-spacing: 0;
       max-width: 100%;
-      /* AR diacritics need breathing room */
+    }
+
+    .hero-mark__primary {
+      /* Calligraphic anchor — visually dominant, warm gold with subtle ambient glow */
+      font-family: var(--font-ar);
+      font-size: clamp(4.5rem, 15vw, 10rem);
+      font-weight: 500;
+      line-height: 0.95;
+      color: var(--accent);
+      letter-spacing: 0;
       padding-block-start: 0.05em;
+      text-shadow:
+        0 0 80px rgba(212, 165, 116, 0.22),
+        0 0 32px rgba(232, 183, 128, 0.12);
     }
 
-    .sub-mark {
+    .hero-mark__qualifier {
+      /* Discret latin qualifier — sits as superscript-like marker near the top */
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: clamp(0.7rem, 1.05vw, 0.85rem);
       color: var(--fg-muted);
-      letter-spacing: 0.18em;
+      letter-spacing: 0.4em;
       text-transform: uppercase;
-      direction: ltr;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6em;
-    }
-
-    .sub-mark-dot {
-      color: var(--accent-dim);
-      font-size: 1.2em;
-      line-height: 1;
+      font-weight: 500;
+      padding-block-start: 0.55em;
+      /* Direction handled by .latin (ltr); flex parent positions it visually-left in RTL */
     }
 
     .hero-tagline-ar {
@@ -864,7 +876,28 @@ const counts = {
       .footer-grid { flex-direction: row; justify-content: space-between; align-items: center; }
     }
 
-    .footer-mark { font-size: 2rem; color: var(--accent); margin-block-end: var(--s-xs); }
+    .footer-mark {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 0.4em;
+      line-height: 1;
+      margin-block-end: var(--s-xs);
+    }
+    .footer-mark__primary {
+      font-family: var(--font-ar);
+      font-size: 2.25rem;
+      font-weight: 500;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .footer-mark__qualifier {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--fg-muted);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      padding-block-start: 0.5em;
+    }
 
     .footer-links {
       display: flex;
