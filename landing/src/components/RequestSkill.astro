@@ -20,18 +20,18 @@ const hasFormspree = FORMSPREE_ENDPOINT.startsWith('https://formspree.io/');
     {hasFormspree ? (
       <form action={FORMSPREE_ENDPOINT} method="POST" class="request-form">
         <div class="field">
-          <label for="email" class="latin">Your email</label>
+          <label for="email">بريدك الإلكترونيّ · <span class="latin">Your email</span></label>
           <input type="email" id="email" name="email" required dir="ltr" placeholder="you@example.com" />
         </div>
 
         <div class="field">
           <label for="topic">الموضوع · <span class="latin">Topic</span></label>
-          <input type="text" id="topic" name="topic" required placeholder="e.g. RAG agent, LangGraph, Claude MCP" />
+          <input type="text" id="topic" name="topic" required placeholder="مثلا: وكيل RAG، LangGraph، MCP" />
         </div>
 
         <div class="field">
           <label for="why">لماذا تحتاج هذه المهارة؟ · <span class="latin">Why this skill?</span></label>
-          <textarea id="why" name="why" rows="4" placeholder="Quel problème concret veux-tu résoudre ?"></textarea>
+          <textarea id="why" name="why" rows="4" placeholder="ما المشكلة الفعليّة التي تريد حلّها؟"></textarea>
         </div>
 
         <input type="hidden" name="_subject" value="[Alimni] Skill request" />
@@ -39,15 +39,21 @@ const hasFormspree = FORMSPREE_ENDPOINT.startsWith('https://formspree.io/');
 
         <button type="submit" class="btn btn-primary">إرسال الطلب · <span class="latin">Send request</span></button>
 
-        <p class="consent muted latin">
-          <small>By submitting, you consent to us emailing you about Alimni AI.
-          We don't share your email. GDPR-friendly.</small>
+        <p class="consent muted">
+          <small>
+            بإرسال هذا النموذج، توافق على أن نراسلك بشأن علّمني. لا نشارك بريدك الإلكترونيّ.
+          </small>
+          <br />
+          <small class="latin">
+            By submitting, you consent to us emailing you about Alimni AI.
+            We don't share your email. GDPR-friendly.
+          </small>
         </p>
       </form>
     ) : (
-      <p class="latin">
-        <a href={`mailto:${FALLBACK_EMAIL}?subject=[Alimni]%20Skill%20request`} class="btn btn-primary">
-          → {FALLBACK_EMAIL}
+      <p>
+        <a href={`mailto:${FALLBACK_EMAIL}?subject=%5BAlimni%5D%20Skill%20request`} class="btn btn-primary">
+          راسلنا · <span class="latin">{FALLBACK_EMAIL}</span>
         </a>
       </p>
     )}
@@ -68,5 +74,6 @@ const hasFormspree = FORMSPREE_ENDPOINT.startsWith('https://formspree.io/');
 
   .request-form button { align-self: flex-start; margin-block-start: var(--s-sm); }
 
-  .consent { margin-block-start: var(--s-sm); direction: ltr; text-align: left; }
+  .consent { margin-block-start: var(--s-sm); }
+  .consent .latin { display: inline-block; margin-block-start: 0.35rem; color: var(--fg-muted); }
 </style>
